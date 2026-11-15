@@ -4,7 +4,8 @@ import {
   FEATURED_PROJECTS,
   ARCHIVED_PROJECTS,
   TOTAL_PROJECTS_COUNT,
-  DEPLOYED_PROJECTS_COUNT,
+  PUBLIC_DEMOS_COUNT,
+  DEPLOYED_APPLICATIONS_COUNT,
 } from '../../data/projects';
 import { ProjectRecord } from '../../types';
 import { ChapterHeader } from '../common/ChapterHeader';
@@ -91,10 +92,10 @@ export const CreationsSection: React.FC = () => {
 
           <MangaPanel variant="default" tag="PUBLIC ACCESS">
             <span className="font-mono text-3xl sm:text-4xl font-black text-[#E53935] block">
-              {DEPLOYED_PROJECTS_COUNT}
+              {PUBLIC_DEMOS_COUNT}
             </span>
             <span className="font-mono text-xs text-[#55524E]">
-              Live Deployed Apps
+              Public Live Demos
             </span>
           </MangaPanel>
 
@@ -103,7 +104,7 @@ export const CreationsSection: React.FC = () => {
               {ARCHIVED_PROJECTS.length}
             </span>
             <span className="font-mono text-xs text-[#A5A19B]">
-              Indexed Experiments
+              Indexed Experiments ({DEPLOYED_APPLICATIONS_COUNT} Deployed)
             </span>
           </MangaPanel>
         </div>
@@ -137,7 +138,7 @@ export const CreationsSection: React.FC = () => {
         </div>
 
         {/* Featured Project Spreads Stream */}
-        <div className="space-y-12 mb-16">
+        <div className="space-y-16 mb-20">
           <AnimatePresence mode="popLayout">
             {filteredFeaturedProjects.map((project, idx) => {
               const isEven = idx % 2 === 0;
@@ -151,21 +152,32 @@ export const CreationsSection: React.FC = () => {
                   transition={{ duration: 0.4 }}
                 >
                   <MangaPanel
-                    variant="default"
+                    variant={isEven ? 'default' : 'wash'}
                     tag={`SPREAD 0${idx + 1}`}
                     notch={isEven ? 'top-right' : 'bottom-right'}
-                    className="p-6 sm:p-8"
+                    className="p-6 sm:p-8 relative overflow-hidden"
                   >
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    {/* Oversized Decorative Chapter Index Backdrop */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute -top-6 -right-2 font-display text-8xl sm:text-9xl text-[#151515] opacity-[0.04] pointer-events-none select-none z-0"
+                    >
+                      0{idx + 1}
+                    </div>
+
+                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                       {/* Left Side: Artwork Schematics */}
                       <div className={`lg:col-span-6 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
-                        <div className="relative group cursor-pointer" onClick={() => handleOpenModal(project)}>
+                        <div
+                          className="relative group cursor-pointer shadow-manga overflow-hidden"
+                          onClick={() => handleOpenModal(project)}
+                        >
                           <ProjectEditorialArtwork projectId={project.id} />
                           {/* Hover Overlay Hint */}
-                          <div className="absolute inset-0 bg-[#151515]/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 text-center">
-                            <span className="font-mono text-xs text-white font-bold tracking-widest uppercase border border-white px-3 py-1.5 flex items-center gap-2">
+                          <div className="absolute inset-0 bg-[#151515]/85 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 text-center">
+                            <span className="font-mono text-xs text-white font-bold tracking-widest uppercase border border-white px-3.5 py-2 flex items-center gap-2 bg-[#151515]">
                               <Eye className="w-4 h-4 text-[#E53935]" />
-                              <span>INSPECT FULL SPECIFICATION</span>
+                              <span>INSPECT ARCHITECTURE // SPEC</span>
                             </span>
                           </div>
                         </div>
@@ -187,13 +199,23 @@ export const CreationsSection: React.FC = () => {
 
                         {/* Title & Tagline */}
                         <div>
-                          <h3 className="font-display text-3xl sm:text-4xl text-[#151515] uppercase tracking-wide">
+                          <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#151515] uppercase tracking-wide leading-[0.9]">
                             {project.title}
                           </h3>
-                          <p className="font-mono text-xs text-[#55524E] mt-0.5">
+                          <p className="font-mono text-xs sm:text-sm text-[#55524E] mt-1 font-semibold">
                             {project.subtitle}
                           </p>
                         </div>
+
+                        {/* Problem Context Callout if available */}
+                        {project.problemStatement && (
+                          <div className="p-3 bg-[#FAF8F5]/90 border-l-2 border-[#E53935] text-xs font-sans text-[#55524E] leading-relaxed shadow-sm">
+                            <span className="font-mono text-[9px] font-bold text-[#E53935] uppercase tracking-wider block mb-0.5">
+                              CHALLENGE CONTEXT
+                            </span>
+                            {project.problemStatement}
+                          </div>
+                        )}
 
                         {/* Summary */}
                         <p className="font-sans text-sm sm:text-base text-[#151515] leading-relaxed">
@@ -213,7 +235,13 @@ export const CreationsSection: React.FC = () => {
                         {/* Tech Stack Pills */}
                         <div className="flex flex-wrap gap-1.5 pt-1">
                           {project.techStack.map((tech) => (
-                            <TechBadge key={tech} name={tech} variant="default" size="sm" />
+                            <TechBadge
+                              key={tech}
+                              name={tech}
+                              variant="default"
+                              size="sm"
+                              className="hover:border-[#E53935] transition-colors"
+                            />
                           ))}
                         </div>
 

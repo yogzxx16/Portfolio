@@ -245,4 +245,5 @@ export const PROJECTS_DATA: ProjectRecord[] = [
 export const FEATURED_PROJECTS = PROJECTS_DATA.filter((p) => p.isFeatured);
 export const ARCHIVED_PROJECTS = PROJECTS_DATA.filter((p) => !p.isFeatured);
 export const TOTAL_PROJECTS_COUNT = PROJECTS_DATA.length;
-export const DEPLOYED_PROJECTS_COUNT = PROJECTS_DATA.filter((p) => Boolean(p.liveUrl)).length;
+export const PUBLIC_DEMOS_COUNT = PROJECTS_DATA.filter((p) => Boolean(p.liveUrl)).length;
+export const DEPLOYED_APPLICATIONS_COUNT = PROJECTS_DATA.filter((p) => p.maturity === 'Deployed Application').length;

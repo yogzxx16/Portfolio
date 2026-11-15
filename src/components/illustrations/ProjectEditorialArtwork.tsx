@@ -313,6 +313,139 @@ export const ProjectEditorialArtwork: React.FC<ProjectEditorialArtworkProps> = (
             <circle cx="255" cy="180" r="7" fill="#FAF8F5" />
           </svg>
         )}
+
+        {projectId === 'ecommerce-app' && (
+          <svg viewBox="0 0 400 240" className="w-full h-full max-h-56" fill="none">
+            {/* Storefront Window Frame */}
+            <rect x="40" y="30" width="320" height="175" fill="#FAF8F5" stroke="#151515" strokeWidth="2" />
+            {/* Store Banner */}
+            <rect x="55" y="45" width="290" height="28" fill="#151515" />
+            <text x="70" y="63" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="10" fontWeight="bold">
+              MERN STOREFRONT // REDUX CART
+            </text>
+            <rect x="280" y="50" width="55" height="18" fill="#E53935" />
+            <text x="307" y="63" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" textAnchor="middle" fontWeight="bold">
+              CART: 3
+            </text>
+
+            {/* Product Card Row */}
+            <g transform="translate(55, 85)">
+              <rect width="85" height="105" fill="#EAE5DC" stroke="#151515" strokeWidth="1.5" />
+              <rect x="10" y="10" width="65" height="45" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="10" y="70" fill="#151515" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="bold">
+                ITEM #01
+              </text>
+              <text x="10" y="85" fill="#E53935" fontFamily="'Bebas Neue', sans-serif" fontSize="14">
+                $49.00
+              </text>
+              <rect x="10" y="90" width="65" height="6" fill="#151515" />
+            </g>
+
+            <g transform="translate(155, 85)">
+              <rect width="85" height="105" fill="#EAE5DC" stroke="#151515" strokeWidth="1.5" />
+              <rect x="10" y="10" width="65" height="45" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="10" y="70" fill="#151515" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="bold">
+                ITEM #02
+              </text>
+              <text x="10" y="85" fill="#E53935" fontFamily="'Bebas Neue', sans-serif" fontSize="14">
+                $79.00
+              </text>
+              <rect x="10" y="90" width="65" height="6" fill="#151515" />
+            </g>
+
+            <g transform="translate(255, 85)">
+              <rect width="90" height="105" fill="#151515" stroke="#151515" strokeWidth="1.5" />
+              <text x="12" y="24" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="bold">
+                PAYMENT GATEWAY
+              </text>
+              <rect x="12" y="35" width="66" height="22" fill="#E53935" />
+              <text x="45" y="50" fill="#FFFFFF" fontFamily="'Bebas Neue', sans-serif" fontSize="12" textAnchor="middle">
+                RAZORPAY
+              </text>
+              <text x="12" y="75" fill="#A5A19B" fontFamily="'Space Mono', monospace" fontSize="7">
+                STATUS: ENCRYPTED
+              </text>
+              <text x="12" y="90" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" fontWeight="bold">
+                ORDER #8492
+              </text>
+            </g>
+          </svg>
+        )}
+
+        {projectId === 'task-manager' && (
+          <svg viewBox="0 0 400 240" className="w-full h-full max-h-56" fill="none">
+            {/* Kanban Board Frame */}
+            <rect x="40" y="30" width="320" height="175" fill="#FAF8F5" stroke="#151515" strokeWidth="2" />
+            
+            {/* Board Header */}
+            <rect x="55" y="45" width="290" height="24" fill="#151515" />
+            <text x="70" y="61" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="9" fontWeight="bold">
+              KANBAN WORKFLOW ENGINE // DRAG & DROP
+            </text>
+
+            {/* 3 Columns: TODO, DOING, DONE */}
+            <g transform="translate(55, 80)">
+              <rect width="90" height="110" fill="#EAE5DC" stroke="#151515" strokeWidth="1" />
+              <rect width="90" height="18" fill="#151515" />
+              <text x="45" y="13" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" textAnchor="middle" fontWeight="bold">
+                TO DO (3)
+              </text>
+              <rect x="6" y="25" width="78" height="25" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="12" y="38" fill="#151515" fontFamily="'Space Mono', monospace" fontSize="7">
+                API Auth Spec
+              </text>
+              <rect x="6" y="55" width="78" height="25" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="12" y="68" fill="#151515" fontFamily="'Space Mono', monospace" fontSize="7">
+                Schema Tests
+              </text>
+            </g>
+
+            <g transform="translate(155, 80)">
+              <rect width="90" height="110" fill="#EAE5DC" stroke="#151515" strokeWidth="1" />
+              <rect width="90" height="18" fill="#E53935" />
+              <text x="45" y="13" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" textAnchor="middle" fontWeight="bold">
+                IN PROGRESS (1)
+              </text>
+              <rect x="6" y="25" width="78" height="35" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="12" y="38" fill="#151515" fontFamily="'Space Mono', monospace" fontSize="7" fontWeight="bold">
+                Refine Motion UI
+              </text>
+              <rect x="12" y="46" width="50" height="4" fill="#E53935" />
+            </g>
+
+            <g transform="translate(255, 80)">
+              <rect width="90" height="110" fill="#EAE5DC" stroke="#151515" strokeWidth="1" />
+              <rect width="90" height="18" fill="#151515" />
+              <text x="45" y="13" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="8" textAnchor="middle" fontWeight="bold">
+                COMPLETE (8)
+              </text>
+              <rect x="6" y="25" width="78" height="25" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="12" y="38" fill="#55524E" fontFamily="'Space Mono', monospace" fontSize="7">
+                ✓ Setup Vite
+              </text>
+              <rect x="6" y="55" width="78" height="25" fill="#FAF8F5" stroke="#151515" strokeWidth="1" />
+              <text x="12" y="68" fill="#55524E" fontFamily="'Space Mono', monospace" fontSize="7">
+                ✓ Mongo Connect
+              </text>
+            </g>
+          </svg>
+        )}
+
+        {/* Generic Architectural Fallback for Any Unmatched Project */}
+        {!['skillswap', 'pulse-link', 'outreachiq', 'medreminder', 'cineverse', 'spotify-ai', 'ecommerce-app', 'task-manager'].includes(projectId) && (
+          <svg viewBox="0 0 400 240" className="w-full h-full max-h-56" fill="none">
+            <rect x="40" y="30" width="320" height="175" fill="#FAF8F5" stroke="#151515" strokeWidth="2" />
+            <line x1="40" y1="30" x2="360" y2="205" stroke="#151515" strokeWidth="1" strokeDasharray="3,3" opacity="0.3" />
+            <line x1="40" y1="205" x2="360" y2="30" stroke="#151515" strokeWidth="1" strokeDasharray="3,3" opacity="0.3" />
+            <rect x="120" y="85" width="160" height="65" fill="#151515" stroke="#151515" strokeWidth="2" />
+            <text x="200" y="115" fill="#FFFFFF" fontFamily="'Space Mono', monospace" fontSize="12" fontWeight="bold" textAnchor="middle">
+              CODE SCHEMATIC
+            </text>
+            <text x="200" y="133" fill="#E53935" fontFamily="'Space Mono', monospace" fontSize="9" textAnchor="middle">
+              {projectId.toUpperCase()}
+            </text>
+          </svg>
+        )}
       </div>
 
       {/* Bottom Visual Label */}

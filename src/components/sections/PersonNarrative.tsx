@@ -6,7 +6,7 @@ import { MangaPanel } from '../common/MangaPanel';
 import { TechBadge } from '../common/TechBadge';
 import { HankoStamp } from '../common/HankoStamp';
 import { HalftoneOverlay } from '../common/HalftoneOverlay';
-import { GraduationCap, Layers, Compass, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, Layers, Compass, CheckCircle2, User, Sparkles } from 'lucide-react';
 
 export const PersonNarrative: React.FC = () => {
   return (
@@ -56,13 +56,68 @@ export const PersonNarrative: React.FC = () => {
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl sm:text-3xl text-[#151515] uppercase tracking-wide mb-3">
-                  IDENTITY & DIRECTION
-                </h3>
+                {/* Editorial Portrait + Narrative Grid */}
+                <div className="flex flex-col sm:flex-row gap-5 items-start mb-6">
+                  {/* Manga Editorial Portrait Placeholder */}
+                  <div className="w-full sm:w-44 aspect-[3/4] shrink-0 border-2 border-[#151515] bg-[#EAE5DC] shadow-manga relative flex flex-col items-center justify-center p-3 text-center overflow-hidden group">
+                    <div className="absolute inset-0 bg-halftone opacity-15 pointer-events-none" />
+                    
+                    {/* Corner Registration Crosshairs */}
+                    <span className="absolute top-1 left-1.5 font-mono text-[8px] text-[#A5A19B] select-none">+</span>
+                    <span className="absolute top-1 right-1.5 font-mono text-[8px] text-[#A5A19B] select-none">+</span>
+                    <span className="absolute bottom-1 left-1.5 font-mono text-[8px] text-[#A5A19B] select-none">+</span>
+                    <span className="absolute bottom-1 right-1.5 font-mono text-[8px] text-[#A5A19B] select-none">+</span>
 
-                <p className="font-sans text-base sm:text-lg text-[#151515] leading-relaxed mb-6 font-medium">
-                  I am a B.Tech Information Technology student at SRM Institute of Science and Technology, Ramapuram, focused on full-stack development and AI-powered web applications.
-                </p>
+                    <div className="relative z-10 space-y-2">
+                      <div className="w-12 h-12 mx-auto rounded-full border-2 border-[#151515] bg-[#FAF8F5] flex items-center justify-center shadow-sm">
+                        <User className="w-6 h-6 text-[#151515]" />
+                      </div>
+                      <div>
+                        <span className="font-mono text-[10px] font-bold text-[#151515] uppercase tracking-wider block">
+                          PORTRAIT
+                        </span>
+                        <span className="font-mono text-[9px] text-[#55524E] block">
+                          GENUINE PHOTO
+                        </span>
+                        <span className="inline-block mt-1 font-mono text-[8px] px-1.5 py-0.5 bg-[#E53935] text-white font-bold tracking-widest">
+                          YOGESH
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-1.5 text-center w-full z-10">
+                      <span className="font-mono text-[7px] text-[#A5A19B] uppercase tracking-tight">
+                        ARCHIVAL PLACEHOLDER
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Narrative Bio */}
+                  <div className="flex-1 space-y-3">
+                    <h3 className="font-display text-2xl sm:text-3xl text-[#151515] uppercase tracking-wide">
+                      IDENTITY & DIRECTION
+                    </h3>
+
+                    <p className="font-sans text-base text-[#151515] leading-relaxed font-medium">
+                      I am a B.Tech Information Technology student at SRM Institute of Science and Technology, Ramapuram, focused on full-stack development and AI-powered web applications.
+                    </p>
+
+                    <p className="font-sans text-sm text-[#55524E] leading-relaxed">
+                      I enjoy building practical digital products, web applications, API integrations, and interactive user experiences with modern web technologies.
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs text-[#151515]">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#FAF8F5] border border-[#151515]">
+                        <Sparkles className="w-3 h-3 text-[#E53935]" />
+                        <span>MERN Stack</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#FAF8F5] border border-[#151515]">
+                        <span className="w-1.5 h-1.5 bg-[#E53935] rounded-full" />
+                        <span>AI Integrations</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Integrated Academic Detail Card */}

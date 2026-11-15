@@ -72,7 +72,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-3xl max-h-[90vh] bg-[#FAF8F5] border-3 border-[#151515] shadow-2xl flex flex-col overflow-hidden focus:outline-none"
+            className="relative w-full max-w-3xl max-h-[90vh] bg-[#FAF8F5] border-[3px] border-[#151515] shadow-2xl flex flex-col overflow-hidden focus:outline-none"
           >
             <HalftoneOverlay density="fine" opacity="very-subtle" />
 

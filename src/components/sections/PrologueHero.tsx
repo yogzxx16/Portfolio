@@ -94,8 +94,8 @@ export const PrologueHero: React.FC<PrologueHeroProps> = ({
           animate="visible"
           className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
         >
-          {/* Left Column: Bold Typography & Narrative (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column: Bold Typography & Narrative (6 cols) */}
+          <div className="lg:col-span-6 space-y-6">
             {/* Japanese Chapter Banner & Stamp */}
             <motion.div variants={itemVariants} className="flex items-center gap-3">
               <span className="font-mono text-xs text-[#E53935] font-bold tracking-widest uppercase">
@@ -148,6 +148,13 @@ export const PrologueHero: React.FC<PrologueHeroProps> = ({
               </p>
             </motion.div>
 
+            {/* Red ink rule accent beneath tagline */}
+            <motion.div aria-hidden="true" variants={itemVariants} className="flex items-center gap-3 max-w-xl">
+              <div className="h-[3px] w-10 bg-[#E53935]" />
+              <div className="h-px flex-1 bg-[#151515]/20" />
+              <span className="font-mono text-[9px] text-[#E53935] font-bold tracking-widest">DEVELOPER'S STORY</span>
+            </motion.div>
+
             {/* Action CTAs & Stamp */}
             <motion.div
               variants={itemVariants}
@@ -185,10 +192,10 @@ export const PrologueHero: React.FC<PrologueHeroProps> = ({
             </motion.div>
           </div>
 
-          {/* Right Column: Bespoke Vector Art Spread (5 cols) */}
+          {/* Right Column: Bespoke Vector Art Spread (6 cols — equal weight) */}
           <motion.div
             variants={itemVariants}
-            className="lg:col-span-5 flex justify-center"
+            className="lg:col-span-6 flex justify-center"
           >
             <HeroMangaIllustration />
           </motion.div>
