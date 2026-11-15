@@ -156,8 +156,8 @@ export const PrologueHero: React.FC<PrologueHeroProps> = ({
               <InkButton
                 variant="primary"
                 size="lg"
-                href="#chapter-03"
-                onClick={(e) => handleActionClick(e, 'chapter-03', onExploreClick)}
+                href="#creations"
+                onClick={(e) => handleActionClick(e, 'creations', onExploreClick)}
                 icon={<Code2 className="w-4 h-4" />}
               >
                 EXPLORE MY WORK

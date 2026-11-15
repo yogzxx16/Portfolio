@@ -21,7 +21,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       { name: 'Next.js' },
       { name: 'Vite' },
       { name: 'Tailwind CSS' },
-      { name: 'Framer Motion' },
+      { name: 'Motion' },
       { name: 'HTML5' },
       { name: 'CSS3' },
     ],

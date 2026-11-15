@@ -10,6 +10,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'A platform that lets users exchange skills rather than pay for courses, featuring collaborative learning spaces and interactive gamification.',
+    problemStatement:
+      'High costs and one-way learning models create barriers for students and self-taught learners seeking practical peer-to-peer knowledge exchange.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'JavaScript',
@@ -17,7 +20,7 @@ export const PROJECTS_DATA: ProjectRecord[] = [
       'Tailwind CSS',
       'Jitsi Meet API',
       'Context API',
-      'Framer Motion',
+      'Motion',
     ],
     keyFeatures: [
       'Peer skill matching algorithm and swap requests workflow',
@@ -40,6 +43,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'Full-stack emergency healthcare system connecting immediate blood recipients with compatible, registered donors nearby.',
+    problemStatement:
+      'Critical time delays during medical emergencies when hospitals or patients struggle to rapidly identify and contact compatible blood donors in their immediate geographical vicinity.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'JavaScript',
@@ -70,6 +76,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'Buildathon Top 8 finalist prototype developed to automate B2B competitor research, lead scoring, and personalized outreach workflows.',
+    problemStatement:
+      'Sales teams and founders spend excessive hours manually researching competitor landscapes, qualification criteria, and drafting custom pitch decks for prospects.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'Tailwind CSS',
@@ -96,6 +105,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'Accessible, high-contrast medication management web application tailored for elderly users with voice-guided interaction.',
+    problemStatement:
+      'Complex medication schedules and small, unreadable digital interfaces frequently cause senior citizens to miss crucial prescription dosages.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'CSS',
@@ -124,6 +136,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'Movie exploration experience providing instant search, genre curation, and personalized watchlists powered by the TMDB API.',
+    problemStatement:
+      'Movie catalog browsers are often cluttered, slow to respond to search queries, and fail to retain offline user watchlists on mobile devices.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'Vite',
@@ -152,6 +167,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: true,
     summary:
       'Conceptual landing page exploring audio streaming ergonomics, sleek typographic hierarchy, and AI-themed abstract wave visuals.',
+    problemStatement:
+      'Exploring how audio streaming interfaces can communicate intelligent AI curation and aesthetic pacing through fluid typography and wave micro-interactions.',
+    imagePlaceholder: undefined,
     techStack: [
       'Next.js',
       'TypeScript',
@@ -177,6 +195,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: false,
     summary:
       'Frontend e-commerce storefront featuring live product browsing, detailed product specification pages, and global cart state.',
+    problemStatement:
+      'Designing an ultra-responsive storefront shopping workflow with real-time cart state management without external framework overhead.',
+    imagePlaceholder: undefined,
     techStack: [
       'React',
       'Vite',
@@ -202,6 +223,9 @@ export const PROJECTS_DATA: ProjectRecord[] = [
     isFeatured: false,
     summary:
       'Lightweight, dependency-free productivity tool implementing complete client-side task lifecycle management and browser persistence.',
+    problemStatement:
+      'Heavy task management apps burden simple daily to-do workflows; building a dependency-free vanilla JS alternative that boots instantly.',
+    imagePlaceholder: undefined,
     techStack: [
       'HTML5',
       'CSS3',

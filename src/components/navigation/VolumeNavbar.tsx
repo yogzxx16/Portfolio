@@ -73,7 +73,11 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 font-mono text-xs">
             {CHAPTERS_DATA.map((chapter) => {
               const isActive = activeChapterId === chapter.id;
-              const isImplemented = chapter.id === 'prologue' || chapter.id === 'person';
+              const isImplemented =
+                chapter.id === 'prologue' ||
+                chapter.id === 'person' ||
+                chapter.id === 'arsenal' ||
+                chapter.id === 'creations';
               return (
                 <a
                   key={chapter.id}

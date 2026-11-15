@@ -13,6 +13,8 @@ export interface ProjectRecord {
   maturity: ProjectMaturity;
   isFeatured: boolean;
   summary: string;
+  problemStatement?: string;
+  imagePlaceholder?: string;
   techStack: string[];
   keyFeatures: string[];
   technicalNotes?: string;

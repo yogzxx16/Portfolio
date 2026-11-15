@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { VolumeNavbar } from './components/navigation/VolumeNavbar';
 import { PrologueHero } from './components/sections/PrologueHero';
 import { PersonNarrative } from './components/sections/PersonNarrative';
+import { ArsenalSection } from './components/sections/ArsenalSection';
+import { CreationsSection } from './components/sections/CreationsSection';
 import { MangaPanel } from './components/common/MangaPanel';
 import { HankoStamp } from './components/common/HankoStamp';
 import { TechBadge } from './components/common/TechBadge';
@@ -33,7 +35,7 @@ export default function App(): React.JSX.Element {
   }, []);
 
   const handleActionToast = (chapterName: string) => {
-    setNotification(`${chapterName} is being serialized in upcoming phases.`);
+    setNotification(`${chapterName} is being serialized in upcoming Phase 5.`);
     const fallback = document.getElementById('pipeline-preview');
     if (fallback) {
       fallback.scrollIntoView({ behavior: 'smooth' });
@@ -63,14 +65,19 @@ export default function App(): React.JSX.Element {
       <main className="flex-1">
         {/* CHAPTER 00 — PROLOGUE */}
         <PrologueHero
-          onExploreClick={() => handleActionToast('Chapter 03: My Creations')}
           onConnectClick={() => handleActionToast('Chapter 05: Next Chapter')}
         />
 
         {/* CHAPTER 01 — THE PERSON */}
         <PersonNarrative />
 
-        {/* Pipeline & Serialization Preview Container */}
+        {/* CHAPTER 02 — MY ARSENAL */}
+        <ArsenalSection />
+
+        {/* CHAPTER 03 — MY CREATIONS */}
+        <CreationsSection />
+
+        {/* Pipeline & Serialization Preview Container for Phase 5 */}
         <section id="pipeline-preview" className="py-16 bg-[#EAE5DC] border-b-2 border-[#151515]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <MangaPanel variant="default" tag="SERIALIZATION PIPELINE" notch="top-right">
@@ -81,59 +88,37 @@ export default function App(): React.JSX.Element {
                     <span>NEXT EPISODES UNDER PRODUCTION</span>
                   </div>
                   <h3 className="font-display text-3xl sm:text-4xl text-[#151515] tracking-wide">
-                    THE STORY CONTINUES IN PHASE 4 & 5
+                    FINAL ARCS ARRIVING IN PHASE 5
                   </h3>
                   <p className="font-mono text-xs text-[#55524E] max-w-xl">
-                    Chapters 00 and 01 are fully published. Chapters 02 through 05 will follow in the next release cycles.
+                    Chapters 00, 01, 02, and 03 are live. The Journey timeline and Next Chapter contact system will complete the volume in Phase 5.
                   </p>
                 </div>
                 <HankoStamp label="続" subtext="TO BE CONTINUED" shape="square" color="red" size="md" />
               </div>
 
               {/* Upcoming Chapter Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                <div className="p-4 bg-[#FAF8F5] border border-[#151515]/30">
-                  <span className="font-mono text-xs font-bold text-[#A5A19B] block mb-1">
-                    CH.02 // 技術
-                  </span>
-                  <h4 className="font-display text-xl text-[#151515] mb-2">MY ARSENAL</h4>
-                  <p className="text-xs text-[#55524E] mb-3">
-                    Categorized competencies across Languages, Frontend, Backend, and AI tooling.
-                  </p>
-                  <TechBadge name="Phase 4" variant="outline" size="sm" />
-                </div>
-
-                <div className="p-4 bg-[#FAF8F5] border border-[#151515]/30">
-                  <span className="font-mono text-xs font-bold text-[#A5A19B] block mb-1">
-                    CH.03 // 制作物
-                  </span>
-                  <h4 className="font-display text-xl text-[#151515] mb-2">MY CREATIONS</h4>
-                  <p className="text-xs text-[#55524E] mb-3">
-                    6 featured project spreads (SkillSwap, Pulse-Link, OutreachIQ, etc.) with deep-dive modals.
-                  </p>
-                  <TechBadge name="Phase 4" variant="outline" size="sm" />
-                </div>
-
-                <div className="p-4 bg-[#FAF8F5] border border-[#151515]/30">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                <div className="p-5 bg-[#FAF8F5] border-2 border-[#151515] shadow-xs">
                   <span className="font-mono text-xs font-bold text-[#A5A19B] block mb-1">
                     CH.04 // 軌跡
                   </span>
-                  <h4 className="font-display text-xl text-[#151515] mb-2">THE JOURNEY</h4>
-                  <p className="text-xs text-[#55524E] mb-3">
-                    Chronicle timeline covering Decode Labs, Future Interns, hackathons, and certifications.
+                  <h4 className="font-display text-2xl text-[#151515] mb-2">THE JOURNEY</h4>
+                  <p className="text-xs text-[#55524E] mb-4">
+                    Chronicle timeline covering Decode Labs, Future Interns, completed Google Student Ambassador role, DSC, and verified hackathons.
                   </p>
-                  <TechBadge name="Phase 5" variant="outline" size="sm" />
+                  <TechBadge name="Phase 5" variant="accent" size="sm" />
                 </div>
 
-                <div className="p-4 bg-[#FAF8F5] border border-[#151515]/30">
+                <div className="p-5 bg-[#FAF8F5] border-2 border-[#151515] shadow-xs">
                   <span className="font-mono text-xs font-bold text-[#A5A19B] block mb-1">
                     CH.05 // 終章
                   </span>
-                  <h4 className="font-display text-xl text-[#151515] mb-2">NEXT CHAPTER</h4>
-                  <p className="text-xs text-[#55524E] mb-3">
-                    Serverless contact transmission system, social channels, and closing colophon.
+                  <h4 className="font-display text-2xl text-[#151515] mb-2">NEXT CHAPTER</h4>
+                  <p className="text-xs text-[#55524E] mb-4">
+                    Vercel serverless contact transmission system with Resend integration, direct social channels, and closing colophon.
                   </p>
-                  <TechBadge name="Phase 5" variant="outline" size="sm" />
+                  <TechBadge name="Phase 5" variant="accent" size="sm" />
                 </div>
               </div>
             </MangaPanel>

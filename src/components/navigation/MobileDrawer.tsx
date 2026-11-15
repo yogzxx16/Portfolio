@@ -108,7 +108,11 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                 </span>
                 {CHAPTERS_DATA.map((chapter) => {
                   const isActive = activeChapterId === chapter.id;
-                  const isImplemented = chapter.id === 'prologue' || chapter.id === 'person';
+                  const isImplemented =
+                    chapter.id === 'prologue' ||
+                    chapter.id === 'person' ||
+                    chapter.id === 'arsenal' ||
+                    chapter.id === 'creations';
                   return (
                     <a
                       key={chapter.id}
