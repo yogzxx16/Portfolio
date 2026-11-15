@@ -77,3 +77,10 @@ export interface ProfileData {
   introduction: string;
   interests: string[];
 }
+
+export interface ChapterItem {
+  id: string;
+  number: string;
+  title: string;
+  kanji: string;
+}
