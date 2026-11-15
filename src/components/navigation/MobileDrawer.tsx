@@ -7,12 +7,14 @@ export interface MobileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   activeChapterId?: string;
+  onNavigate?: (chapterId: string) => void;
 }
 
 export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   isOpen,
   onClose,
   activeChapterId = 'prologue',
+  onNavigate,
 }) => {
   // Close drawer on Escape key press
   useEffect(() => {
@@ -36,6 +38,21 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, chapterId: string) => {
+    if (onNavigate) {
+      onNavigate(chapterId);
+    }
+    onClose();
+    const target = document.getElementById(chapterId);
+    if (!target) {
+      e.preventDefault();
+      const fallback = document.getElementById('pipeline-preview');
+      if (fallback) {
+        fallback.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -91,21 +108,28 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                 </span>
                 {CHAPTERS_DATA.map((chapter) => {
                   const isActive = activeChapterId === chapter.id;
+                  const isImplemented = chapter.id === 'prologue' || chapter.id === 'person';
                   return (
                     <a
                       key={chapter.id}
                       href={`#${chapter.id}`}
-                      onClick={onClose}
+                      onClick={(e) => handleItemClick(e, chapter.id)}
                       className={`flex items-center justify-between p-3 border transition-all ${
                         isActive
                           ? 'bg-[#151515] text-[#F4F0E8] border-[#151515] shadow-manga-red'
-                          : 'bg-[#FAF8F5] text-[#151515] border-[#151515]/30 hover:border-[#151515] hover:bg-[#EAE5DC]'
+                          : isImplemented
+                          ? 'bg-[#FAF8F5] text-[#151515] border-[#151515]/30 hover:border-[#151515] hover:bg-[#EAE5DC]'
+                          : 'bg-[#FAF8F5]/60 text-[#151515]/50 border-dashed border-[#151515]/20 hover:border-[#151515]'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
                           className={`font-mono text-xs font-bold ${
-                            isActive ? 'text-[#E53935]' : 'text-[#A5A19B]'
+                            isActive
+                              ? 'text-[#E53935]'
+                              : isImplemented
+                              ? 'text-[#151515]'
+                              : 'text-[#A5A19B]'
                           }`}
                         >
                           CH.{chapter.number}
@@ -114,9 +138,16 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                           {chapter.title}
                         </span>
                       </div>
-                      <span className="font-mono text-xs opacity-70">
-                        {chapter.kanji}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {!isImplemented && (
+                          <span className="font-mono text-[9px] px-1.5 py-0.5 border border-[#151515]/30 text-[#A5A19B] uppercase">
+                            SOON
+                          </span>
+                        )}
+                        <span className="font-mono text-xs opacity-70">
+                          {chapter.kanji}
+                        </span>
+                      </div>
                     </a>
                   );
                 })}

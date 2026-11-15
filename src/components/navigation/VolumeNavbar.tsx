@@ -6,10 +6,12 @@ import { MobileDrawer } from './MobileDrawer';
 
 export interface VolumeNavbarProps {
   activeChapterId?: string;
+  onNavigate?: (chapterId: string) => void;
 }
 
 export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
   activeChapterId = 'prologue',
+  onNavigate,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -21,6 +23,21 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, chapterId: string) => {
+    if (onNavigate) {
+      onNavigate(chapterId);
+    }
+    const target = document.getElementById(chapterId);
+    if (!target) {
+      // If chapter target doesn't exist yet, gracefully scroll to upcoming preview section
+      e.preventDefault();
+      const fallback = document.getElementById('pipeline-preview');
+      if (fallback) {
+        fallback.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <>
@@ -53,23 +70,40 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           </div>
 
           {/* Desktop Chapter Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 font-mono text-xs">
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 font-mono text-xs">
             {CHAPTERS_DATA.map((chapter) => {
               const isActive = activeChapterId === chapter.id;
+              const isImplemented = chapter.id === 'prologue' || chapter.id === 'person';
               return (
                 <a
                   key={chapter.id}
                   href={`#${chapter.id}`}
+                  onClick={(e) => handleLinkClick(e, chapter.id)}
                   className={`px-2.5 py-1.5 transition-all flex items-center gap-1.5 border ${
                     isActive
                       ? 'bg-[#151515] text-[#F4F0E8] border-[#151515] shadow-xs'
-                      : 'bg-transparent text-[#151515] border-transparent hover:border-[#151515] hover:bg-[#EAE5DC]'
+                      : isImplemented
+                      ? 'bg-transparent text-[#151515] border-transparent hover:border-[#151515] hover:bg-[#EAE5DC]'
+                      : 'bg-transparent text-[#151515]/40 border-transparent hover:border-[#151515]/30 hover:text-[#151515]'
                   } focus:outline-none focus:ring-2 focus:ring-[#E53935]`}
                 >
-                  <span className={isActive ? 'text-[#E53935] font-bold' : 'text-[#A5A19B]'}>
+                  <span
+                    className={
+                      isActive
+                        ? 'text-[#E53935] font-bold'
+                        : isImplemented
+                        ? 'text-[#151515] font-bold'
+                        : 'text-[#A5A19B]'
+                    }
+                  >
                     {chapter.number}
                   </span>
                   <span className="font-sans font-bold tracking-tight">{chapter.title}</span>
+                  {!isImplemented && (
+                    <span className="text-[9px] font-mono text-[#A5A19B] tracking-tighter">
+                      *
+                    </span>
+                  )}
                 </a>
               );
             })}
@@ -78,10 +112,11 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           {/* Right Actions & Mobile Hamburger */}
           <div className="flex items-center gap-3">
             <a
-              href="#next-chapter"
+              href="#chapter-05"
+              onClick={(e) => handleLinkClick(e, 'chapter-05')}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-[#151515] bg-[#FAF8F5] text-[#151515] font-mono text-xs font-bold hover:bg-[#E53935] hover:border-[#E53935] hover:text-white transition-colors shadow-xs active:translate-x-0.5 active:translate-y-0.5"
             >
-              <span>CONTACT</span>
+              <span>CONNECT</span>
               <span className="text-[#E53935] group-hover:text-white">●</span>
             </a>
 
@@ -107,6 +142,7 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         activeChapterId={activeChapterId}
+        onNavigate={onNavigate}
       />
     </>
   );

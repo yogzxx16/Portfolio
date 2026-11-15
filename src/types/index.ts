@@ -62,6 +62,7 @@ export interface ProfileData {
   name: string;
   displayTitle: string;
   professionalPositioning: string;
+  tagline: string;
   location: string;
   email: string;
   githubUrl: string;

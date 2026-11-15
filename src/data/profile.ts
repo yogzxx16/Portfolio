@@ -4,6 +4,7 @@ export const PROFILE_DATA: ProfileData = {
   name: 'YOGESHKUMAR S',
   displayTitle: 'YOGESH.',
   professionalPositioning: 'B.Tech IT Student | Full-Stack MERN Developer | Building AI-Powered Web Applications',
+  tagline: 'Turning ideas into interactive experiences.',
   location: 'Chennai, India',
   email: 'syogeshkumar2020@gmail.com',
   githubUrl: 'https://github.com/yogzxx16',
