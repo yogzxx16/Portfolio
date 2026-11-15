@@ -1,36 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PROJECTS_DATA } from '../../data/projects';
-import { ExternalLink, Github, Eye, Sparkles, Video, Award, Users } from 'lucide-react';
+import { ExternalLink, Github, Eye, Sparkles } from 'lucide-react';
+import { SkillSwap3DCanvas } from '../3d/SkillSwap3DCanvas';
 import { HankoStamp } from '../common/HankoStamp';
 
 export const SkillSwap3DShowcase: React.FC = () => {
   const project = PROJECTS_DATA.find((p) => p.id === 'skillswap')!;
-
-  // 3D Mouse Parallax State
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Calculate rotation (-12deg to +12deg)
-    const rotX = ((y - centerY) / centerY) * -10;
-    const rotY = ((x - centerX) / centerX) * 12;
-
-    setRotateX(rotX);
-    setRotateY(rotY);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-    setIsHovered(false);
-  };
 
   return (
     <section
@@ -53,9 +28,9 @@ export const SkillSwap3DShowcase: React.FC = () => {
         <div className="pb-4 mb-12 border-b-2 border-[#23252C] flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 font-mono text-xs text-[#D71936] font-bold uppercase tracking-wider mb-1">
-              <span>PROTOTYPE SPREAD // 第壱作品</span>
+              <span>FEATURED SPREAD // 第壱作品</span>
               <span className="text-[#747C8B]">&bull;</span>
-              <span className="text-[#F4F2ED]">FEATURED 3D PRESENTATION</span>
+              <span className="text-[#F4F2ED]">3D CANVAS PRESENTATION</span>
             </div>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#F4F2ED] uppercase tracking-wide">
               CHAPTER 03 // MY CREATIONS
@@ -63,7 +38,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
           </div>
 
           <div className="font-mono text-xs text-[#747C8B] flex items-center gap-3">
-            <span className="px-2 py-1 bg-[#14151B] border border-[#23252C] text-[#F4F2ED]">
+            <span className="px-2.5 py-1 bg-[#14151B] border border-[#23252C] text-[#F4F2ED]">
               STATUS: DEPLOYED
             </span>
             <span className="hidden sm:inline">ACTUAL VERIFIED WORK</span>
@@ -72,112 +47,40 @@ export const SkillSwap3DShowcase: React.FC = () => {
 
         {/* 3D Spread Container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* LEFT: 3D Interactive Layered Screenshot Showcase (7 cols) */}
-          <div className="lg:col-span-7 perspective-1500">
-            <div
-              onMouseMove={handleMouseMove}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-                transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
-              }}
-              className="relative preserve-3d w-full cursor-pointer group"
-            >
-              {/* Layer 0: Heavy Base Manga Panel */}
-              <div className="w-full aspect-[16/10] bg-[#14151B] border-3 border-[#23252C] shadow-noir-lg p-3 sm:p-4 relative overflow-hidden">
-                {/* Screentone Texture */}
-                <div className="absolute inset-0 bg-screentone-dark opacity-80 pointer-events-none" />
-
-                {/* Top Panel Bar */}
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#23252C] font-mono text-[10px] text-[#747C8B]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-[#D71936]" />
-                    <span className="font-bold text-[#F4F2ED]">SKILLSWAP // PRODUCTION UI</span>
-                  </div>
-                  <span>1280 &times; 800 HD VIEWPORT</span>
+          {/* LEFT: 3D Interactive WebGL Display Screen Canvas (7 cols) */}
+          <div className="lg:col-span-7 flex flex-col">
+            <div className="relative border-2 border-[#23252C] bg-[#14151B] p-2 sm:p-3 shadow-noir-lg">
+              {/* Top Screen Chassis Bar */}
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#23252C] font-mono text-[11px] text-[#747C8B]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 bg-[#D71936] rounded-xs" />
+                  <span className="font-bold text-[#F4F2ED]">SKILLSWAP 3D PERSPECTIVE VIEWPORT</span>
                 </div>
-
-                {/* Layer 1: Screenshot Plane with Marked Placeholder */}
-                <div
-                  style={{ transform: 'translateZ(30px)' }}
-                  className="w-full h-[calc(100%-28px)] bg-[#090A0E] border-2 border-[#23252C] relative overflow-hidden flex flex-col justify-between p-4"
-                >
-                  {/* Wireframe Mock Header */}
-                  <div className="flex items-center justify-between border-b border-[#23252C] pb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-[#D71936]" />
-                      <div className="w-3 h-3 rounded-full bg-[#747C8B]" />
-                      <div className="w-3 h-3 rounded-full bg-[#23252C]" />
-                      <span className="font-mono text-xs text-[#F4F2ED] font-bold ml-2">
-                        skillswap-learnnearn-in.web.app
-                      </span>
-                    </div>
-                    <span className="font-mono text-[10px] text-[#D71936] font-bold">● LIVE DEMO</span>
-                  </div>
-
-                  {/* Wireframe Interior Content */}
-                  <div className="grid grid-cols-12 gap-3 my-auto py-2">
-                    {/* Left: Video & Messaging Mock */}
-                    <div className="col-span-7 bg-[#14151B] border border-[#23252C] p-3 space-y-2">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-[#747C8B]">
-                        <span className="flex items-center gap-1 text-[#F4F2ED]">
-                          <Video className="w-3 h-3 text-[#D71936]" /> JITSI MEET SESSION
-                        </span>
-                        <span className="text-[#D71936]">CONNECTED</span>
-                      </div>
-                      <div className="aspect-video bg-[#090A0E] border border-[#23252C] flex items-center justify-center">
-                        <Users className="w-8 h-8 text-[#747C8B] opacity-40" />
-                      </div>
-                      <div className="font-mono text-[9px] text-[#747C8B]">
-                        TEACHING: REACT.JS &bull; LEARNING: PYTHON
-                      </div>
-                    </div>
-
-                    {/* Right: Gamification XP & Streak Mock */}
-                    <div className="col-span-5 bg-[#14151B] border border-[#23252C] p-3 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center gap-1 text-[10px] font-mono text-[#D71936] font-bold mb-1">
-                          <Award className="w-3 h-3" /> XP REWARD SYSTEM
-                        </div>
-                        <div className="font-display text-2xl text-[#F4F2ED]">+250 XP</div>
-                        <div className="w-full bg-[#23252C] h-1.5 my-1.5">
-                          <div className="bg-[#D71936] h-full w-3/4" />
-                        </div>
-                      </div>
-                      <div className="p-1.5 bg-[#090A0E] border border-[#23252C] text-center font-mono text-[9px] text-[#F4F2ED]">
-                        STREAK: 7 DAYS 🔥
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Explicit Placeholder Watermark Banner */}
-                  <div className="p-2 bg-[#D71936]/15 border border-[#D71936] text-center font-mono text-[10px] text-[#F4F2ED] flex items-center justify-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-[#D71936]" />
-                    <span>GENUINE APPLICATION SCREENSHOT PLACEHOLDER // REPLACE WITH 1280x800 PRODUCTION CAPTURE</span>
-                  </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-[#D71936] font-bold">1280 &times; 800</span>
+                  <span className="text-[#747C8B] hidden sm:inline">THREE.JS / R3F</span>
                 </div>
+              </div>
 
-                {/* Layer 2: Floating Foreground Badges (Z: 60px) */}
-                <div
-                  style={{ transform: 'translateZ(55px)' }}
-                  className="absolute top-6 right-6 flex items-center gap-2 pointer-events-none"
-                >
+              {/* 3D WebGL Canvas */}
+              <SkillSwap3DCanvas />
+
+              {/* Chassis Bottom Banner & Stamp */}
+              <div className="mt-3 pt-2.5 border-t border-[#23252C] flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] text-[#747C8B]">
+                <div className="flex items-center gap-1.5 text-[#D71936] font-bold">
+                  <Sparkles className="w-3 h-3" />
+                  <span>INTERACTIVE 3D DISPLAY &bull; CURSOR DRIVEN PERSPECTIVE TILT</span>
+                </div>
+                <div className="flex items-center gap-2">
                   <HankoStamp
                     label="換"
                     subtext="SWAP"
                     shape="circle"
                     color="red"
                     size="sm"
-                    angle={-8}
+                    angle={-4}
                   />
                 </div>
-              </div>
-
-              {/* Parallax Depth Hint */}
-              <div className="mt-3 flex items-center justify-between font-mono text-[10px] text-[#747C8B]">
-                <span>3D PERSPECTIVE CANVAS // MOVE CURSOR TO TILT</span>
-                <span className="text-[#D71936] font-bold">FIREBASE REAL-TIME SYNC</span>
               </div>
             </div>
           </div>
@@ -278,11 +181,11 @@ export const SkillSwap3DShowcase: React.FC = () => {
               )}
 
               <a
-                href="#creations"
+                href="#skillswap-prototype"
                 className="inline-flex items-center gap-1.5 px-3 py-2.5 font-mono text-xs text-[#747C8B] hover:text-[#F4F2ED] transition-colors"
               >
                 <Eye className="w-3.5 h-3.5 text-[#D71936]" />
-                <span>VIEW ALL IN ARCHIVES</span>
+                <span>ARCHITECTURAL DOSSIER</span>
               </a>
             </div>
           </div>

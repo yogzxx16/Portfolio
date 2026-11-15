@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, type Variants } from 'motion/react';
+import { motion } from 'motion/react';
 import { PROFILE_DATA } from '../../data/profile';
 import { MangaBook3D } from '../3d/MangaBook3D';
 import { HankoStamp } from '../common/HankoStamp';
@@ -14,25 +14,6 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
   onExploreClick,
   onConnectClick,
 }) => {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 16 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
 
   const handleScrollTo = (targetId: string, customHandler?: (e?: React.MouseEvent) => void) => {
     return (e: React.MouseEvent) => {
@@ -51,7 +32,7 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
   return (
     <section
       id="prologue"
-      className="relative min-h-[96vh] flex flex-col justify-between pt-6 pb-12 overflow-hidden bg-[#090A0E] text-[#F4F2ED] border-b-2 border-[#23252C]"
+      className="relative min-h-[85vh] lg:min-h-[88vh] flex flex-col justify-between pt-4 sm:pt-6 pb-8 sm:pb-12 overflow-hidden bg-[#090A0E] text-[#F4F2ED] border-b-2 border-[#23252C]"
     >
       {/* Background Screentone Dot Matrix & Radial Speedlines */}
       <div className="absolute inset-0 bg-screentone-dark opacity-60 pointer-events-none" />
@@ -66,13 +47,13 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
       />
 
       {/* Top Editorial Issue Ribbon */}
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 mb-6 relative z-10">
-        <div className="border-b-2 border-[#23252C] pb-3 flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-[#747C8B]">
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 mb-4 sm:mb-6 relative z-10">
+        <div className="border-b-2 border-[#23252C] pb-2 sm:pb-3 flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-[#747C8B]">
           <div className="flex items-center gap-3">
             <span className="px-2 py-0.5 bg-[#D71936] text-white font-bold tracking-widest text-[10px]">
               VOL. 01
             </span>
-            <span className="font-bold text-[#F4F2ED] uppercase tracking-wider">
+            <span className="font-bold text-[#F4F2ED] uppercase tracking-wider text-[11px] sm:text-xs">
               MANGA NOIR // THE DEVELOPER'S STORY
             </span>
           </div>
@@ -87,38 +68,33 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
       </div>
 
       {/* Main Asymmetrical Editorial Grid */}
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
-        >
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center relative z-10 py-4 sm:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Bold Manga Noir Typography (7 cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
             {/* Japanese Chapter Banner */}
-            <motion.div variants={itemVariants} className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="font-mono text-xs text-[#D71936] font-bold tracking-widest uppercase">
                 序章 // CHAPTER 00 — PROLOGUE
               </span>
               <div className="h-px bg-[#23252C] flex-1 max-w-[140px]" />
-            </motion.div>
+            </div>
 
             {/* Massive Display Title */}
-            <motion.div variants={itemVariants} className="relative">
-              <h1 className="font-display text-8xl sm:text-9xl md:text-[10rem] tracking-tight leading-[0.85] text-[#F4F2ED] uppercase select-none">
+            <div className="relative">
+              <h1 className="font-display text-7xl sm:text-8xl md:text-9xl tracking-tight leading-[0.85] text-[#F4F2ED] uppercase select-none">
                 YOGESH
                 <span className="text-[#D71936] inline-block animate-pulse">.</span>
               </h1>
               {/* Crimson Accent Rule */}
               <div
                 aria-hidden="true"
-                className="mt-2 h-1.5 w-44 bg-[#D71936] shadow-crimson"
+                className="mt-2 h-1.5 w-36 sm:w-44 bg-[#D71936] shadow-crimson"
               />
-            </motion.div>
+            </div>
 
             {/* Professional Positioning Stack */}
-            <motion.div variants={itemVariants} className="space-y-1.5 pt-1">
+            <div className="space-y-1.5 pt-1">
               <div className="flex flex-wrap items-center gap-2 font-mono text-xs sm:text-sm font-bold text-[#F4F2ED] uppercase tracking-wider">
                 <span className="w-2.5 h-2.5 bg-[#D71936]" />
                 <span>B.Tech IT Student</span>
@@ -129,13 +105,10 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
                 <Sparkles className="w-3.5 h-3.5 shrink-0" />
                 <span>Building AI-Powered Web Applications</span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Narrative Speech Frame */}
-            <motion.div
-              variants={itemVariants}
-              className="relative p-5 sm:p-6 border-2 border-[#23252C] bg-[#14151B] shadow-noir-lg max-w-xl"
-            >
+            <div className="relative p-5 sm:p-6 border-2 border-[#23252C] bg-[#14151B] shadow-noir-lg max-w-xl">
               <div className="font-mono text-[10px] text-[#747C8B] tracking-widest uppercase mb-1.5 flex items-center justify-between border-b border-[#23252C] pb-1">
                 <span>EDITORIAL DIRECTIVE</span>
                 <span className="text-[#D71936] font-bold">ACT. 00</span>
@@ -146,13 +119,10 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
               <p className="font-mono text-xs text-[#747C8B] mt-2.5 leading-relaxed">
                 {PROFILE_DATA.introduction}
               </p>
-            </motion.div>
+            </div>
 
             {/* Action Buttons Row & Hanko Stamp */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-wrap items-center gap-4 pt-2"
-            >
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               {/* Primary Crimson CTA */}
               <a
                 href="#skillswap-prototype"
@@ -184,14 +154,11 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
                   angle={-6}
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Column: Original 3D Manga Volume Centerpiece (5 cols) */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-5 flex flex-col items-center justify-center relative"
-          >
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
             {/* 3D Canvas Centerpiece */}
             <MangaBook3D />
 
@@ -199,8 +166,8 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
             <p className="font-mono text-[10px] text-[#747C8B] mt-4 tracking-widest uppercase text-center">
               INTERACTIVE 3D TANKŌBON // TILT & CLICK TO INSPECT
             </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Scroll Indicator */}
