@@ -5,8 +5,9 @@
   --color-manga-white: #F4F2ED;
   --color-crimson: #D71936;
   --color-crimson-glow: #FF2A4D;
-  --color-steel: #747C8B;
-  --color-steel-light: #9DA6B8;
+  --color-steel: #9DA6B8;
+  --color-steel-muted: #747C8B;
+  --color-steel-light: #C4CAD4;
   --color-graphite: #23252C;
   --color-graphite-dark: #14151B;
 
@@ -14,10 +15,10 @@
   --color-paper: #090A0E;
   --color-paper-light: #14151B;
   --color-ink: #F4F2ED;
-  --color-ink-muted: #747C8B;
+  --color-ink-muted: #9DA6B8;
   --color-manga-red: #D71936;
   --color-manga-red-dark: #A81229;
-  --color-muted-grey: #747C8B;
+  --color-muted-grey: #9DA6B8;
   --color-ink-wash: #23252C;
   --color-panel-border: #23252C;
 
@@ -34,8 +35,53 @@
   --void: #090A0E;
   --manga-white: #F4F2ED;
   --crimson: #D71936;
-  --steel: #747C8B;
+  --steel: #9DA6B8;
+  --steel-muted: #747C8B;
   --graphite: #23252C;
+}
+
+/* Explicit Dark Environment & Manga Paper Panel Theme Variants */
+.theme-dark-section {
+  background-color: #090A0E;
+  color: #F4F2ED;
+}
+
+.theme-dark-section .text-contrast-primary {
+  color: #F4F2ED;
+}
+
+.theme-dark-section .text-contrast-secondary {
+  color: #9DA6B8;
+}
+
+.theme-dark-section .text-contrast-muted {
+  color: #747C8B;
+}
+
+/* Deliberate High-Contrast Manga Paper Panel */
+.theme-manga-paper {
+  background-color: #F4F2ED;
+  color: #090A0E;
+  border: 2px solid #090A0E;
+}
+
+.theme-manga-paper .text-paper-primary {
+  color: #090A0E;
+}
+
+.theme-manga-paper .text-paper-secondary {
+  color: #3A3F4A;
+}
+
+.theme-manga-paper .text-paper-muted {
+  color: #747C8B;
+}
+
+/* Void Noir Panel */
+.theme-noir-panel {
+  background-color: #14151B;
+  color: #F4F2ED;
+  border: 2px solid #23252C;
 }
 
 /* Manga Noir Screentone Patterns */

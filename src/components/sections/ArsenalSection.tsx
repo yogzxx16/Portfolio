@@ -4,17 +4,16 @@ import { SKILL_CATEGORIES } from '../../data/skills';
 import { ChapterHeader } from '../common/ChapterHeader';
 import { MangaPanel } from '../common/MangaPanel';
 import { TechBadge } from '../common/TechBadge';
-import { HalftoneOverlay } from '../common/HalftoneOverlay';
 import { Code2, Layout, Server, Database, Wrench, Sparkles, Terminal } from 'lucide-react';
 
 export const ArsenalSection: React.FC = () => {
   const iconMap: Record<string, React.ReactNode> = {
-    languages: <Code2 className="w-4 h-4 text-[#E53935]" />,
-    frontend: <Layout className="w-4 h-4 text-[#E53935]" />,
-    backend: <Server className="w-4 h-4 text-[#E53935]" />,
-    databases: <Database className="w-4 h-4 text-[#E53935]" />,
-    tools: <Wrench className="w-4 h-4 text-[#E53935]" />,
-    additional: <Sparkles className="w-4 h-4 text-[#E53935]" />,
+    languages: <Code2 className="w-4 h-4 text-[#D71936]" />,
+    frontend: <Layout className="w-4 h-4 text-[#D71936]" />,
+    backend: <Server className="w-4 h-4 text-[#D71936]" />,
+    databases: <Database className="w-4 h-4 text-[#D71936]" />,
+    tools: <Wrench className="w-4 h-4 text-[#D71936]" />,
+    additional: <Sparkles className="w-4 h-4 text-[#D71936]" />,
   };
 
   const categoryDescriptions: Record<string, string> = {
@@ -27,35 +26,42 @@ export const ArsenalSection: React.FC = () => {
   };
 
   const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
       },
     },
   };
 
   const panelVariants: Variants = {
-    hidden: { opacity: 0, y: 16 },
+    hidden: { opacity: 1, y: 0 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
-    <section id="arsenal" className="relative py-16 sm:py-24 border-b-2 border-[#151515]">
-      <HalftoneOverlay density="medium" opacity="very-subtle" />
+    <section
+      id="arsenal"
+      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+    >
+      {/* Anchor for alternative hash */}
+      <div id="my-arsenal" className="absolute -top-20" />
+      {/* Background Screentone Dot Matrix Texture */}
+      <div className="absolute inset-0 bg-screentone-dark opacity-50 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Chapter Header */}
         <ChapterHeader
           number="02"
           title="MY ARSENAL"
           kanji="技術"
           subtitle="Grounded technical competencies organized across system layers — zero arbitrary percentages or exaggerated proficiency."
+          theme="dark"
         />
 
         {/* 6 Asymmetrical Manga Panels */}
@@ -113,22 +119,22 @@ export const ArsenalSection: React.FC = () => {
                     {/* Panel Top Meta */}
                     <div
                       className={`flex items-center justify-between pb-3 mb-3 border-b ${
-                        isInk ? 'border-[#F4F0E8]/20' : 'border-[#151515]/20'
+                        isInk ? 'border-[#23252C]' : 'border-[#090A0E]/15'
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        {iconMap[category.id] || <Terminal className="w-4 h-4 text-[#E53935]" />}
+                        {iconMap[category.id] || <Terminal className="w-4 h-4 text-[#D71936]" />}
                         <span
                           className={`font-mono text-[11px] font-bold uppercase tracking-wider ${
-                            isInk ? 'text-[#F4F0E8]' : 'text-[#151515]'
+                            isInk ? 'text-[#F4F2ED]' : 'text-[#090A0E]'
                           }`}
                         >
                           {category.title}
                         </span>
                       </div>
                       <span
-                        className={`font-mono text-xs tracking-widest ${
-                          isInk ? 'text-[#E53935]' : 'text-[#A5A19B]'
+                        className={`font-mono text-xs tracking-widest font-bold ${
+                          isInk ? 'text-[#D71936]' : 'text-[#747C8B]'
                         }`}
                       >
                         {category.editorialLabel}
@@ -138,7 +144,7 @@ export const ArsenalSection: React.FC = () => {
                     {/* Category Title Heading */}
                     <h3
                       className={`font-display text-2xl sm:text-3xl uppercase tracking-wide mb-2 ${
-                        isInk ? 'text-[#F4F0E8]' : 'text-[#151515]'
+                        isInk ? 'text-[#F4F2ED]' : 'text-[#090A0E]'
                       }`}
                     >
                       {category.title}
@@ -147,7 +153,7 @@ export const ArsenalSection: React.FC = () => {
                     {/* Editorial Category Description */}
                     <p
                       className={`font-sans text-xs leading-relaxed mb-4 ${
-                        isInk ? 'text-[#A5A19B]' : 'text-[#55524E]'
+                        isInk ? 'text-[#9DA6B8]' : 'text-[#3A3F4A]'
                       }`}
                     >
                       {categoryDescriptions[category.id]}
@@ -164,7 +170,7 @@ export const ArsenalSection: React.FC = () => {
                             name={skill.name}
                             variant={
                               isInk
-                                ? 'default'
+                                ? 'noir'
                                 : category.id === 'frontend' || category.id === 'languages'
                                 ? 'default'
                                 : 'muted'
@@ -172,9 +178,9 @@ export const ArsenalSection: React.FC = () => {
                             size="md"
                             className={`${
                               isInk
-                                ? 'hover:border-[#E53935]'
-                                : 'group-hover:border-[#E53935] group-hover:bg-[#FAF8F5]'
-                            } transition-colors cursor-default`}
+                                ? 'hover:border-[#D71936]'
+                                : 'group-hover:border-[#D71936] group-hover:bg-white'
+                            } transition-colors cursor-default shadow-sm`}
                           />
                         </div>
                       ))}
@@ -185,12 +191,12 @@ export const ArsenalSection: React.FC = () => {
                   <div
                     className={`mt-6 pt-3 border-t flex items-center justify-between font-mono text-[10px] ${
                       isInk
-                        ? 'border-[#F4F0E8]/20 text-[#A5A19B]'
-                        : 'border-[#151515]/10 text-[#A5A19B]'
+                        ? 'border-[#23252C] text-[#9DA6B8]'
+                        : 'border-[#090A0E]/10 text-[#747C8B]'
                     }`}
                   >
                     <span>{category.skills.length} VERIFIED STACK ITEMS</span>
-                    <span className={isInk ? 'text-[#E53935] font-bold' : 'text-[#151515] font-bold'}>
+                    <span className="text-[#D71936] font-bold">
                       ● ACTIVE
                     </span>
                   </div>
@@ -199,6 +205,15 @@ export const ArsenalSection: React.FC = () => {
             );
           })}
         </motion.div>
+
+        {/* Section Bottom Manga Issue Footer Note */}
+        <div className="mt-8 pt-4 border-t border-[#23252C] flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-[#9DA6B8]">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-[#D71936]" />
+            <span>CHAPTER 02 COMPLETE // CHAPTER 03 (MY CREATIONS) NEXT</span>
+          </div>
+          <span className="text-[#747C8B] font-semibold">6 CATEGORIES • ZERO EXAGGERATION</span>
+        </div>
       </div>
     </section>
   );

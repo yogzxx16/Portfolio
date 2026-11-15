@@ -5,7 +5,6 @@ import { ChapterHeader } from '../common/ChapterHeader';
 import { MangaPanel } from '../common/MangaPanel';
 import { InkButton } from '../common/InkButton';
 import { HankoStamp } from '../common/HankoStamp';
-import { HalftoneOverlay } from '../common/HalftoneOverlay';
 import {
   Mail,
   Github,
@@ -165,65 +164,70 @@ export const NextChapterSection: React.FC = () => {
   };
 
   return (
-    <section id="next-chapter" className="relative pt-16 sm:pt-24 border-b-2 border-[#151515]">
-      <HalftoneOverlay density="coarse" opacity="very-subtle" />
+    <section
+      id="next-chapter"
+      className="relative pt-16 sm:pt-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+    >
+      {/* Background Screentone Dot Matrix Texture */}
+      <div className="absolute inset-0 bg-screentone-dark opacity-50 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 relative z-10">
         {/* Chapter Header */}
         <ChapterHeader
           number="05"
           title="NEXT CHAPTER"
           kanji="終章"
           subtitle="Every great project starts with a conversation. Let's discuss ideas, opportunities, and digital collaborations."
+          theme="dark"
         />
 
         {/* 12-Column Asymmetrical Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           {/* LEFT COLUMN: Editorial Narrative & Direct Channels (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <MangaPanel variant="wash" tag="COMMUNICATION HUB" notch="none" className="p-6 sm:p-8">
-              <span className="font-mono text-xs text-[#E53935] font-bold tracking-widest uppercase block mb-1">
+            <MangaPanel variant="noir" tag="COMMUNICATION HUB" notch="none" className="p-6 sm:p-8">
+              <span className="font-mono text-xs text-[#D71936] font-bold tracking-widest uppercase block mb-1">
                 CONTACT DIRECTIVE
               </span>
 
-              <h3 className="font-display text-3xl sm:text-4xl text-[#151515] uppercase tracking-wide leading-tight mb-4">
+              <h3 className="font-display text-3xl sm:text-4xl text-[#F4F2ED] uppercase tracking-wide leading-tight mb-4">
                 Every great project starts with a conversation.
               </h3>
 
-              <p className="font-sans text-sm sm:text-base text-[#151515] leading-relaxed mb-6">
+              <p className="font-sans text-sm sm:text-base text-[#9DA6B8] leading-relaxed mb-6 font-medium">
                 Whether you have an upcoming project, full-stack opening, open-source initiative, or hackathon collaboration, my inbox is always open.
               </p>
 
               {/* Direct Info List */}
-              <div className="space-y-3 pt-2 border-t border-[#151515]/20 font-mono text-xs">
+              <div className="space-y-3 pt-2 border-t border-[#23252C] font-mono text-xs">
                 {/* Email Item */}
-                <div className="flex items-center justify-between p-3 bg-[#FAF8F5] border border-[#151515]">
+                <div className="flex items-center justify-between p-3 bg-[#090A0E] border border-[#23252C]">
                   <div className="flex items-center gap-2.5 truncate mr-2">
-                    <Mail className="w-4 h-4 text-[#E53935] shrink-0" />
-                    <span className="text-[#151515] font-bold truncate">{PROFILE_DATA.email}</span>
+                    <Mail className="w-4 h-4 text-[#D71936] shrink-0" />
+                    <span className="text-[#F4F2ED] font-bold truncate">{PROFILE_DATA.email}</span>
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="p-1 hover:bg-[#EAE5DC] border border-transparent hover:border-[#151515] transition-colors shrink-0"
+                    className="p-1 hover:bg-[#14151B] border border-transparent hover:border-[#23252C] transition-colors shrink-0 cursor-pointer"
                     title="Copy email to clipboard"
                     aria-label="Copy email"
                   >
                     {copiedEmail ? (
-                      <Check className="w-3.5 h-3.5 text-[#E53935]" />
+                      <Check className="w-3.5 h-3.5 text-[#D71936]" />
                     ) : (
-                      <Copy className="w-3.5 h-3.5 text-[#55524E]" />
+                      <Copy className="w-3.5 h-3.5 text-[#9DA6B8]" />
                     )}
                   </button>
                 </div>
 
                 {/* Location & Timezone */}
-                <div className="flex items-center justify-between p-3 bg-[#FAF8F5] border border-[#151515]">
+                <div className="flex items-center justify-between p-3 bg-[#090A0E] border border-[#23252C]">
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-[#E53935] shrink-0" />
-                    <span>{PROFILE_DATA.location}</span>
+                    <MapPin className="w-4 h-4 text-[#D71936] shrink-0" />
+                    <span className="text-[#F4F2ED]">{PROFILE_DATA.location}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-[#55524E]">
+                  <div className="flex items-center gap-1.5 text-[#9DA6B8]">
                     <Clock className="w-3.5 h-3.5" />
                     <span>IST (UTC+5:30)</span>
                   </div>
@@ -234,13 +238,13 @@ export const NextChapterSection: React.FC = () => {
                   href={PROFILE_DATA.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 bg-[#FAF8F5] border border-[#151515] hover:bg-[#151515] hover:text-[#FAF8F5] transition-colors group"
+                  className="flex items-center justify-between p-3 bg-[#090A0E] border border-[#23252C] hover:border-[#D71936] text-[#F4F2ED] transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
-                    <Github className="w-4 h-4 text-[#E53935] group-hover:text-white" />
+                    <Github className="w-4 h-4 text-[#D71936] group-hover:text-white" />
                     <span className="font-bold">GITHUB PROFILE</span>
                   </div>
-                  <span className="text-[#A5A19B] group-hover:text-white text-[11px]">
+                  <span className="text-[#9DA6B8] group-hover:text-white text-[11px]">
                     github.com/yogzxx16
                   </span>
                 </a>
@@ -251,13 +255,13 @@ export const NextChapterSection: React.FC = () => {
                     href={PROFILE_DATA.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 bg-[#FAF8F5] border border-[#151515] hover:bg-[#151515] hover:text-[#FAF8F5] transition-colors group"
+                    className="flex items-center justify-between p-3 bg-[#090A0E] border border-[#23252C] hover:border-[#D71936] text-[#F4F2ED] transition-colors group cursor-pointer"
                   >
                     <div className="flex items-center gap-2">
-                      <Linkedin className="w-4 h-4 text-[#E53935] group-hover:text-white" />
+                      <Linkedin className="w-4 h-4 text-[#D71936] group-hover:text-white" />
                       <span className="font-bold">LINKEDIN NETWORK</span>
                     </div>
-                    <span className="text-[#A5A19B] group-hover:text-white text-[11px]">
+                    <span className="text-[#9DA6B8] group-hover:text-white text-[11px]">
                       VERIFIED PROFILE
                     </span>
                   </a>
@@ -269,13 +273,13 @@ export const NextChapterSection: React.FC = () => {
                     href={PROFILE_DATA.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 bg-[#FAF8F5] border border-[#151515] hover:bg-[#151515] hover:text-[#FAF8F5] transition-colors group"
+                    className="flex items-center justify-between p-3 bg-[#090A0E] border border-[#23252C] hover:border-[#D71936] text-[#F4F2ED] transition-colors group cursor-pointer"
                   >
                     <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-[#E53935] group-hover:text-white" />
+                      <FileText className="w-4 h-4 text-[#D71936] group-hover:text-white" />
                       <span className="font-bold">DOWNLOAD RESUME</span>
                     </div>
-                    <span className="text-[#A5A19B] group-hover:text-white text-[11px]">
+                    <span className="text-[#9DA6B8] group-hover:text-white text-[11px]">
                       VERIFIED PDF
                     </span>
                   </a>
@@ -283,9 +287,9 @@ export const NextChapterSection: React.FC = () => {
               </div>
 
               {/* Status Seal */}
-              <div className="mt-6 pt-4 border-t border-[#151515]/20 flex items-center justify-between">
-                <div className="flex items-center gap-2 font-mono text-[11px] text-[#151515]">
-                  <span className="w-2 h-2 rounded-full bg-[#E53935] animate-ping" />
+              <div className="mt-6 pt-4 border-t border-[#23252C] flex items-center justify-between">
+                <div className="flex items-center gap-2 font-mono text-[11px] text-[#F4F2ED]">
+                  <span className="w-2 h-2 rounded-full bg-[#D71936] animate-ping" />
                   <span className="font-bold">ACTIVE FOR NEW VENTURES</span>
                 </div>
                 <HankoStamp
@@ -303,7 +307,7 @@ export const NextChapterSection: React.FC = () => {
           {/* RIGHT COLUMN: Interactive Contact Transmission Form (7 cols) */}
           <div className="lg:col-span-7">
             <MangaPanel
-              variant="default"
+              variant="noir"
               tag="TRANSMISSION FORM // 通信窓口"
               notch="top-right"
               className="p-6 sm:p-8"
@@ -327,10 +331,10 @@ export const NextChapterSection: React.FC = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-display text-3xl sm:text-4xl text-[#151515] uppercase tracking-wide">
+                    <h4 className="font-display text-3xl sm:text-4xl text-[#F4F2ED] uppercase tracking-wide">
                       DISPATCH RECORDED // 送信完了
                     </h4>
-                    <p className="font-sans text-sm sm:text-base text-[#55524E] max-w-md mx-auto mt-2 leading-relaxed">
+                    <p className="font-sans text-sm sm:text-base text-[#9DA6B8] max-w-md mx-auto mt-2 leading-relaxed">
                       {statusMessage ||
                         'Thank you for reaching out. Your transmission has been queued and I will respond promptly.'}
                     </p>
@@ -370,21 +374,21 @@ export const NextChapterSection: React.FC = () => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-4 bg-[#FAF8F5] border-2 border-[#E53935] shadow-manga-red space-y-2"
+                        className="p-4 bg-[#14151B] border-2 border-[#D71936] shadow-noir space-y-2"
                         role="alert"
                       >
-                        <div className="flex items-center gap-2 text-[#E53935] font-mono text-xs font-bold uppercase tracking-wider">
+                        <div className="flex items-center gap-2 text-[#D71936] font-mono text-xs font-bold uppercase tracking-wider">
                           <AlertCircle className="w-4 h-4 shrink-0" />
                           <span>TRANSMISSION NOTICE</span>
                         </div>
-                        <p className="text-xs sm:text-sm text-[#151515] font-sans">
+                        <p className="text-xs sm:text-sm text-[#F4F2ED] font-sans">
                           {statusMessage}
                         </p>
                         {requiresFallback && (
                           <div className="pt-2">
                             <a
                               href={fallbackMailtoHref}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#151515] text-[#FAF8F5] font-mono text-xs font-bold hover:bg-[#E53935] transition-colors"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#D71936] text-white font-mono text-xs font-bold hover:bg-[#A81229] transition-colors"
                             >
                               <Mail className="w-3.5 h-3.5" />
                               <span>OPEN DIRECT MAILTO CLIENT</span>
@@ -401,9 +405,9 @@ export const NextChapterSection: React.FC = () => {
                     <div className="space-y-1.5">
                       <label
                         htmlFor="name"
-                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#151515]"
+                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
                       >
-                        YOUR NAME <span className="text-[#E53935]">*</span>
+                        YOUR NAME <span className="text-[#D71936]">*</span>
                       </label>
                       <input
                         type="text"
@@ -414,14 +418,14 @@ export const NextChapterSection: React.FC = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         placeholder="e.g. Kenji Sato"
-                        className={`w-full px-3.5 py-2.5 bg-[#FAF8F5] border-2 ${
-                          errors.name ? 'border-[#E53935]' : 'border-[#151515]'
-                        } font-sans text-sm text-[#151515] placeholder:text-[#A5A19B] focus:outline-none focus:ring-2 focus:ring-[#E53935] transition-all`}
+                        className={`w-full px-3.5 py-2.5 bg-[#090A0E] border-2 ${
+                          errors.name ? 'border-[#D71936]' : 'border-[#23252C]'
+                        } font-sans text-sm text-[#F4F2ED] placeholder:text-[#747C8B] focus:outline-none focus:border-[#D71936] transition-all`}
                         aria-invalid={Boolean(errors.name)}
                         aria-describedby={errors.name ? 'name-error' : undefined}
                       />
                       {errors.name && (
-                        <p id="name-error" className="font-mono text-[11px] text-[#E53935]">
+                        <p id="name-error" className="font-mono text-[11px] text-[#D71936]">
                           {errors.name}
                         </p>
                       )}
@@ -431,9 +435,9 @@ export const NextChapterSection: React.FC = () => {
                     <div className="space-y-1.5">
                       <label
                         htmlFor="email"
-                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#151515]"
+                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
                       >
-                        YOUR EMAIL <span className="text-[#E53935]">*</span>
+                        YOUR EMAIL <span className="text-[#D71936]">*</span>
                       </label>
                       <input
                         type="email"
@@ -444,14 +448,14 @@ export const NextChapterSection: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="e.g. you@company.com"
-                        className={`w-full px-3.5 py-2.5 bg-[#FAF8F5] border-2 ${
-                          errors.email ? 'border-[#E53935]' : 'border-[#151515]'
-                        } font-sans text-sm text-[#151515] placeholder:text-[#A5A19B] focus:outline-none focus:ring-2 focus:ring-[#E53935] transition-all`}
+                        className={`w-full px-3.5 py-2.5 bg-[#090A0E] border-2 ${
+                          errors.email ? 'border-[#D71936]' : 'border-[#23252C]'
+                        } font-sans text-sm text-[#F4F2ED] placeholder:text-[#747C8B] focus:outline-none focus:border-[#D71936] transition-all`}
                         aria-invalid={Boolean(errors.email)}
                         aria-describedby={errors.email ? 'email-error' : undefined}
                       />
                       {errors.email && (
-                        <p id="email-error" className="font-mono text-[11px] text-[#E53935]">
+                        <p id="email-error" className="font-mono text-[11px] text-[#D71936]">
                           {errors.email}
                         </p>
                       )}
@@ -462,9 +466,9 @@ export const NextChapterSection: React.FC = () => {
                   <div className="space-y-1.5">
                     <label
                       htmlFor="inquiryType"
-                      className="block font-mono text-xs font-bold uppercase tracking-wider text-[#151515]"
+                      className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
                     >
-                      INQUIRY SCOPE <span className="text-[#E53935]">*</span>
+                      INQUIRY SCOPE <span className="text-[#D71936]">*</span>
                     </label>
                     <select
                       id="inquiryType"
@@ -473,16 +477,16 @@ export const NextChapterSection: React.FC = () => {
                       disabled={isSubmitting}
                       value={formData.inquiryType}
                       onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-[#FAF8F5] border-2 border-[#151515] font-sans text-sm text-[#151515] focus:outline-none focus:ring-2 focus:ring-[#E53935] transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2.5 bg-[#090A0E] border-2 border-[#23252C] font-sans text-sm text-[#F4F2ED] focus:outline-none focus:border-[#D71936] transition-all cursor-pointer"
                     >
                       {INQUIRY_OPTIONS.map((option) => (
-                        <option key={option} value={option}>
+                        <option key={option} value={option} className="bg-[#14151B] text-[#F4F2ED]">
                           {option}
                         </option>
                       ))}
                     </select>
                     {errors.inquiryType && (
-                      <p className="font-mono text-[11px] text-[#E53935]">{errors.inquiryType}</p>
+                      <p className="font-mono text-[11px] text-[#D71936]">{errors.inquiryType}</p>
                     )}
                   </div>
 
@@ -491,11 +495,11 @@ export const NextChapterSection: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="message"
-                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#151515]"
+                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
                       >
-                        MESSAGE PAYLOAD <span className="text-[#E53935]">*</span>
+                        MESSAGE PAYLOAD <span className="text-[#D71936]">*</span>
                       </label>
-                      <span className="font-mono text-[10px] text-[#A5A19B]">
+                      <span className="font-mono text-[10px] text-[#747C8B]">
                         {formData.message.length} / 3000
                       </span>
                     </div>
@@ -508,14 +512,14 @@ export const NextChapterSection: React.FC = () => {
                       value={formData.message}
                       onChange={handleInputChange}
                       placeholder="Share project goals, role requirements, technical ideas, or collaboration proposals..."
-                      className={`w-full p-3.5 bg-[#FAF8F5] border-2 ${
-                        errors.message ? 'border-[#E53935]' : 'border-[#151515]'
-                      } font-sans text-sm text-[#151515] placeholder:text-[#A5A19B] focus:outline-none focus:ring-2 focus:ring-[#E53935] transition-all resize-y`}
+                      className={`w-full p-3.5 bg-[#090A0E] border-2 ${
+                        errors.message ? 'border-[#D71936]' : 'border-[#23252C]'
+                      } font-sans text-sm text-[#F4F2ED] placeholder:text-[#747C8B] focus:outline-none focus:border-[#D71936] transition-all resize-y`}
                       aria-invalid={Boolean(errors.message)}
                       aria-describedby={errors.message ? 'message-error' : undefined}
                     />
                     {errors.message && (
-                      <p id="message-error" className="font-mono text-[11px] text-[#E53935]">
+                      <p id="message-error" className="font-mono text-[11px] text-[#D71936]">
                         {errors.message}
                       </p>
                     )}
@@ -541,7 +545,7 @@ export const NextChapterSection: React.FC = () => {
 
                     <a
                       href={fallbackMailtoHref}
-                      className="font-mono text-xs text-[#55524E] hover:text-[#E53935] hover:underline flex items-center gap-1.5"
+                      className="font-mono text-xs text-[#9DA6B8] hover:text-[#D71936] hover:underline flex items-center gap-1.5"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span>Prefer direct mailto client? Click here</span>
@@ -555,25 +559,25 @@ export const NextChapterSection: React.FC = () => {
       </div>
 
       {/* COLOPHON & FOOTER */}
-      <footer className="bg-[#151515] text-[#F4F0E8] border-t-2 border-[#151515] relative overflow-hidden">
+      <footer className="bg-[#090A0E] text-[#F4F2ED] border-t-2 border-[#23252C] relative overflow-hidden">
         {/* Subtle halftone background in footer */}
-        <div className="absolute inset-0 bg-halftone opacity-5 pointer-events-none" />
+        <div className="absolute inset-0 bg-screentone-dark opacity-30 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-[#F4F0E8]/15 items-center justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-[#23252C] items-center justify-between">
             {/* Colophon Title & Positioning */}
             <div className="md:col-span-6 space-y-2">
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 bg-[#E53935] text-white flex items-center justify-center font-display text-base font-bold">
+                <div className="w-7 h-7 bg-[#D71936] text-white flex items-center justify-center font-display text-base font-bold">
                   Y
                 </div>
-                <span className="font-display text-3xl tracking-wider text-[#F4F0E8]">
-                  YOGESH<span className="text-[#E53935]">.</span>
+                <span className="font-display text-3xl tracking-wider text-[#F4F2ED]">
+                  YOGESH<span className="text-[#D71936]">.</span>
                 </span>
-                <span className="text-[#A5A19B]">|</span>
-                <span className="font-mono text-xs text-[#A5A19B]">THE DEVELOPER'S STORY</span>
+                <span className="text-[#23252C]">|</span>
+                <span className="font-mono text-xs text-[#9DA6B8]">THE DEVELOPER'S STORY</span>
               </div>
-              <p className="font-sans text-xs text-[#A5A19B] max-w-md leading-relaxed">
+              <p className="font-sans text-xs text-[#9DA6B8] max-w-md leading-relaxed">
                 A serialized, single-page manga-inspired editorial developer portfolio. Designed with authentic panel rhythms, bespoke technical vector artwork, and strict data accuracy.
               </p>
             </div>
@@ -581,7 +585,7 @@ export const NextChapterSection: React.FC = () => {
             {/* Completion Seal & Back to Top */}
             <div className="md:col-span-6 flex items-center justify-start md:justify-end gap-6">
               {/* Manga Completion Seal 完 */}
-              <div className="flex items-center gap-3 p-2 bg-[#1f1f1f] border border-[#F4F0E8]/20">
+              <div className="flex items-center gap-3 p-2 bg-[#14151B] border border-[#23252C]">
                 <HankoStamp
                   label="完"
                   subtext="COMPLETE"
@@ -591,8 +595,8 @@ export const NextChapterSection: React.FC = () => {
                   angle={-4}
                 />
                 <div className="font-mono text-xs">
-                  <span className="text-[#F4F0E8] font-bold block">VOLUME 01</span>
-                  <span className="text-[#A5A19B] text-[10px]">SERIES COMPLETED</span>
+                  <span className="text-[#F4F2ED] font-bold block">VOLUME 01</span>
+                  <span className="text-[#9DA6B8] text-[10px]">SERIES COMPLETED</span>
                 </div>
               </div>
 
@@ -600,7 +604,7 @@ export const NextChapterSection: React.FC = () => {
               <button
                 type="button"
                 onClick={scrollToTop}
-                className="p-3 border border-[#F4F0E8]/20 bg-[#1f1f1f] text-[#F4F0E8] hover:bg-[#E53935] hover:border-[#E53935] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E53935]"
+                className="p-3 border border-[#23252C] bg-[#14151B] text-[#F4F2ED] hover:bg-[#D71936] hover:border-[#D71936] transition-colors focus:outline-none focus:ring-2 focus:ring-[#D71936] cursor-pointer"
                 aria-label="Scroll to top of portfolio"
                 title="Return to Prologue"
               >
@@ -610,14 +614,14 @@ export const NextChapterSection: React.FC = () => {
           </div>
 
           {/* Colophon Meta Credits */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-[#A5A19B]">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-[#9DA6B8]">
             <div>
               <span>Art Directed & Engineered by </span>
-              <strong className="text-[#F4F0E8]">Yogeshkumar S.</strong>
+              <strong className="text-[#F4F2ED]">Yogeshkumar S.</strong>
             </div>
 
             <div>
-              <span>Built with React 19, TypeScript, Vite, Tailwind CSS v4 & Motion.</span>
+              <span>Built with React 19, TypeScript, Vite, Tailwind CSS v4, Motion & R3F.</span>
             </div>
 
             <div>

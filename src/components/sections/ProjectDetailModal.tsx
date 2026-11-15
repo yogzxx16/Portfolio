@@ -58,7 +58,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             transition={{ duration: 0.2 }}
             onClick={onClose}
             aria-hidden="true"
-            className="fixed inset-0 bg-[#151515]/75 backdrop-blur-xs"
+            className="fixed inset-0 bg-[#090A0E]/85 backdrop-blur-xs"
           />
 
           {/* Modal Panel Container */}
@@ -72,17 +72,17 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="relative w-full max-w-3xl max-h-[90vh] bg-[#FAF8F5] border-[3px] border-[#151515] shadow-2xl flex flex-col overflow-hidden focus:outline-none"
+            className="relative w-full max-w-3xl max-h-[90vh] bg-[#090A0E] text-[#F4F2ED] border-2 border-[#23252C] shadow-noir-lg flex flex-col overflow-hidden focus:outline-none"
           >
             <HalftoneOverlay density="fine" opacity="very-subtle" />
 
             {/* Modal Top Header Bar */}
-            <div className="p-4 sm:p-5 border-b-2 border-[#151515] bg-[#FAF8F5] flex items-center justify-between gap-4 z-10 shrink-0">
+            <div className="p-4 sm:p-5 border-b-2 border-[#23252C] bg-[#14151B] flex items-center justify-between gap-4 z-10 shrink-0">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-xs font-bold text-[#E53935] px-2 py-0.5 bg-[#E53935]/10 border border-[#E53935]">
+                <span className="font-mono text-xs font-bold text-[#D71936] px-2 py-0.5 bg-[#D71936]/10 border border-[#D71936]">
                   {project.chapterIndex}
                 </span>
-                <span className="font-mono text-xs text-[#55524E] uppercase hidden sm:inline">
+                <span className="font-mono text-xs text-[#9DA6B8] uppercase hidden sm:inline">
                   PROJECT DOSSIER // 詳細仕様書
                 </span>
               </div>
@@ -92,7 +92,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                 type="button"
                 onClick={onClose}
                 aria-label="Close project details"
-                className="p-1.5 border-2 border-[#151515] bg-[#FAF8F5] text-[#151515] hover:bg-[#E53935] hover:border-[#E53935] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#E53935]"
+                className="p-1.5 border border-[#23252C] bg-[#14151B] text-[#F4F2ED] hover:bg-[#D71936] hover:border-[#D71936] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#D71936] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -101,15 +101,15 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
             {/* Scrollable Content Body */}
             <div className="p-6 sm:p-8 overflow-y-auto space-y-6 z-10">
               {/* Title & Maturity Header */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b border-[#151515]/20">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b border-[#23252C]">
                 <div>
                   <h2
                     id="modal-project-title"
-                    className="font-display text-4xl sm:text-5xl text-[#151515] uppercase tracking-wide"
+                    className="font-display text-4xl sm:text-5xl text-[#F4F2ED] uppercase tracking-wide"
                   >
                     {project.title}
                   </h2>
-                  <p className="font-mono text-xs text-[#55524E] mt-1">
+                  <p className="font-mono text-xs text-[#9DA6B8] mt-1 font-semibold">
                     {project.subtitle}
                   </p>
                 </div>
@@ -117,7 +117,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
                 <div className="flex items-center gap-2">
                   <TechBadge
                     name={project.maturity}
-                    variant={project.liveUrl ? 'accent' : 'muted'}
+                    variant={project.liveUrl ? 'accent' : 'noir'}
                     size="md"
                   />
                   <HankoStamp
@@ -133,12 +133,12 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
               {/* Documented Problem Solved */}
               {project.problemStatement && (
-                <div className="p-4 bg-[#EAE5DC] border-2 border-[#151515]">
-                  <div className="flex items-center gap-2 text-[#E53935] font-mono text-xs font-bold uppercase tracking-wider mb-1">
+                <div className="p-4 bg-[#14151B] border-l-4 border-[#D71936] border-y border-r border-[#23252C]">
+                  <div className="flex items-center gap-2 text-[#D71936] font-mono text-xs font-bold uppercase tracking-wider mb-1">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>DOCUMENTED PROBLEM CONTEXT</span>
                   </div>
-                  <p className="text-sm text-[#151515] font-sans leading-relaxed">
+                  <p className="text-sm text-[#F4F2ED] font-sans leading-relaxed">
                     {project.problemStatement}
                   </p>
                 </div>
@@ -146,16 +146,16 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
               {/* Summary Description */}
               <div>
-                <h4 className="font-mono text-xs font-bold text-[#A5A19B] uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                  <FileCode2 className="w-3.5 h-3.5 text-[#151515]" />
+                <h4 className="font-mono text-xs font-bold text-[#9DA6B8] uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                  <FileCode2 className="w-3.5 h-3.5 text-[#D71936]" />
                   <span>OVERVIEW & ARCHITECTURE</span>
                 </h4>
-                <p className="font-sans text-base text-[#151515] leading-relaxed">
+                <p className="font-sans text-base text-[#F4F2ED] leading-relaxed">
                   {project.summary}
                 </p>
                 {project.technicalNotes && (
-                  <p className="font-mono text-xs text-[#55524E] mt-3 p-3 bg-[#FAF8F5] border border-[#151515]/30">
-                    <span className="font-bold text-[#151515]">TECHNICAL IMPLEMENTATION: </span>
+                  <p className="font-mono text-xs text-[#9DA6B8] mt-3 p-3 bg-[#14151B] border border-[#23252C]">
+                    <span className="font-bold text-[#F4F2ED]">TECHNICAL IMPLEMENTATION: </span>
                     {project.technicalNotes}
                   </p>
                 )}
@@ -163,17 +163,17 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
               {/* Documented Features Checklist */}
               <div>
-                <h4 className="font-mono text-xs font-bold text-[#A5A19B] uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#E53935]" />
+                <h4 className="font-mono text-xs font-bold text-[#9DA6B8] uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#D71936]" />
                   <span>DOCUMENTED CAPABILITIES ({project.keyFeatures.length})</span>
                 </h4>
                 <div className="space-y-2">
                   {project.keyFeatures.map((feature, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-2.5 p-2.5 bg-[#FAF8F5] border border-[#151515]/20 text-xs text-[#151515]"
+                      className="flex items-start gap-2.5 p-2.5 bg-[#14151B] border border-[#23252C] text-xs text-[#F4F2ED]"
                     >
-                      <span className="font-mono text-[#E53935] font-bold shrink-0">
+                      <span className="font-mono text-[#D71936] font-bold shrink-0">
                         0{idx + 1}.
                       </span>
                       <span className="font-sans leading-normal">{feature}</span>
@@ -184,28 +184,28 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
               {/* Verified Tech Stack Tags */}
               <div>
-                <h4 className="font-mono text-xs font-bold text-[#A5A19B] uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
-                  <Wrench className="w-3.5 h-3.5 text-[#151515]" />
+                <h4 className="font-mono text-xs font-bold text-[#9DA6B8] uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
+                  <Wrench className="w-3.5 h-3.5 text-[#D71936]" />
                   <span>VERIFIED TECH STACK</span>
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
-                    <TechBadge key={tech} name={tech} variant="default" size="md" />
+                    <TechBadge key={tech} name={tech} variant="noir" size="md" />
                   ))}
                 </div>
               </div>
             </div>
 
             {/* Modal Bottom Actions Bar */}
-            <div className="p-4 sm:p-5 border-t-2 border-[#151515] bg-[#EAE5DC] flex flex-wrap items-center justify-between gap-3 z-10 shrink-0">
-              <div className="font-mono text-xs text-[#55524E]">
+            <div className="p-4 sm:p-5 border-t-2 border-[#23252C] bg-[#14151B] flex flex-wrap items-center justify-between gap-3 z-10 shrink-0">
+              <div className="font-mono text-xs text-[#9DA6B8]">
                 <span>REPOSITORY & DEPLOYMENT CONTRACT</span>
               </div>
 
               <div className="flex items-center gap-3">
                 {project.liveUrl && (
                   <InkButton
-                    variant="accent"
+                    variant="primary"
                     size="md"
                     href={project.liveUrl}
                     target="_blank"
@@ -217,7 +217,7 @@ export const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({
 
                 {project.githubUrl && (
                   <InkButton
-                    variant="primary"
+                    variant="secondary"
                     size="md"
                     href={project.githubUrl}
                     target="_blank"

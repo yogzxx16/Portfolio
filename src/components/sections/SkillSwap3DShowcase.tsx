@@ -29,7 +29,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 font-mono text-xs text-[#D71936] font-bold uppercase tracking-wider mb-1">
               <span>FEATURED SPREAD // 第壱作品</span>
-              <span className="text-[#747C8B]">&bull;</span>
+              <span className="text-[#9DA6B8]">&bull;</span>
               <span className="text-[#F4F2ED]">3D CANVAS PRESENTATION</span>
             </div>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#F4F2ED] uppercase tracking-wide">
@@ -37,7 +37,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
             </h2>
           </div>
 
-          <div className="font-mono text-xs text-[#747C8B] flex items-center gap-3">
+          <div className="font-mono text-xs text-[#9DA6B8] flex items-center gap-3">
             <span className="px-2.5 py-1 bg-[#14151B] border border-[#23252C] text-[#F4F2ED]">
               STATUS: DEPLOYED
             </span>
@@ -51,14 +51,14 @@ export const SkillSwap3DShowcase: React.FC = () => {
           <div className="lg:col-span-7 flex flex-col">
             <div className="relative border-2 border-[#23252C] bg-[#14151B] p-2 sm:p-3 shadow-noir-lg">
               {/* Top Screen Chassis Bar */}
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#23252C] font-mono text-[11px] text-[#747C8B]">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#23252C] font-mono text-[11px] text-[#9DA6B8]">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 bg-[#D71936] rounded-xs" />
                   <span className="font-bold text-[#F4F2ED]">SKILLSWAP 3D PERSPECTIVE VIEWPORT</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[#D71936] font-bold">1280 &times; 800</span>
-                  <span className="text-[#747C8B] hidden sm:inline">THREE.JS / R3F</span>
+                  <span className="text-[#9DA6B8] hidden sm:inline">THREE.JS / R3F</span>
                 </div>
               </div>
 
@@ -66,7 +66,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
               <SkillSwap3DCanvas />
 
               {/* Chassis Bottom Banner & Stamp */}
-              <div className="mt-3 pt-2.5 border-t border-[#23252C] flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] text-[#747C8B]">
+              <div className="mt-3 pt-2.5 border-t border-[#23252C] flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] text-[#9DA6B8]">
                 <div className="flex items-center gap-1.5 text-[#D71936] font-bold">
                   <Sparkles className="w-3 h-3" />
                   <span>INTERACTIVE 3D DISPLAY &bull; CURSOR DRIVEN PERSPECTIVE TILT</span>
@@ -102,7 +102,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
               <h3 className="font-display text-5xl sm:text-6xl text-[#F4F2ED] uppercase tracking-wide leading-none">
                 {project.title}
               </h3>
-              <p className="font-mono text-xs sm:text-sm text-[#747C8B] mt-1 font-semibold">
+              <p className="font-mono text-xs sm:text-sm text-[#9DA6B8] mt-1 font-semibold">
                 {project.subtitle}
               </p>
             </div>
@@ -113,7 +113,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
                 <span className="font-mono text-[10px] font-bold text-[#D71936] uppercase tracking-wider block">
                   DOCUMENTED CHALLENGE
                 </span>
-                <p className="font-sans text-xs text-[#747C8B] leading-relaxed">
+                <p className="font-sans text-xs text-[#9DA6B8] leading-relaxed">
                   {project.problemStatement}
                 </p>
               </div>
@@ -126,11 +126,11 @@ export const SkillSwap3DShowcase: React.FC = () => {
 
             {/* Key Capabilities Checklist */}
             <div className="space-y-1.5 pt-1">
-              <span className="font-mono text-[10px] text-[#747C8B] uppercase tracking-widest block mb-1">
+              <span className="font-mono text-[10px] text-[#9DA6B8] uppercase tracking-widest block mb-1">
                 KEY VERIFIED ARCHITECTURE FEATURES:
               </span>
               {project.keyFeatures.slice(0, 4).map((feature, fIdx) => (
-                <div key={fIdx} className="flex items-start gap-2 text-xs text-[#747C8B]">
+                <div key={fIdx} className="flex items-start gap-2 text-xs text-[#9DA6B8]">
                   <span className="text-[#D71936] font-bold mt-0.5">▶</span>
                   <span className="font-sans text-[#F4F2ED]">{feature}</span>
                 </div>
@@ -139,7 +139,7 @@ export const SkillSwap3DShowcase: React.FC = () => {
 
             {/* Tech Stack Badges */}
             <div className="pt-2">
-              <span className="font-mono text-[10px] text-[#747C8B] uppercase tracking-widest block mb-2">
+              <span className="font-mono text-[10px] text-[#9DA6B8] uppercase tracking-widest block mb-2">
                 VERIFIED TECH STACK:
               </span>
               <div className="flex flex-wrap gap-1.5">

@@ -38,16 +38,16 @@ export const InkButton: React.FC<InkButtonProps> = ({
 
   const variantStyles = {
     primary:
-      'bg-[#151515] text-[#F4F0E8] border-2 border-[#151515] hover:bg-[#E53935] hover:border-[#E53935] hover:text-white',
+      'bg-[#D71936] text-white border-2 border-[#D71936] hover:bg-[#B3132B] shadow-noir',
     secondary:
-      'bg-[#FAF8F5] text-[#151515] border-2 border-[#151515] hover:bg-[#EAE5DC]',
+      'bg-[#14151B] text-[#F4F2ED] border-2 border-[#23252C] hover:border-[#D71936] hover:text-white shadow-noir',
     accent:
-      'bg-[#E53935] text-white border-2 border-[#151515] hover:bg-[#C62828]',
+      'bg-[#F4F2ED] text-[#090A0E] border-2 border-[#F4F2ED] hover:bg-white shadow-noir',
     ghost:
-      'bg-transparent text-[#151515] border-2 border-[#151515] hover:bg-[#151515] hover:text-[#F4F0E8]',
+      'bg-transparent text-[#9DA6B8] border-2 border-[#23252C] hover:text-[#F4F2ED] hover:border-[#F4F2ED]',
   };
 
-  const baseClasses = `inline-flex items-center justify-center gap-2 tracking-wider uppercase font-bold transition-all focus:outline-none focus:ring-2 focus:ring-[#E53935] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none shadow-manga hover:shadow-manga-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
+  const baseClasses = `inline-flex items-center justify-center gap-2 tracking-wider uppercase font-bold transition-all focus:outline-none focus:ring-2 focus:ring-[#D71936] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:translate-x-0.5 active:translate-y-0.5 ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;
 
   if (href) {
     return (

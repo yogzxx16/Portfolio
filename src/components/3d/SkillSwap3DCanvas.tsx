@@ -1,8 +1,9 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Procedural Canvas Texture for the SkillSwap 3D Display Screen
+// High-Contrast Manga Noir Procedural Canvas Texture for the SkillSwap 3D Display Screen
 function createSkillSwapScreenTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
   canvas.width = 1280;
@@ -13,208 +14,261 @@ function createSkillSwapScreenTexture(): THREE.CanvasTexture {
   ctx.fillStyle = '#090A0E';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Screentone grid overlay
-  ctx.fillStyle = '#14151B';
-  for (let x = 0; x < canvas.width; x += 16) {
-    for (let y = 0; y < canvas.height; y += 16) {
-      if ((x + y) % 32 === 0) {
+  // Outer Crimson Accent Framing
+  ctx.strokeStyle = '#D71936';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+
+  // Screentone dot pattern
+  ctx.fillStyle = '#1A1C24';
+  for (let x = 20; x < canvas.width - 20; x += 24) {
+    for (let y = 20; y < canvas.height - 20; y += 24) {
+      if ((x + y) % 48 === 0) {
         ctx.beginPath();
-        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
         ctx.fill();
       }
     }
   }
 
-  // Top Browser Chrome / App Header Bar
+  // 1. TOP APP CHROME HEADER (Height 70px)
   ctx.fillStyle = '#14151B';
-  ctx.fillRect(0, 0, canvas.width, 56);
+  ctx.fillRect(8, 8, canvas.width - 16, 68);
   ctx.strokeStyle = '#23252C';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(0, 56);
-  ctx.lineTo(canvas.width, 56);
+  ctx.moveTo(8, 76);
+  ctx.lineTo(canvas.width - 8, 76);
   ctx.stroke();
 
-  // Traffic light window controls
+  // Traffic light controls
   ctx.fillStyle = '#D71936';
   ctx.beginPath();
-  ctx.arc(30, 28, 6, 0, Math.PI * 2);
+  ctx.arc(36, 42, 8, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = '#747C8B';
   ctx.beginPath();
-  ctx.arc(52, 28, 6, 0, Math.PI * 2);
+  ctx.arc(62, 42, 8, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = '#23252C';
   ctx.beginPath();
-  ctx.arc(74, 28, 6, 0, Math.PI * 2);
+  ctx.arc(88, 42, 8, 0, Math.PI * 2);
   ctx.fill();
 
   // URL Bar Capsule
   ctx.fillStyle = '#090A0E';
+  ctx.fillRect(130, 24, 620, 36);
   ctx.strokeStyle = '#23252C';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(120, 14, 460, 28);
-  ctx.fillRect(120, 14, 460, 28);
-
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = '13px "Space Mono", monospace';
-  ctx.fillText('https://skillswap-learnnearn-in.web.app', 135, 33);
-
-  // Live status badge
-  ctx.fillStyle = '#D71936';
-  ctx.fillRect(canvas.width - 150, 14, 120, 28);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 12px "Space Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.fillText('● LIVE DEMO', canvas.width - 90, 33);
-  ctx.textAlign = 'left';
-
-  // MAIN DASHBOARD LAYOUT
-  // Left Column: Jitsi Meet Collaborative Video Room Mock (Width: 740, Height: 480)
-  ctx.fillStyle = '#14151B';
-  ctx.fillRect(32, 80, 740, 480);
-  ctx.strokeStyle = '#23252C';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(32, 80, 740, 480);
-
-  // Video header
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(32, 80, 740, 44);
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = 'bold 16px "Space Mono", monospace';
-  ctx.fillText('JITSI MEET // LIVE PEER COLLABORATION ROOM', 52, 108);
+  ctx.strokeRect(130, 24, 620, 36);
 
   ctx.fillStyle = '#D71936';
-  ctx.font = 'bold 13px "Space Mono", monospace';
-  ctx.fillText('ENCRYPTED P2P', 650, 108);
-
-  // Video feed area
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(52, 144, 700, 340);
-  ctx.strokeStyle = '#23252C';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(52, 144, 700, 340);
-
-  // User A Feed (Instructor)
-  ctx.fillStyle = '#14151B';
-  ctx.fillRect(72, 164, 320, 230);
-  ctx.strokeStyle = '#D71936';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(72, 164, 320, 230);
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = 'bold 14px "Space Mono", monospace';
-  ctx.fillText('PEER A (TEACHING: REACT.JS)', 90, 195);
-  ctx.fillStyle = '#747C8B';
-  ctx.font = '12px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('Firebase Real-Time Listeners Connected', 90, 225);
-
-  // User B Feed (Learner)
-  ctx.fillStyle = '#14151B';
-  ctx.fillRect(412, 164, 320, 230);
-  ctx.strokeStyle = '#23252C';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(412, 164, 320, 230);
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = 'bold 14px "Space Mono", monospace';
-  ctx.fillText('PEER B (LEARNING: PYTHON)', 430, 195);
-  ctx.fillStyle = '#747C8B';
-  ctx.font = '12px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('Code Editor Stream Active', 430, 225);
-
-  // Video Controls Bar
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(52, 420, 700, 50);
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = '12px "Space Mono", monospace';
-  ctx.fillText('AUDIO: MIC_ON  •  VIDEO: HD_720P  •  CHAT: ACTIVE (4 MESSAGES)', 72, 450);
-
-  // Right Column: Gamification & Swap Match Engine (Width: 440, Height: 480)
-  ctx.fillStyle = '#14151B';
-  ctx.fillRect(804, 80, 444, 480);
-  ctx.strokeStyle = '#23252C';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(804, 80, 444, 480);
-
-  // Gamification Header
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(804, 80, 444, 44);
-  ctx.fillStyle = '#D71936';
-  ctx.font = 'bold 16px "Space Mono", monospace';
-  ctx.fillText('GAMIFICATION & REWARDS', 824, 108);
-
-  // XP Counter & Level Progress
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = '900 48px "Bebas Neue", sans-serif';
-  ctx.fillText('LEVEL 04 // 1,250 XP', 824, 175);
-
-  // Progress Bar
-  ctx.fillStyle = '#23252C';
-  ctx.fillRect(824, 195, 404, 14);
-  ctx.fillStyle = '#D71936';
-  ctx.fillRect(824, 195, 290, 14);
-
-  // Streak Badge
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(824, 230, 404, 90);
-  ctx.strokeStyle = '#D71936';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(824, 230, 404, 90);
-
-  ctx.fillStyle = '#D71936';
-  ctx.font = 'bold 20px "Space Mono", monospace';
-  ctx.fillText('ACTIVE STREAK: 7 DAYS 🔥', 844, 268);
-  ctx.fillStyle = '#747C8B';
-  ctx.font = '13px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('Daily Practice Quiz Validated (+50 Coins Earned)', 844, 295);
-
-  // Swap Request Queue
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(824, 340, 404, 190);
-  ctx.strokeStyle = '#23252C';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(824, 340, 404, 190);
+  ctx.font = 'bold 15px "Space Mono", monospace';
+  ctx.fillText('https://', 145, 48);
 
   ctx.fillStyle = '#F4F2ED';
   ctx.font = 'bold 15px "Space Mono", monospace';
-  ctx.fillText('ACTIVE SWAP MATCHES (3 QUEUED)', 844, 375);
+  ctx.fillText('skillswap-learnnearn-in.web.app', 230, 48);
 
-  ctx.fillStyle = '#747C8B';
-  ctx.font = '13px "Space Mono", monospace';
-  ctx.fillText('1. Frontend React <-> Backend Go', 844, 415);
-  ctx.fillText('2. UI/UX Figma <-> Tailwind CSS', 844, 445);
-  ctx.fillText('3. API Testing <-> MongoDB Schema', 844, 475);
+  // Live Status Capsule
+  ctx.fillStyle = '#D71936';
+  ctx.fillRect(canvas.width - 240, 24, 210, 36);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 14px "Space Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('● LIVE DEPLOYED APP', canvas.width - 135, 48);
+  ctx.textAlign = 'left';
 
-  // Bottom Explicit Watermark Banner
-  ctx.fillStyle = '#14151B';
-  ctx.fillRect(32, 590, canvas.width - 64, 170);
-  ctx.strokeStyle = '#D71936';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(32, 590, canvas.width - 64, 170);
+  // 2. LEFT WORKSPACE: JITSI MEET VIDEO ROOM (Width: 740, Height: 510)
+  ctx.fillStyle = '#F4F2ED'; // Manga paper white background
+  ctx.fillRect(32, 96, 740, 500);
+  ctx.strokeStyle = '#090A0E';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(32, 96, 740, 500);
+
+  // Header band
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(32, 96, 740, 50);
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 18px "Space Mono", monospace';
+  ctx.fillText('JITSI MEET // LIVE PEER COLLABORATION', 52, 128);
 
   ctx.fillStyle = '#D71936';
-  ctx.font = 'bold 18px "Space Mono", monospace';
-  ctx.fillText('● GENUINE APPLICATION SCREENSHOT PLACEHOLDER', 64, 635);
+  ctx.font = 'bold 13px "Space Mono", monospace';
+  ctx.fillText('ENCRYPTED P2P', 630, 128);
+
+  // Video Feeds Container (inside paper panel)
+  // User A Feed (Instructor)
+  ctx.fillStyle = '#14151B';
+  ctx.fillRect(52, 166, 335, 270);
+  ctx.strokeStyle = '#D71936';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(52, 166, 335, 270);
+
+  // Top banner A
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(52, 166, 335, 36);
+  ctx.fillStyle = '#D71936';
+  ctx.font = 'bold 14px "Space Mono", monospace';
+  ctx.fillText('PEER A (TEACHING)', 68, 190);
+
+  // Waveform / Avatar Mock
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(72, 220, 295, 140);
+  ctx.strokeStyle = '#23252C';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(72, 220, 295, 140);
+
+  // Audio equalizer bars
+  const heights = [40, 70, 55, 90, 110, 65, 80, 45, 95, 60, 75, 50];
+  ctx.fillStyle = '#D71936';
+  heights.forEach((h, idx) => {
+    ctx.fillRect(92 + idx * 21, 340 - h, 14, h);
+  });
 
   ctx.fillStyle = '#F4F2ED';
-  ctx.font = '15px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText(
-    'This display plane is designed for direct replacement with an actual 1280×800 production screenshot of the SkillSwap web app.',
-    64,
-    675
-  );
+  ctx.font = 'bold 13px "Space Mono", monospace';
+  ctx.fillText('MIC ACTIVE • AUDIO 100%', 72, 385);
+  ctx.fillStyle = '#9DA6B8';
+  ctx.font = '12px "Space Mono", monospace';
+  ctx.fillText('Firebase Realtime Synced', 72, 412);
 
-  ctx.fillStyle = '#747C8B';
+  // User B Feed (Learner)
+  ctx.fillStyle = '#14151B';
+  ctx.fillRect(417, 166, 335, 270);
+  ctx.strokeStyle = '#23252C';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(417, 166, 335, 270);
+
+  // Top banner B
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(417, 166, 335, 36);
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 14px "Space Mono", monospace';
+  ctx.fillText('PEER B (LEARNING)', 433, 190);
+
+  // Code editor snippet preview
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(437, 220, 295, 140);
+  ctx.strokeStyle = '#23252C';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(437, 220, 295, 140);
+
+  ctx.fillStyle = '#D71936';
+  ctx.font = '12px "Space Mono", monospace';
+  ctx.fillText('const [swap, setSwap] = useState();', 448, 252);
+  ctx.fillStyle = '#9DA6B8';
+  ctx.fillText('await db.collection("matches")', 448, 280);
+  ctx.fillText('  .doc(roomId).set({ active: true });', 448, 308);
+
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 13px "Space Mono", monospace';
+  ctx.fillText('SCREEN SHARE: ACTIVE', 437, 385);
+  ctx.fillStyle = '#9DA6B8';
+  ctx.font = '12px "Space Mono", monospace';
+  ctx.fillText('Latency: 18ms (Direct P2P)', 437, 412);
+
+  // Bottom Video Toolbar
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(52, 452, 700, 48);
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 13px "Space Mono", monospace';
+  ctx.fillText('SESSION: 24:18  •  CALL QUALITY: EXCELLENT  •  CHAT: 4 NEW', 72, 482);
+
+  // 3. RIGHT SIDEBAR: GAMIFICATION & MATCHING ENGINE (Width: 440, Height: 500)
+  ctx.fillStyle = '#14151B';
+  ctx.fillRect(800, 96, 448, 500);
+  ctx.strokeStyle = '#23252C';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(800, 96, 448, 500);
+
+  // Sidebar header
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(800, 96, 448, 50);
+  ctx.fillStyle = '#D71936';
+  ctx.font = 'bold 18px "Space Mono", monospace';
+  ctx.fillText('GAMIFICATION & XP ENGINE', 820, 128);
+
+  // XP Hero Counter
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = '900 52px "Bebas Neue", sans-serif';
+  ctx.fillText('LEVEL 04 // 1,250 XP', 820, 205);
+
+  // XP Progress Bar
+  ctx.fillStyle = '#23252C';
+  ctx.fillRect(820, 222, 408, 16);
+  ctx.fillStyle = '#D71936';
+  ctx.fillRect(820, 222, 310, 16);
+
+  // Streak Callout Box
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(820, 260, 408, 95);
+  ctx.strokeStyle = '#D71936';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(820, 260, 408, 95);
+
+  ctx.fillStyle = '#D71936';
+  ctx.font = 'bold 22px "Space Mono", monospace';
+  ctx.fillText('ACTIVE STREAK: 7 DAYS 🔥', 840, 300);
+
+  ctx.fillStyle = '#9DA6B8';
+  ctx.font = '14px "Space Mono", monospace';
+  ctx.fillText('Daily Practice Quiz Complete (+50 XP)', 840, 332);
+
+  // Active Swap Queue Box
+  ctx.fillStyle = '#090A0E';
+  ctx.fillRect(820, 375, 408, 200);
+  ctx.strokeStyle = '#23252C';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(820, 375, 408, 200);
+
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 16px "Space Mono", monospace';
+  ctx.fillText('ACTIVE SWAP QUEUE (3 PENDING)', 840, 410);
+
+  ctx.fillStyle = '#9DA6B8';
   ctx.font = '13px "Space Mono", monospace';
-  ctx.fillText(
-    'TECH DEPLOYMENT: REACT  •  FIREBASE REAL-TIME DB  •  JITSI MEET API  •  TAILWIND CSS',
-    64,
-    720
-  );
+  ctx.fillText('1. Frontend React <-> Backend Go', 840, 450);
+  ctx.fillText('2. UI/UX Figma <-> Tailwind CSS', 840, 485);
+  ctx.fillText('3. API Testing <-> MongoDB Schema', 840, 520);
+  ctx.fillText('4. AI Prompting <-> React Hooks', 840, 555);
+
+  // 4. BOTTOM MANGA EDITORIAL FOOTER (Height 150px)
+  ctx.fillStyle = '#F4F2ED'; // Manga paper panel
+  ctx.fillRect(32, 620, 1216, 150);
+  ctx.strokeStyle = '#090A0E';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(32, 620, 1216, 150);
+
+  ctx.fillStyle = '#D71936';
+  ctx.font = '900 28px "Bebas Neue", sans-serif';
+  ctx.fillText('● GENUINE APPLICATION SCREENSHOT & ARCHITECTURE VIEWPORT', 56, 665);
+
+  ctx.fillStyle = '#090A0E';
+  ctx.font = 'bold 16px "Space Mono", monospace';
+  ctx.fillText('TECH: REACT  •  FIREBASE REALTIME DB  •  JITSI MEET API  •  TAILWIND CSS', 56, 705);
+
+  ctx.fillStyle = '#3A3F4A';
+  ctx.font = '14px "Plus Jakarta Sans", sans-serif';
+  ctx.fillText('Production deployment URL: https://skillswap-learnnearn-in.web.app  (Verified Live Demo)', 56, 742);
+
+  // Red Hanko Seal in bottom right
+  ctx.strokeStyle = '#D71936';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(canvas.width - 150, 642, 100, 100);
+  ctx.fillStyle = '#D71936';
+  ctx.fillRect(canvas.width - 144, 648, 88, 88);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 50px "Bebas Neue", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('換', canvas.width - 100, 712);
+  ctx.textAlign = 'left';
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
+  texture.needsUpdate = true;
   return texture;
 }
 
@@ -229,9 +283,9 @@ const ScreenChassis: React.FC<ScreenChassisProps> = ({ reducedMotion }) => {
   const screenTex = useMemo(() => createSkillSwapScreenTexture(), []);
 
   // Screen chassis dimensions (16:10 aspect ratio in 3D world units)
-  const width = 4.8;
-  const height = 3.0;
-  const depth = 0.16;
+  const width = 5.0;
+  const height = 3.2;
+  const depth = 0.2;
 
   useFrame((state, delta) => {
     if (!meshGroupRef.current) return;
@@ -242,20 +296,20 @@ const ScreenChassis: React.FC<ScreenChassisProps> = ({ reducedMotion }) => {
       meshGroupRef.current.position.y = Math.sin(t * 1.2) * 0.05;
 
       // Mouse cursor 3D perspective tilt
-      const targetRotY = pointer.x * 0.22 - 0.05;
-      const targetRotX = -pointer.y * 0.18 + 0.04;
+      const targetRotY = (pointer?.x ?? 0) * 0.22 - 0.05;
+      const targetRotX = -(pointer?.y ?? 0) * 0.18 + 0.04;
 
       meshGroupRef.current.rotation.y = THREE.MathUtils.damp(
         meshGroupRef.current.rotation.y,
         targetRotY,
         4.0,
-        delta
+        Math.min(delta, 0.1)
       );
       meshGroupRef.current.rotation.x = THREE.MathUtils.damp(
         meshGroupRef.current.rotation.x,
         targetRotX,
         4.0,
-        delta
+        Math.min(delta, 0.1)
       );
     } else {
       meshGroupRef.current.rotation.y = -0.06;
@@ -269,31 +323,29 @@ const ScreenChassis: React.FC<ScreenChassisProps> = ({ reducedMotion }) => {
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial
-          color="#14151B"
-          roughness={0.4}
-          metalness={0.3}
+          color="#1A1C24"
+          roughness={0.35}
+          metalness={0.4}
         />
       </mesh>
 
       {/* 2. Inner Recessed Display Screen Plane (with procedural UI screenshot) */}
-      <mesh position={[0, 0, depth / 2 + 0.002]}>
-        <planeGeometry args={[width - 0.16, height - 0.16]} />
-        <meshStandardMaterial
+      <mesh position={[0, 0, depth / 2 + 0.015]}>
+        <planeGeometry args={[width - 0.2, height - 0.2]} />
+        <meshBasicMaterial
           map={screenTex}
-          roughness={0.25}
-          metalness={0.1}
         />
       </mesh>
 
-      {/* 3. Floating 3D Stamp Badge (Z offset +0.35) */}
-      <mesh position={[width / 2 - 0.45, height / 2 - 0.45, depth / 2 + 0.35]} castShadow>
-        <boxGeometry args={[0.65, 0.65, 0.05]} />
+      {/* 3. Floating 3D Stamp Badge (corner accent on chassis bezel) */}
+      <mesh position={[width / 2 - 0.25, height / 2 - 0.25, depth / 2 + 0.08]} castShadow>
+        <boxGeometry args={[0.42, 0.42, 0.04]} />
         <meshStandardMaterial color="#D71936" roughness={0.3} metalness={0.2} />
       </mesh>
 
-      {/* 4. Floating 3D Corner Tag (Z offset +0.25) */}
-      <mesh position={[-width / 2 + 0.55, -height / 2 + 0.35, depth / 2 + 0.25]} castShadow>
-        <boxGeometry args={[0.9, 0.32, 0.04]} />
+      {/* 4. Floating 3D Corner Tag (bottom corner accent) */}
+      <mesh position={[-width / 2 + 0.35, -height / 2 + 0.25, depth / 2 + 0.06]} castShadow>
+        <boxGeometry args={[0.6, 0.22, 0.03]} />
         <meshStandardMaterial color="#23252C" roughness={0.5} metalness={0.1} />
       </mesh>
     </group>
@@ -323,7 +375,7 @@ export const SkillSwap3DCanvas: React.FC = () => {
 
   if (!webglSupported) {
     return (
-      <div className="w-full aspect-[16/10] bg-[#14151B] border-2 border-[#23252C] p-6 flex flex-col justify-between">
+      <div className="w-full h-[400px] bg-[#14151B] border-2 border-[#23252C] p-6 flex flex-col justify-between">
         <div className="font-mono text-xs text-[#D71936] font-bold">SKILLSWAP // DEPLOYED APPLICATION</div>
         <div className="text-center font-mono text-sm text-[#F4F2ED]">
           GENUINE APPLICATION SCREENSHOT PLACEHOLDER
@@ -334,23 +386,30 @@ export const SkillSwap3DCanvas: React.FC = () => {
   }
 
   return (
-    <div className="w-full aspect-[16/10] select-none relative cursor-grab active:cursor-grabbing">
+    <div className="w-full h-[380px] sm:h-[440px] select-none relative cursor-grab active:cursor-grabbing">
       <Canvas
         shadows
-        dpr={[1, 2]}
-        camera={{ position: [0, 0, 5.0], fov: 40 }}
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 5.2], fov: 38 }}
         className="w-full h-full"
       >
         <ambientLight intensity={1.2} />
         <directionalLight
           position={[3, 4, 4]}
-          intensity={2.0}
+          intensity={2.2}
           castShadow
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
         />
-        <pointLight position={[-3, -2, 2]} intensity={1.4} color="#D71936" />
+        <pointLight position={[-3, -2, 2]} intensity={1.8} color="#D71936" />
         <ScreenChassis reducedMotion={reducedMotion} />
+        <ContactShadows
+          position={[0, -1.8, 0]}
+          opacity={0.7}
+          scale={5.5}
+          blur={2.0}
+          color="#000000"
+        />
       </Canvas>
     </div>
   );

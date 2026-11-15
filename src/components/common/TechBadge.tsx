@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface TechBadgeProps {
   name: string;
-  variant?: 'default' | 'accent' | 'muted' | 'outline';
+  variant?: 'default' | 'accent' | 'muted' | 'outline' | 'noir';
   size?: 'sm' | 'md';
   className?: string;
 }
@@ -19,10 +19,11 @@ export const TechBadge: React.FC<TechBadgeProps> = ({
   };
 
   const variantStyles = {
-    default: 'bg-[#FAF8F5] text-[#151515] border border-[#151515]',
-    accent: 'bg-[#E53935]/10 text-[#E53935] border border-[#E53935] font-bold',
-    muted: 'bg-[#EAE5DC] text-[#55524E] border border-[#A5A19B]',
-    outline: 'bg-transparent text-[#151515] border border-dashed border-[#151515]',
+    default: 'bg-[#F4F2ED] text-[#090A0E] border border-[#090A0E] font-medium',
+    accent: 'bg-[#D71936]/10 text-[#D71936] border border-[#D71936] font-bold',
+    muted: 'bg-[#E5E3DD] text-[#23252C] border border-[#A0A6B2]',
+    outline: 'bg-transparent text-[#9DA6B8] border border-[#23252C]',
+    noir: 'bg-[#14151B] text-[#F4F2ED] border border-[#23252C]',
   };
 
   return (

@@ -32,7 +32,7 @@ export const NoirHero: React.FC<NoirHeroProps> = ({
   return (
     <section
       id="prologue"
-      className="relative min-h-[85vh] lg:min-h-[88vh] flex flex-col justify-between pt-4 sm:pt-6 pb-8 sm:pb-12 overflow-hidden bg-[#090A0E] text-[#F4F2ED] border-b-2 border-[#23252C]"
+      className="relative min-h-[85vh] lg:min-h-0 lg:h-[880px] max-h-[920px] flex flex-col justify-between pt-4 sm:pt-6 pb-8 sm:pb-12 overflow-hidden bg-[#090A0E] text-[#F4F2ED] border-b-2 border-[#23252C]"
     >
       {/* Background Screentone Dot Matrix & Radial Speedlines */}
       <div className="absolute inset-0 bg-screentone-dark opacity-60 pointer-events-none" />
