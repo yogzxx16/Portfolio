@@ -1,0 +1,293 @@
+import React, { useState } from 'react';
+import { PROJECTS_DATA } from '../../data/projects';
+import { ExternalLink, Github, Eye, Sparkles, Video, Award, Users } from 'lucide-react';
+import { HankoStamp } from '../common/HankoStamp';
+
+export const SkillSwap3DShowcase: React.FC = () => {
+  const project = PROJECTS_DATA.find((p) => p.id === 'skillswap')!;
+
+  // 3D Mouse Parallax State
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Calculate rotation (-12deg to +12deg)
+    const rotX = ((y - centerY) / centerY) * -10;
+    const rotY = ((x - centerX) / centerX) * 12;
+
+    setRotateX(rotX);
+    setRotateY(rotY);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+    setIsHovered(false);
+  };
+
+  return (
+    <section
+      id="skillswap-prototype"
+      className="relative py-20 sm:py-28 bg-[#090A0E] text-[#F4F2ED] border-b-2 border-[#23252C] overflow-hidden"
+    >
+      {/* Background Screentone Dot Texture */}
+      <div className="absolute inset-0 bg-screentone-dark opacity-60 pointer-events-none" />
+
+      {/* Decorative Oversized Chapter Index Backdrop */}
+      <div
+        aria-hidden="true"
+        className="absolute -top-10 -right-4 font-display text-[14rem] sm:text-[18rem] text-[#23252C] opacity-20 pointer-events-none select-none z-0"
+      >
+        01
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="pb-4 mb-12 border-b-2 border-[#23252C] flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#D71936] font-bold uppercase tracking-wider mb-1">
+              <span>PROTOTYPE SPREAD // 第壱作品</span>
+              <span className="text-[#747C8B]">&bull;</span>
+              <span className="text-[#F4F2ED]">FEATURED 3D PRESENTATION</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#F4F2ED] uppercase tracking-wide">
+              CHAPTER 03 // MY CREATIONS
+            </h2>
+          </div>
+
+          <div className="font-mono text-xs text-[#747C8B] flex items-center gap-3">
+            <span className="px-2 py-1 bg-[#14151B] border border-[#23252C] text-[#F4F2ED]">
+              STATUS: DEPLOYED
+            </span>
+            <span className="hidden sm:inline">ACTUAL VERIFIED WORK</span>
+          </div>
+        </div>
+
+        {/* 3D Spread Container */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* LEFT: 3D Interactive Layered Screenshot Showcase (7 cols) */}
+          <div className="lg:col-span-7 perspective-1500">
+            <div
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+                transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
+              }}
+              className="relative preserve-3d w-full cursor-pointer group"
+            >
+              {/* Layer 0: Heavy Base Manga Panel */}
+              <div className="w-full aspect-[16/10] bg-[#14151B] border-3 border-[#23252C] shadow-noir-lg p-3 sm:p-4 relative overflow-hidden">
+                {/* Screentone Texture */}
+                <div className="absolute inset-0 bg-screentone-dark opacity-80 pointer-events-none" />
+
+                {/* Top Panel Bar */}
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#23252C] font-mono text-[10px] text-[#747C8B]">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-[#D71936]" />
+                    <span className="font-bold text-[#F4F2ED]">SKILLSWAP // PRODUCTION UI</span>
+                  </div>
+                  <span>1280 &times; 800 HD VIEWPORT</span>
+                </div>
+
+                {/* Layer 1: Screenshot Plane with Marked Placeholder */}
+                <div
+                  style={{ transform: 'translateZ(30px)' }}
+                  className="w-full h-[calc(100%-28px)] bg-[#090A0E] border-2 border-[#23252C] relative overflow-hidden flex flex-col justify-between p-4"
+                >
+                  {/* Wireframe Mock Header */}
+                  <div className="flex items-center justify-between border-b border-[#23252C] pb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#D71936]" />
+                      <div className="w-3 h-3 rounded-full bg-[#747C8B]" />
+                      <div className="w-3 h-3 rounded-full bg-[#23252C]" />
+                      <span className="font-mono text-xs text-[#F4F2ED] font-bold ml-2">
+                        skillswap-learnnearn-in.web.app
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] text-[#D71936] font-bold">● LIVE DEMO</span>
+                  </div>
+
+                  {/* Wireframe Interior Content */}
+                  <div className="grid grid-cols-12 gap-3 my-auto py-2">
+                    {/* Left: Video & Messaging Mock */}
+                    <div className="col-span-7 bg-[#14151B] border border-[#23252C] p-3 space-y-2">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#747C8B]">
+                        <span className="flex items-center gap-1 text-[#F4F2ED]">
+                          <Video className="w-3 h-3 text-[#D71936]" /> JITSI MEET SESSION
+                        </span>
+                        <span className="text-[#D71936]">CONNECTED</span>
+                      </div>
+                      <div className="aspect-video bg-[#090A0E] border border-[#23252C] flex items-center justify-center">
+                        <Users className="w-8 h-8 text-[#747C8B] opacity-40" />
+                      </div>
+                      <div className="font-mono text-[9px] text-[#747C8B]">
+                        TEACHING: REACT.JS &bull; LEARNING: PYTHON
+                      </div>
+                    </div>
+
+                    {/* Right: Gamification XP & Streak Mock */}
+                    <div className="col-span-5 bg-[#14151B] border border-[#23252C] p-3 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center gap-1 text-[10px] font-mono text-[#D71936] font-bold mb-1">
+                          <Award className="w-3 h-3" /> XP REWARD SYSTEM
+                        </div>
+                        <div className="font-display text-2xl text-[#F4F2ED]">+250 XP</div>
+                        <div className="w-full bg-[#23252C] h-1.5 my-1.5">
+                          <div className="bg-[#D71936] h-full w-3/4" />
+                        </div>
+                      </div>
+                      <div className="p-1.5 bg-[#090A0E] border border-[#23252C] text-center font-mono text-[9px] text-[#F4F2ED]">
+                        STREAK: 7 DAYS 🔥
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Explicit Placeholder Watermark Banner */}
+                  <div className="p-2 bg-[#D71936]/15 border border-[#D71936] text-center font-mono text-[10px] text-[#F4F2ED] flex items-center justify-center gap-2">
+                    <Sparkles className="w-3.5 h-3.5 text-[#D71936]" />
+                    <span>GENUINE APPLICATION SCREENSHOT PLACEHOLDER // REPLACE WITH 1280x800 PRODUCTION CAPTURE</span>
+                  </div>
+                </div>
+
+                {/* Layer 2: Floating Foreground Badges (Z: 60px) */}
+                <div
+                  style={{ transform: 'translateZ(55px)' }}
+                  className="absolute top-6 right-6 flex items-center gap-2 pointer-events-none"
+                >
+                  <HankoStamp
+                    label="換"
+                    subtext="SWAP"
+                    shape="circle"
+                    color="red"
+                    size="sm"
+                    angle={-8}
+                  />
+                </div>
+              </div>
+
+              {/* Parallax Depth Hint */}
+              <div className="mt-3 flex items-center justify-between font-mono text-[10px] text-[#747C8B]">
+                <span>3D PERSPECTIVE CANVAS // MOVE CURSOR TO TILT</span>
+                <span className="text-[#D71936] font-bold">FIREBASE REAL-TIME SYNC</span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Narrative Manga Specifications (5 cols) */}
+          <div className="lg:col-span-5 space-y-5">
+            {/* Act & Maturity Tag */}
+            <div className="flex items-center justify-between border-b border-[#23252C] pb-2 font-mono text-xs">
+              <span className="font-bold text-[#D71936]">
+                ACT 01 // {project.chapterIndex}
+              </span>
+              <span className="px-2 py-0.5 bg-[#D71936] text-white font-bold text-[10px]">
+                {project.maturity.toUpperCase()}
+              </span>
+            </div>
+
+            {/* Title & Tagline */}
+            <div>
+              <h3 className="font-display text-5xl sm:text-6xl text-[#F4F2ED] uppercase tracking-wide leading-none">
+                {project.title}
+              </h3>
+              <p className="font-mono text-xs sm:text-sm text-[#747C8B] mt-1 font-semibold">
+                {project.subtitle}
+              </p>
+            </div>
+
+            {/* Documented Problem Context */}
+            {project.problemStatement && (
+              <div className="p-3.5 bg-[#14151B] border-l-3 border-[#D71936] shadow-noir space-y-1">
+                <span className="font-mono text-[10px] font-bold text-[#D71936] uppercase tracking-wider block">
+                  DOCUMENTED CHALLENGE
+                </span>
+                <p className="font-sans text-xs text-[#747C8B] leading-relaxed">
+                  {project.problemStatement}
+                </p>
+              </div>
+            )}
+
+            {/* Summary */}
+            <p className="font-sans text-sm sm:text-base text-[#F4F2ED] leading-relaxed font-medium">
+              {project.summary}
+            </p>
+
+            {/* Key Capabilities Checklist */}
+            <div className="space-y-1.5 pt-1">
+              <span className="font-mono text-[10px] text-[#747C8B] uppercase tracking-widest block mb-1">
+                KEY VERIFIED ARCHITECTURE FEATURES:
+              </span>
+              {project.keyFeatures.slice(0, 4).map((feature, fIdx) => (
+                <div key={fIdx} className="flex items-start gap-2 text-xs text-[#747C8B]">
+                  <span className="text-[#D71936] font-bold mt-0.5">▶</span>
+                  <span className="font-sans text-[#F4F2ED]">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Tech Stack Badges */}
+            <div className="pt-2">
+              <span className="font-mono text-[10px] text-[#747C8B] uppercase tracking-widest block mb-2">
+                VERIFIED TECH STACK:
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {project.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 bg-[#14151B] border border-[#23252C] font-mono text-xs text-[#F4F2ED] hover:border-[#D71936] transition-colors"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons Row */}
+            <div className="flex flex-wrap items-center gap-3 pt-3">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D71936] text-white font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#D71936] shadow-noir hover:bg-[#A81229] hover:border-[#A81229] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D71936]"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>LIVE DEMO</span>
+                </a>
+              )}
+
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#14151B] text-[#F4F2ED] font-mono text-xs font-bold uppercase tracking-wider border-2 border-[#23252C] shadow-noir hover:bg-[#23252C] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D71936]"
+                >
+                  <Github className="w-3.5 h-3.5" />
+                  <span>GITHUB</span>
+                </a>
+              )}
+
+              <a
+                href="#creations"
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 font-mono text-xs text-[#747C8B] hover:text-[#F4F2ED] transition-colors"
+              >
+                <Eye className="w-3.5 h-3.5 text-[#D71936]" />
+                <span>VIEW ALL IN ARCHIVES</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};

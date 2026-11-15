@@ -25,7 +25,7 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({ className = ''
 
   return (
     <div
-      className={`w-full h-1 bg-[#EAE5DC] relative overflow-hidden ${className}`}
+      className={`w-full h-1 bg-[#14151B] relative overflow-hidden ${className}`}
       role="progressbar"
       aria-label="Reading Progress"
       aria-valuenow={Math.round(progress)}
@@ -33,7 +33,7 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({ className = ''
       aria-valuemax={100}
     >
       <div
-        className="h-full bg-[#E53935] transition-[width] duration-75 ease-out"
+        className="h-full bg-[#D71936] transition-[width] duration-75 ease-out shadow-crimson"
         style={{ width: `${progress}%` }}
       />
     </div>

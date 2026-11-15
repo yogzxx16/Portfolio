@@ -35,8 +35,8 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-200 ${
           scrolled
-            ? 'bg-[#FAF8F5]/95 backdrop-blur-xs border-b-2 border-[#151515] shadow-xs'
-            : 'bg-[#FAF8F5] border-b-2 border-[#151515]'
+            ? 'bg-[#090A0E]/95 backdrop-blur-md border-b-2 border-[#23252C] shadow-noir'
+            : 'bg-[#090A0E] border-b-2 border-[#23252C]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
@@ -44,19 +44,19 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           <div className="flex items-center gap-3">
             <a
               href="#prologue"
-              className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#E53935]"
+              className="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#D71936]"
               aria-label="Yogesh - The Developer's Story Home"
             >
-              <div className="w-6 h-6 bg-[#151515] text-[#F4F0E8] flex items-center justify-center font-display text-sm font-bold group-hover:bg-[#E53935] transition-colors">
+              <div className="w-6 h-6 bg-[#D71936] text-white flex items-center justify-center font-display text-sm font-bold group-hover:bg-[#A81229] transition-colors">
                 Y
               </div>
-              <span className="font-display text-2xl tracking-wider uppercase text-[#151515]">
-                YOGESH<span className="text-[#E53935]">.</span>
+              <span className="font-display text-2xl tracking-wider uppercase text-[#F4F2ED]">
+                YOGESH<span className="text-[#D71936]">.</span>
               </span>
             </a>
-            <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-[#151515]/20 font-mono text-[11px] text-[#55524E]">
-              <span className="px-1.5 py-0.5 bg-[#E53935] text-white font-bold">VOL. 01</span>
-              <span>ED. 2026</span>
+            <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-[#23252C] font-mono text-[11px] text-[#747C8B]">
+              <span className="px-1.5 py-0.5 bg-[#D71936] text-white font-bold">MANGA NOIR</span>
+              <span>VOL. 01</span>
             </div>
           </div>
 
@@ -71,15 +71,15 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
                   onClick={(e) => handleLinkClick(e, chapter.id)}
                   className={`px-2.5 py-1.5 transition-all flex items-center gap-1.5 border ${
                     isActive
-                      ? 'bg-[#151515] text-[#F4F0E8] border-[#151515] shadow-xs'
-                      : 'bg-transparent text-[#151515] border-transparent hover:border-[#151515] hover:bg-[#EAE5DC]'
-                  } focus:outline-none focus:ring-2 focus:ring-[#E53935]`}
+                      ? 'bg-[#14151B] text-[#F4F2ED] border-[#D71936] shadow-crimson'
+                      : 'bg-transparent text-[#747C8B] border-transparent hover:border-[#23252C] hover:bg-[#14151B] hover:text-[#F4F2ED]'
+                  } focus:outline-none focus:ring-2 focus:ring-[#D71936]`}
                 >
                   <span
                     className={
                       isActive
-                        ? 'text-[#E53935] font-bold'
-                        : 'text-[#151515] font-bold'
+                        ? 'text-[#D71936] font-bold'
+                        : 'text-[#747C8B] font-bold'
                     }
                   >
                     {chapter.number}
@@ -93,28 +93,26 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           {/* Right Actions & Mobile Hamburger */}
           <div className="flex items-center gap-3">
             <a
-              href="#chapter-05"
-              onClick={(e) => handleLinkClick(e, 'chapter-05')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-[#151515] bg-[#FAF8F5] text-[#151515] font-mono text-xs font-bold hover:bg-[#E53935] hover:border-[#E53935] hover:text-white transition-colors shadow-xs active:translate-x-0.5 active:translate-y-0.5"
+              href="#next-chapter"
+              onClick={(e) => handleLinkClick(e, 'next-chapter')}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border-2 border-[#D71936] bg-[#D71936] text-white font-mono text-xs font-bold hover:bg-[#A81229] hover:border-[#A81229] transition-colors shadow-noir active:translate-x-0.5 active:translate-y-0.5"
             >
               <span>CONNECT</span>
-              <span className="text-[#E53935] group-hover:text-white">●</span>
             </a>
 
-            {/* Mobile Menu Toggle Button */}
+            {/* Mobile Hamburger Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open navigation menu"
-              aria-expanded={mobileMenuOpen}
-              className="md:hidden p-2 border-2 border-[#151515] bg-[#FAF8F5] text-[#151515] hover:bg-[#EAE5DC] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E53935]"
+              className="md:hidden p-2 border border-[#23252C] bg-[#14151B] text-[#F4F2ED] hover:bg-[#23252C] transition-colors focus:outline-none focus:ring-2 focus:ring-[#D71936]"
+              aria-label="Open Manga Chapter Navigation"
             >
               <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Ink Reading Progress Bar */}
+        {/* Global Reading Progress Indicator Bar */}
         <ReadingProgress />
       </header>
 

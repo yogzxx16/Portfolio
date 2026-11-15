@@ -58,7 +58,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
             transition={{ duration: 0.2 }}
             onClick={onClose}
             aria-hidden="true"
-            className="fixed inset-0 bg-[#151515]/60 backdrop-blur-xs z-50 md:hidden"
+            className="fixed inset-0 bg-[#090A0E]/85 backdrop-blur-sm z-50 md:hidden"
           />
 
           {/* Drawer Panel */}
@@ -70,16 +70,16 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 250 }}
-            className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-[#FAF8F5] border-l-2 border-[#151515] shadow-2xl z-50 flex flex-col justify-between p-6 md:hidden overflow-y-auto"
+            className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-[#090A0E] text-[#F4F2ED] border-l-2 border-[#23252C] shadow-noir-lg z-50 flex flex-col justify-between p-6 md:hidden overflow-y-auto"
           >
             {/* Header */}
             <div>
-              <div className="flex items-center justify-between pb-4 border-b-2 border-[#151515] mb-6">
+              <div className="flex items-center justify-between pb-4 border-b-2 border-[#23252C] mb-6">
                 <div>
-                  <span className="font-mono text-[10px] text-[#E53935] font-bold tracking-widest uppercase block">
-                    MANGA VOLUME NAVIGATOR
+                  <span className="font-mono text-[10px] text-[#D71936] font-bold tracking-widest uppercase block">
+                    MANGA NOIR NAVIGATOR
                   </span>
-                  <span className="font-display text-xl text-[#151515] tracking-wide">
+                  <span className="font-display text-xl text-[#F4F2ED] tracking-wide">
                     VOL. 01 / ED. 2026
                   </span>
                 </div>
@@ -87,7 +87,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                   type="button"
                   onClick={onClose}
                   aria-label="Close menu"
-                  className="p-2 border border-[#151515] bg-[#F4F0E8] text-[#151515] hover:bg-[#E53935] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#E53935]"
+                  className="p-2 border border-[#23252C] bg-[#14151B] text-[#F4F2ED] hover:bg-[#D71936] hover:border-[#D71936] transition-colors focus:outline-none focus:ring-2 focus:ring-[#D71936]"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -95,8 +95,8 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
               {/* Chapters List */}
               <nav className="space-y-2">
-                <span className="font-mono text-[10px] text-[#A5A19B] uppercase tracking-wider block mb-2">
-                  TABLE OF CONTENTS
+                <span className="font-mono text-[10px] text-[#747C8B] uppercase tracking-wider block mb-2">
+                  TABLE OF CONTENTS // 目次
                 </span>
                 {CHAPTERS_DATA.map((chapter) => {
                   const isActive = activeChapterId === chapter.id;
@@ -107,14 +107,14 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                       onClick={(e) => handleItemClick(e, chapter.id)}
                       className={`flex items-center justify-between p-3 border transition-all ${
                         isActive
-                          ? 'bg-[#151515] text-[#F4F0E8] border-[#151515] shadow-manga-red'
-                          : 'bg-[#FAF8F5] text-[#151515] border-[#151515]/30 hover:border-[#151515] hover:bg-[#EAE5DC]'
+                          ? 'bg-[#14151B] text-[#F4F2ED] border-[#D71936] shadow-crimson'
+                          : 'bg-[#090A0E] text-[#747C8B] border-[#23252C] hover:border-[#F4F2ED] hover:text-[#F4F2ED]'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
                           className={`font-mono text-xs font-bold ${
-                            isActive ? 'text-[#E53935]' : 'text-[#151515]'
+                            isActive ? 'text-[#D71936]' : 'text-[#747C8B]'
                           }`}
                         >
                           CH.{chapter.number}
@@ -135,12 +135,12 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
             </div>
 
             {/* Bottom Seal & Metadata */}
-            <div className="mt-8 pt-4 border-t border-[#151515]/20 flex items-center justify-between font-mono text-[11px] text-[#55524E]">
+            <div className="mt-8 pt-4 border-t border-[#23252C] flex items-center justify-between font-mono text-[11px] text-[#747C8B]">
               <div>
-                <span className="font-bold block text-[#151515]">YOGESHKUMAR S</span>
-                <span>MERN & AI Developer</span>
+                <span className="font-bold block text-[#F4F2ED]">YOGESHKUMAR S</span>
+                <span>Full-Stack MERN &bull; AI Apps</span>
               </div>
-              <div className="w-8 h-8 border border-[#E53935] text-[#E53935] font-display flex items-center justify-center font-bold">
+              <div className="w-8 h-8 border border-[#D71936] text-[#D71936] font-display flex items-center justify-center font-bold">
                 印
               </div>
             </div>

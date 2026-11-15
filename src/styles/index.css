@@ -1,86 +1,165 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #F4F0E8;
-  --color-paper-light: #FAF8F5;
-  --color-ink: #151515;
-  --color-ink-muted: #55524E;
-  --color-manga-red: #E53935;
-  --color-manga-red-dark: #C62828;
-  --color-muted-grey: #A5A19B;
-  --color-ink-wash: #EAE5DC;
-  --color-panel-border: #151515;
+  --color-void: #090A0E;
+  --color-manga-white: #F4F2ED;
+  --color-crimson: #D71936;
+  --color-crimson-glow: #FF2A4D;
+  --color-steel: #747C8B;
+  --color-steel-light: #9DA6B8;
+  --color-graphite: #23252C;
+  --color-graphite-dark: #14151B;
+
+  /* Map old semantic names to Manga Noir for backward compatibility */
+  --color-paper: #090A0E;
+  --color-paper-light: #14151B;
+  --color-ink: #F4F2ED;
+  --color-ink-muted: #747C8B;
+  --color-manga-red: #D71936;
+  --color-manga-red-dark: #A81229;
+  --color-muted-grey: #747C8B;
+  --color-ink-wash: #23252C;
+  --color-panel-border: #23252C;
 
   --font-display: "Bebas Neue", sans-serif;
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-mono: "Space Mono", monospace;
 
-  --shadow-ink: 4px 4px 0px 0px #151515;
-  --shadow-ink-lg: 6px 6px 0px 0px #151515;
-  --shadow-ink-xl: 8px 8px 0px 0px #151515;
-  --shadow-red: 4px 4px 0px 0px #E53935;
-  --shadow-red-lg: 6px 6px 0px 0px #E53935;
+  --shadow-manga-noir: 6px 6px 0px 0px #090A0E;
+  --shadow-manga-crimson: 4px 4px 0px 0px #D71936;
+  --shadow-manga-white: 4px 4px 0px 0px #F4F2ED;
 }
 
 :root {
-  --paper: #F4F0E8;
-  --ink: #151515;
-  --manga-red: #E53935;
-  --muted-grey: #A5A19B;
+  --void: #090A0E;
+  --manga-white: #F4F2ED;
+  --crimson: #D71936;
+  --steel: #747C8B;
+  --graphite: #23252C;
 }
 
-/* Custom Manga Graphic Patterns & Utilities */
+/* Manga Noir Screentone Patterns */
+.bg-screentone-dark {
+  background-image: radial-gradient(#23252C 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+  background-position: 0 0;
+}
+
+.bg-screentone-crimson {
+  background-image: radial-gradient(rgba(215, 25, 54, 0.25) 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-position: 0 0;
+}
+
+.bg-screentone-white {
+  background-image: radial-gradient(#090A0E 1.2px, transparent 1.2px);
+  background-size: 6px 6px;
+  background-position: 0 0;
+}
+
 .bg-halftone {
-  background-image: radial-gradient(#151515 1px, transparent 1px);
+  background-image: radial-gradient(#23252C 1px, transparent 1px);
   background-size: 8px 8px;
   background-position: 0 0;
 }
 
 .bg-halftone-muted {
-  background-image: radial-gradient(#A5A19B 1px, transparent 1px);
+  background-image: radial-gradient(#747C8B 1px, transparent 1px);
   background-size: 6px 6px;
   background-position: 0 0;
 }
 
 .bg-halftone-fine {
-  background-image: radial-gradient(#151515 0.75px, transparent 0.75px);
+  background-image: radial-gradient(#23252C 0.75px, transparent 0.75px);
   background-size: 4px 4px;
   background-position: 0 0;
 }
 
-/* Hard Ink Shadows */
+/* Speedlines Overlay Generator */
+.speedlines-radial {
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(244, 242, 237, 0.03) 0deg 2deg,
+    transparent 2deg 8deg
+  );
+}
+
+.speedlines-horizontal {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 12px,
+    rgba(215, 25, 54, 0.08) 12px,
+    rgba(215, 25, 54, 0.08) 14px
+  );
+}
+
+/* Hard Graphic Ink Shadows */
+.shadow-noir {
+  box-shadow: 6px 6px 0px 0px #090A0E;
+}
+
+.shadow-noir-lg {
+  box-shadow: 10px 10px 0px 0px #090A0E;
+}
+
+.shadow-crimson {
+  box-shadow: 4px 4px 0px 0px #D71936;
+}
+
+.shadow-crimson-lg {
+  box-shadow: 8px 8px 0px 0px #D71936;
+}
+
+.shadow-white {
+  box-shadow: 4px 4px 0px 0px #F4F2ED;
+}
+
 .shadow-manga {
-  box-shadow: 4px 4px 0px 0px #151515;
+  box-shadow: 4px 4px 0px 0px #090A0E;
 }
 
 .shadow-manga-lg {
-  box-shadow: 6px 6px 0px 0px #151515;
+  box-shadow: 6px 6px 0px 0px #090A0E;
 }
 
 .shadow-manga-red {
-  box-shadow: 4px 4px 0px 0px #E53935;
-}
-
-.shadow-manga-red-lg {
-  box-shadow: 6px 6px 0px 0px #E53935;
+  box-shadow: 4px 4px 0px 0px #D71936;
 }
 
 /* Manga Panel Borders */
-.border-ink {
-  border: 2px solid #151515;
+.border-noir {
+  border: 2px solid #23252C;
 }
 
-.border-ink-thick {
-  border: 3px solid #151515;
+.border-noir-thick {
+  border: 3px solid #23252C;
+}
+
+.border-crimson {
+  border: 2px solid #D71936;
 }
 
 /* Angled corner notch cutouts */
 .notch-top-right {
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
 }
 
 .notch-bottom-right {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+}
+
+/* 3D Perspective Card Transformations */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1500 {
+  perspective: 1500px;
 }
 
 /* Accessibility: respect user preference for reduced motion */
