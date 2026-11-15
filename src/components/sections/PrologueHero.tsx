@@ -173,8 +173,8 @@ export const PrologueHero: React.FC<PrologueHeroProps> = ({
               <InkButton
                 variant="secondary"
                 size="lg"
-                href="#chapter-05"
-                onClick={(e) => handleActionClick(e, 'chapter-05', onConnectClick)}
+                href="#next-chapter"
+                onClick={(e) => handleActionClick(e, 'next-chapter', onConnectClick)}
               >
                 LET'S CONNECT
               </InkButton>

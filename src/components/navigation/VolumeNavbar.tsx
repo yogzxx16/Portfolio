@@ -24,18 +24,9 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, chapterId: string) => {
+  const handleLinkClick = (_e: React.MouseEvent<HTMLAnchorElement>, chapterId: string) => {
     if (onNavigate) {
       onNavigate(chapterId);
-    }
-    const target = document.getElementById(chapterId);
-    if (!target) {
-      // If chapter target doesn't exist yet, gracefully scroll to upcoming preview section
-      e.preventDefault();
-      const fallback = document.getElementById('pipeline-preview');
-      if (fallback) {
-        fallback.scrollIntoView({ behavior: 'smooth' });
-      }
     }
   };
 
@@ -73,11 +64,6 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5 font-mono text-xs">
             {CHAPTERS_DATA.map((chapter) => {
               const isActive = activeChapterId === chapter.id;
-              const isImplemented =
-                chapter.id === 'prologue' ||
-                chapter.id === 'person' ||
-                chapter.id === 'arsenal' ||
-                chapter.id === 'creations';
               return (
                 <a
                   key={chapter.id}
@@ -86,28 +72,19 @@ export const VolumeNavbar: React.FC<VolumeNavbarProps> = ({
                   className={`px-2.5 py-1.5 transition-all flex items-center gap-1.5 border ${
                     isActive
                       ? 'bg-[#151515] text-[#F4F0E8] border-[#151515] shadow-xs'
-                      : isImplemented
-                      ? 'bg-transparent text-[#151515] border-transparent hover:border-[#151515] hover:bg-[#EAE5DC]'
-                      : 'bg-transparent text-[#151515]/40 border-transparent hover:border-[#151515]/30 hover:text-[#151515]'
+                      : 'bg-transparent text-[#151515] border-transparent hover:border-[#151515] hover:bg-[#EAE5DC]'
                   } focus:outline-none focus:ring-2 focus:ring-[#E53935]`}
                 >
                   <span
                     className={
                       isActive
                         ? 'text-[#E53935] font-bold'
-                        : isImplemented
-                        ? 'text-[#151515] font-bold'
-                        : 'text-[#A5A19B]'
+                        : 'text-[#151515] font-bold'
                     }
                   >
                     {chapter.number}
                   </span>
                   <span className="font-sans font-bold tracking-tight">{chapter.title}</span>
-                  {!isImplemented && (
-                    <span className="text-[9px] font-mono text-[#A5A19B] tracking-tighter">
-                      *
-                    </span>
-                  )}
                 </a>
               );
             })}

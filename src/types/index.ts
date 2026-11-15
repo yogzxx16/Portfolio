@@ -36,11 +36,11 @@ export interface SkillCategory {
 }
 
 export interface ExperienceRecord {
-  period: string;
+  period?: string;
   role: string;
   organization: string;
   type: 'Internship' | 'Leadership' | 'Community';
-  status: 'Completed' | 'Active';
+  status?: 'Completed' | 'Active';
   responsibilities: string[];
   technologies: string[];
 }

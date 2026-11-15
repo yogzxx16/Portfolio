@@ -43,11 +43,10 @@ export const EXPERIENCES_DATA: ExperienceRecord[] = [
     technologies: ['Community Leadership', 'Technical Mentorship'],
   },
   {
-    period: 'Academic Term',
+    period: undefined,
     role: 'Web Development Team Member',
     organization: 'Developer Student Club (DSC)',
     type: 'Community',
-    status: 'Active',
     responsibilities: [
       'Contributed as a member of the web development team to campus developer initiatives and collaborative projects',
     ],
