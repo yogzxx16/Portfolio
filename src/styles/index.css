@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #F4F0E8;
+  --color-paper-light: #FAF8F5;
+  --color-ink: #151515;
+  --color-ink-muted: #55524E;
+  --color-manga-red: #E53935;
+  --color-manga-red-dark: #C62828;
+  --color-muted-grey: #A5A19B;
+  --color-ink-wash: #EAE5DC;
+  --color-panel-border: #151515;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  --shadow-ink: 4px 4px 0px 0px #151515;
+  --shadow-ink-lg: 6px 6px 0px 0px #151515;
+  --shadow-ink-xl: 8px 8px 0px 0px #151515;
+  --shadow-red: 4px 4px 0px 0px #E53935;
+  --shadow-red-lg: 6px 6px 0px 0px #E53935;
+}
+
+:root {
+  --paper: #F4F0E8;
+  --ink: #151515;
+  --manga-red: #E53935;
+  --muted-grey: #A5A19B;
+}
+
+/* Custom Manga Graphic Patterns & Utilities */
+.bg-halftone {
+  background-image: radial-gradient(#151515 1px, transparent 1px);
+  background-size: 8px 8px;
+  background-position: 0 0;
+}
+
+.bg-halftone-muted {
+  background-image: radial-gradient(#A5A19B 1px, transparent 1px);
+  background-size: 6px 6px;
+  background-position: 0 0;
+}
+
+.bg-halftone-fine {
+  background-image: radial-gradient(#151515 0.75px, transparent 0.75px);
+  background-size: 4px 4px;
+  background-position: 0 0;
+}
+
+/* Hard Ink Shadows */
+.shadow-manga {
+  box-shadow: 4px 4px 0px 0px #151515;
+}
+
+.shadow-manga-lg {
+  box-shadow: 6px 6px 0px 0px #151515;
+}
+
+.shadow-manga-red {
+  box-shadow: 4px 4px 0px 0px #E53935;
+}
+
+.shadow-manga-red-lg {
+  box-shadow: 6px 6px 0px 0px #E53935;
+}
+
+/* Manga Panel Borders */
+.border-ink {
+  border: 2px solid #151515;
+}
+
+.border-ink-thick {
+  border: 3px solid #151515;
+}
+
+/* Angled corner notch cutouts */
+.notch-top-right {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+.notch-bottom-right {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+
+/* Accessibility: respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
