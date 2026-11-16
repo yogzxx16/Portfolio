@@ -29,5 +29,7 @@ dist-ssr
 .env.local
 .env.production
 
-# Visual testing screenshots
-*.png
+# Visual testing screenshots in root
+/*.png
+!public/**
+!public/art/**

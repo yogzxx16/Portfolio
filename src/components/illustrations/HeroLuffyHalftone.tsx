@@ -116,7 +116,8 @@ export const HeroLuffyHalftone: React.FC<HeroLuffyHalftoneProps> = ({ className 
         style={{ touchAction: 'pan-y' }}
       >
         <HalftoneReveal
-          src="/art/luffy-hero-transparent.png"
+          src="/art/manga/luffy-character.png"
+          fallbackSrc="/art/luffy-hero-transparent.png"
           alt="Luffy Manga Character"
           fit="contain"
           mode="mono"

@@ -367,6 +367,7 @@ const measureEdge = (context, image) => {
 
 const HalftoneReveal = ({
   src = DEFAULT_SRC,
+  fallbackSrc = '',
   alt = 'Portrait',
   fit = 'cover',
   mode = 'mono',
@@ -425,22 +426,48 @@ const HalftoneReveal = ({
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
-    const gl = canvas?.getContext('webgl2', {
-      alpha: true,
-      antialias: false,
-      depth: false,
-      stencil: false,
-      preserveDrawingBuffer: false
-    });
     if (!container || !canvas) return undefined;
+
+    let gl = null;
+    try {
+      gl = canvas.getContext('webgl2', {
+        alpha: true,
+        antialias: false,
+        depth: false,
+        stencil: false,
+        preserveDrawingBuffer: false
+      });
+    } catch (e) {
+      console.warn('[HalftoneReveal] WebGL2 context creation failed:', e);
+    }
+
     if (!gl) {
+      console.warn('[HalftoneReveal] WebGL2 unavailable, falling back to <img> element');
       setWebglSupported(false);
       return undefined;
     }
 
-    const maskProgram = link(gl, MASK);
-    const viewProgram = link(gl, VIEW);
-    if (!maskProgram || !viewProgram) return undefined;
+    const onContextLost = (e) => {
+      e.preventDefault();
+      console.warn('[HalftoneReveal] WebGL context lost, falling back to <img> element');
+      setWebglSupported(false);
+    };
+    canvas.addEventListener('webglcontextlost', onContextLost);
+
+    let maskProgram = null;
+    let viewProgram = null;
+    try {
+      maskProgram = link(gl, MASK);
+      viewProgram = link(gl, VIEW);
+    } catch (e) {
+      console.warn('[HalftoneReveal] Shader compilation error:', e);
+    }
+
+    if (!maskProgram || !viewProgram) {
+      console.warn('[HalftoneReveal] Shader program linking failed, falling back to <img> element');
+      setWebglSupported(false);
+      return undefined;
+    }
     const maskUniforms = locate(gl, maskProgram, [
       'uPrevious',
       'uTexture',
@@ -731,28 +758,49 @@ const HalftoneReveal = ({
     };
 
     const image = new Image();
-    image.crossOrigin = 'anonymous';
+    // Only configure crossOrigin for external URLs
+    if (/^https?:\/\//i.test(src) && typeof window !== 'undefined' && !src.startsWith(window.location.origin)) {
+      image.crossOrigin = 'anonymous';
+    }
     image.decoding = 'async';
+
+    image.onerror = (err) => {
+      console.warn('[HalftoneReveal] Primary image failed to load:', src, err);
+      // Attempt fallbackSrc if defined and not already attempted
+      if (fallbackSrc && image.src !== fallbackSrc && !image.src.endsWith(fallbackSrc)) {
+        console.log('[HalftoneReveal] Retrying with fallbackSrc:', fallbackSrc);
+        image.src = fallbackSrc;
+        return;
+      }
+      // If both fail, trigger graceful fallback to <img>
+      setWebglSupported(false);
+    };
+
     image.onload = () => {
       if (!alive) return;
-      gl.bindTexture(gl.TEXTURE_2D, imageTexture);
-      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.generateMipmap(gl.TEXTURE_2D);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-      const sampler = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
-      if (sampler) {
-        try {
-          const edge = measureEdge(sampler, image);
-          state.matte = edge.matte;
-          state.key = edge.plain ? 1 : 0;
-        } catch {
-          state.key = 0;
+      try {
+        gl.bindTexture(gl.TEXTURE_2D, imageTexture);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        const sampler = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+        if (sampler) {
+          try {
+            const edge = measureEdge(sampler, image);
+            state.matte = edge.matte;
+            state.key = edge.plain ? 1 : 0;
+          } catch {
+            state.key = 0;
+          }
         }
+        state.image = image;
+        state.introStart = performance.now();
+        wake();
+      } catch (err) {
+        console.error('[HalftoneReveal] WebGL texture initialization failed:', err);
+        setWebglSupported(false);
       }
-      state.image = image;
-      state.introStart = performance.now();
-      wake();
     };
     image.src = src;
 
@@ -933,7 +981,14 @@ const HalftoneReveal = ({
         <img
           src={src}
           alt={alt}
-          className="w-full h-full object-cover"
+          className={`w-full h-full ${fit === 'contain' ? 'object-contain' : 'object-cover'} select-none pointer-events-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]`}
+          onError={(e) => {
+            const target = e.currentTarget as HTMLImageElement;
+            if (fallbackSrc && target.src !== fallbackSrc && !target.src.endsWith(fallbackSrc)) {
+              console.log('[HalftoneReveal Fallback] Retrying <img> with fallbackSrc:', fallbackSrc);
+              target.src = fallbackSrc;
+            }
+          }}
         />
       )}
     </div>
