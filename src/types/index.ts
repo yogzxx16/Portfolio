@@ -57,6 +57,7 @@ export interface AchievementRecord {
 export interface CertificationRecord {
   title: string;
   issuer: string;
+  url: string;
   verificationUrl?: string;
 }
 
@@ -76,6 +77,10 @@ export interface ProfileData {
     degree: string;
     period: string;
     gpa: string;
+  };
+  founderRole?: {
+    title: string;
+    url: string;
   };
   introduction: string;
   interests: string[];

@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { VolumeNavbar } from './components/navigation/VolumeNavbar';
-import { NoirHero } from './components/sections/NoirHero';
-import { PersonNarrative } from './components/sections/PersonNarrative';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import ShapeGrid from './components/react-bits/ShapeGrid';
+import BubbleMenu from './components/react-bits/BubbleMenu';
+import TearTicket from './components/react-bits/TearTicket';
+import ScrollExpand from './components/react-bits/ScrollExpand';
+import { MangaSplashHero } from './components/sections/MangaSplashHero';
+import { MangaStorySequence } from './components/sections/MangaStorySequence';
 import { ArsenalSection } from './components/sections/ArsenalSection';
-import { SkillSwap3DShowcase } from './components/sections/SkillSwap3DShowcase';
 import { CreationsSection } from './components/sections/CreationsSection';
 import { JourneySection } from './components/sections/JourneySection';
 import { NextChapterSection } from './components/sections/NextChapterSection';
+import { TopMarqueeTicker } from './components/common/TopMarqueeTicker';
+import { CHAPTERS_DATA } from './data/chapters';
 
 export default function App(): React.JSX.Element {
   const [soloView] = useState<string | null>(() => {
@@ -16,60 +20,210 @@ export default function App(): React.JSX.Element {
     }
     return null;
   });
-  const [activeChapter, setActiveChapter] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const solo = params.get('solo');
-      if (solo === 'skillswap' || solo === 'projects' || solo === 'creations') return 'creations';
-      if (solo === 'about-skills' || solo === 'arsenal') return 'arsenal';
-      if (solo === 'person') return 'person';
-      if (solo === 'journey') return 'journey';
-      if (solo === 'next-chapter') return 'next-chapter';
-    }
-    return 'prologue';
+
+  // TearTicket entrance state
+  const isTestingTicket = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('ticket') === '1';
+  const hasSoloParam = typeof window !== 'undefined' && Boolean(new URLSearchParams(window.location.search).get('solo'));
+  const skipTicketParam = typeof window !== 'undefined' && (
+    new URLSearchParams(window.location.search).get('torn') === '1' ||
+    new URLSearchParams(window.location.search).get('skipTicket') === '1'
+  );
+  
+  const [ticketTorn, setTicketTorn] = useState<boolean>(() => {
+    if (isTestingTicket) return false;
+    if (hasSoloParam || skipTicketParam) return true;
+    return false;
+  });
+  
+  const [ticketOverlayVisible, setTicketOverlayVisible] = useState<boolean>(() => {
+    if (isTestingTicket) return true;
+    if (hasSoloParam || skipTicketParam) return false;
+    return true;
   });
 
-  // Active section tracking via IntersectionObserver
+  // Synchronous scroll positioning for testing transition points
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const scrollYParam = params.get('scrollY');
+      if (scrollYParam) {
+        const y = parseInt(scrollYParam, 10);
+        window.scrollTo(0, y);
+      }
+    }
+  }, []);
+
+  // Lock body scroll while ticket is not torn
   useEffect(() => {
-    if (soloView) return;
-
-    const handleObserver = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveChapter(entry.target.id);
-        }
-      });
+    if (!ticketTorn) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      const params = new URLSearchParams(window.location.search);
+      const scrollYParam = params.get('scrollY');
+      const scrollToParam = params.get('scrollTo');
+      if (scrollYParam) {
+        const y = parseInt(scrollYParam, 10);
+        setTimeout(() => {
+          window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+        }, 150);
+      } else if (scrollToParam) {
+        setTimeout(() => {
+          const el = document.getElementById(scrollToParam);
+          if (el) {
+            el.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
+          }
+        }, 150);
+      }
+    }
+    return () => {
+      document.body.style.overflow = '';
     };
+  }, [ticketTorn]);
 
-    const observer = new IntersectionObserver(handleObserver, {
-      rootMargin: '-30% 0px -50% 0px',
-      threshold: 0,
-    });
+  // Seamless transition: unlock scroll, kick ScrollExpand zoom, and fade overlay
+  const handleTear = () => {
+    setTicketTorn(true);
+    document.body.style.overflow = '';
+    
+    // Smoothly initiate the ScrollExpand zoom sequence
+    window.scrollTo({ top: 160, behavior: 'smooth' });
 
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, [soloView]);
+    // Fade out overlay after stub detachment
+    setTimeout(() => {
+      setTicketOverlayVisible(false);
+    }, 700);
+  };
 
   return (
-    <div className="min-h-screen bg-[#090A0E] text-[#F4F2ED] font-sans antialiased selection:bg-[#D71936] selection:text-white flex flex-col justify-between">
-      {/* Sticky Manga Noir Volume Navbar */}
-      <VolumeNavbar
-        activeChapterId={activeChapter}
-        onNavigate={(id) => {
-          setActiveChapter(id);
-        }}
+    <div className="min-h-screen bg-[#090A0E] text-[#F4F2ED] font-sans antialiased selection:bg-[#D71936] selection:text-white flex flex-col justify-between relative overflow-x-clip">
+      
+      {/* ============================================================ */}
+      {/* STEP 2: GLOBAL SHAPEGRID TECH BLUEPRINT BACKGROUND           */}
+      {/* ============================================================ */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <ShapeGrid
+          direction="diagonal"
+          speed={0.4}
+          shape="square"
+          lineColor="#262933"
+          hoverColor="#D71936"
+          hoverFillColor="#D71936"
+          fillOpacity={0.25}
+          glow={1}
+          className="w-full h-full"
+        />
+      </div>
+
+      {/* ============================================================ */}
+      {/* STEP 1: TEARTICKET ENTRANCE OVERLAY WITH "TEAR" RED STUB     */}
+      {/* ============================================================ */}
+      {ticketOverlayVisible && (
+        <div
+          className={`fixed inset-0 z-50 bg-[#090A0E]/95 backdrop-blur-md flex flex-col items-center justify-center p-4 transition-opacity duration-700 ease-out ${
+            ticketTorn ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          <div className="relative w-full max-w-[800px] flex justify-center">
+            <TearTicket
+              image="/art/luffy-waving.gif"
+              imageAlt="Luffy Waving - Manga Portfolio Entrance"
+              background="#090A0E"
+              color="#F4F2ED"
+              border={true}
+              borderColor="#D71936"
+              borderWidth={2}
+              stubBackground="#D71936"
+              width={800}
+              height={350}
+              stubSize={120}
+              orientation="horizontal"
+              tilt={true}
+              onTear={handleTear}
+              stub={
+                <div className="h-full flex items-center justify-center">
+                  <span
+                    style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+                    className="text-4xl font-heading tracking-widest text-white drop-shadow-md select-none pointer-events-none"
+                  >
+                    TEAR
+                  </span>
+                </div>
+              }
+            >
+              <div className="p-8 text-left h-full flex flex-col justify-center relative z-10">
+                <h2 className="font-heading text-5xl sm:text-6xl text-[#D71936] mb-4 tracking-wide uppercase drop-shadow-lg">
+                  SEINEN MANGA ARCHIVE
+                </h2>
+                <p className="text-xl sm:text-2xl font-bold max-w-md text-[#F4F2ED] leading-snug drop-shadow-md">
+                  Welcome to YOGESHKUMAR S PORTFOLIO. This is a Manga Themed Portfolio, Hope you like it!
+                </p>
+              </div>
+            </TearTicket>
+          </div>
+
+          {/* Quick Click-to-Tear Button */}
+          <button
+            onClick={handleTear}
+            className="mt-6 px-6 py-2.5 border border-[#23252C] bg-[#14151B] hover:border-[#D71936] text-[#747C8B] hover:text-[#F4F2ED] font-mono text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-noir font-heading tracking-wider"
+          >
+            <span>[TEAR TICKET & ENTER PORTFOLIO ⮞]</span>
+          </button>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* GLOBAL NAVIGATION — REACT BITS BUBBLEMENU                    */}
+      {/* ============================================================ */}
+      <BubbleMenu
+        logo={null}
+        useFixedPosition={true}
+        menuBg="#D71936"
+        menuContentColor="#F4F2ED"
+        items={CHAPTERS_DATA.map((ch, idx) => ({
+          label: `${ch.number} ${ch.title}`,
+          href: `#${ch.id}`,
+          ariaLabel: `${ch.number} ${ch.title} (${ch.kanji})`,
+          rotation: idx % 2 === 0 ? -6 : 6,
+          hoverStyles: {
+            bgColor: '#090A0E',
+            textColor: '#F4F2ED',
+          },
+        }))}
       />
 
-      {/* Primary Experience Container */}
-      <main className="flex-1 space-y-0">
-        {/* CHAPTER 00 — PROLOGUE (HERO WITH 3D TANKŌBON CENTERPIECE) */}
-        {(!soloView || soloView === 'hero') && <NoirHero />}
+      {/* ============================================================ */}
+      {/* SLIM CONTINUOUS SCROLLING TEXT TICKER AT THE VERY TOP        */}
+      {/* ============================================================ */}
+      <TopMarqueeTicker />
+
+      {/* ============================================================ */}
+      {/* MAIN CONTENT AREA — NATIVE VERTICAL SCROLL FLOW               */}
+      {/* ============================================================ */}
+      <main className="flex-1 relative z-10 space-y-0 bg-transparent">
+        {/* CHAPTER 00 — PROLOGUE (HERO ENTRANCE VIA SCROLLEXPAND) */}
+        {soloView === 'hero-direct' ? (
+          <MangaSplashHero />
+        ) : (!soloView || soloView === 'hero') ? (
+          <ScrollExpand
+            src="/art/one-piece-bg.jpg"
+            title="YOGESHKUMAR S"
+            useWindowScroll={true}
+            scrollDistance={1.2}
+            holdDistance={0}
+            startWidth={38}
+            startHeight={58}
+            startRadius={20}
+            enabled={true}
+            className="w-full bg-transparent"
+          >
+            <MangaSplashHero />
+          </ScrollExpand>
+        ) : null}
 
         {/* CHAPTER 01 — THE PERSON */}
-        {(!soloView || soloView === 'about-skills' || soloView === 'person') && (
-          <PersonNarrative />
+        {(!soloView || soloView === 'about-skills' || soloView === 'person' || soloView === 'story') && (
+          <MangaStorySequence />
         )}
 
         {/* CHAPTER 02 — MY ARSENAL */}
@@ -77,13 +231,8 @@ export default function App(): React.JSX.Element {
           <ArsenalSection />
         )}
 
-        {/* CHAPTER 03 — LEAD 3D SHOWCASE (SKILLSWAP 3D PERSPECTIVE SPREAD) */}
-        {(!soloView || soloView === 'skillswap' || soloView === 'projects') && (
-          <SkillSwap3DShowcase />
-        )}
-
-        {/* CHAPTER 03 — MY CREATIONS (ALL CURATED & ARCHIVED WORKS) */}
-        {(!soloView || soloView === 'projects' || soloView === 'creations') && (
+        {/* CHAPTER 03 — MY CREATIONS */}
+        {(!soloView || soloView === 'skillswap' || soloView === 'projects' || soloView === 'creations') && (
           <CreationsSection />
         )}
 

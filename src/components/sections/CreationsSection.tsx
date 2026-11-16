@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  FEATURED_PROJECTS,
+  PROJECTS_DATA,
   ARCHIVED_PROJECTS,
   TOTAL_PROJECTS_COUNT,
   PUBLIC_DEMOS_COUNT,
@@ -14,7 +14,7 @@ import { TechBadge } from '../common/TechBadge';
 import { InkButton } from '../common/InkButton';
 import { ProjectEditorialArtwork } from '../illustrations/ProjectEditorialArtwork';
 import { ProjectDetailModal } from './ProjectDetailModal';
-import { ExternalLink, Github, Eye, Filter, Archive } from 'lucide-react';
+import { ExternalLink, Github, Eye, Filter } from 'lucide-react';
 
 export const CreationsSection: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -29,22 +29,22 @@ export const CreationsSection: React.FC = () => {
     'Conceptual UI',
   ];
 
-  // Dynamically filter featured projects
-  const filteredFeaturedProjects = useMemo(() => {
-    if (activeFilter === 'All') return FEATURED_PROJECTS;
+  // All 8 projects filtered equally in a single uniform collection
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === 'All') return PROJECTS_DATA;
     if (activeFilter === 'Deployed Applications') {
-      return FEATURED_PROJECTS.filter((p) => p.maturity === 'Deployed Application');
+      return PROJECTS_DATA.filter((p) => p.maturity === 'Deployed Application');
     }
     if (activeFilter === 'Full-Stack Projects') {
-      return FEATURED_PROJECTS.filter((p) => p.maturity === 'Full-Stack Prototype');
+      return PROJECTS_DATA.filter((p) => p.maturity === 'Full-Stack Prototype');
     }
     if (activeFilter === 'Hackathon Prototypes') {
-      return FEATURED_PROJECTS.filter((p) => p.maturity === 'Hackathon Prototype');
+      return PROJECTS_DATA.filter((p) => p.maturity === 'Hackathon Prototype');
     }
     if (activeFilter === 'Conceptual UI') {
-      return FEATURED_PROJECTS.filter((p) => p.maturity === 'Conceptual UI');
+      return PROJECTS_DATA.filter((p) => p.maturity === 'Conceptual UI');
     }
-    return FEATURED_PROJECTS;
+    return PROJECTS_DATA;
   }, [activeFilter]);
 
   const handleOpenModal = (project: ProjectRecord) => {
@@ -59,15 +59,18 @@ export const CreationsSection: React.FC = () => {
   return (
     <section
       id="creations"
-      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-transparent text-[#F4F2ED] overflow-hidden"
     >
-      {/* Anchor for alternative hash */}
+      {/* Anchors for alternative hashes */}
       <div id="my-creations" className="absolute -top-20" />
+      <div id="skillswap" className="absolute -top-20" />
+      <div id="projects" className="absolute -top-20" />
+      
       {/* Background Screentone Dot Matrix Texture */}
       <div className="absolute inset-0 bg-screentone-dark opacity-50 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Chapter Header */}
+        {/* Chapter Header — Single Chapter 03 Header for the Entire Block */}
         <ChapterHeader
           number="03"
           title="MY CREATIONS"
@@ -77,7 +80,7 @@ export const CreationsSection: React.FC = () => {
         />
 
         {/* Dynamic Metrics Header Ribbon */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           <MangaPanel variant="noir" tag="VOLUME METRIC">
             <span className="font-mono text-3xl sm:text-4xl font-black text-[#F4F2ED] block">
               {TOTAL_PROJECTS_COUNT}
@@ -87,21 +90,21 @@ export const CreationsSection: React.FC = () => {
             </span>
           </MangaPanel>
 
-          <MangaPanel variant="noir" tag="EDITORIAL">
-            <span className="font-mono text-3xl sm:text-4xl font-black text-[#F4F2ED] block">
-              {FEATURED_PROJECTS.length}
+          <MangaPanel variant="noir" tag="DEPLOYED WORKS">
+            <span className="font-mono text-3xl sm:text-4xl font-black text-[#D71936] block">
+              0{DEPLOYED_APPLICATIONS_COUNT}
             </span>
             <span className="font-mono text-xs text-[#9DA6B8]">
-              Featured Spreads
+              Live Production Platforms
             </span>
           </MangaPanel>
 
           <MangaPanel variant="noir" tag="PUBLIC ACCESS">
-            <span className="font-mono text-3xl sm:text-4xl font-black text-[#D71936] block">
-              {PUBLIC_DEMOS_COUNT}
+            <span className="font-mono text-3xl sm:text-4xl font-black text-[#F4F2ED] block">
+              0{PUBLIC_DEMOS_COUNT}
             </span>
             <span className="font-mono text-xs text-[#9DA6B8]">
-              Public Live Demos
+              Public Interactive Demos
             </span>
           </MangaPanel>
 
@@ -110,7 +113,7 @@ export const CreationsSection: React.FC = () => {
               {ARCHIVED_PROJECTS.length}
             </span>
             <span className="font-mono text-xs text-[#9DA6B8]">
-              Indexed Experiments ({DEPLOYED_APPLICATIONS_COUNT} Deployed)
+              Indexed Repositories
             </span>
           </MangaPanel>
         </div>
@@ -119,7 +122,7 @@ export const CreationsSection: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b-2 border-[#23252C]">
           <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#F4F2ED] uppercase tracking-wider">
             <Filter className="w-4 h-4 text-[#D71936]" />
-            <span>FILTER ARCHIVES:</span>
+            <span>FILTER ARCHIVES ({filteredProjects.length} OF {TOTAL_PROJECTS_COUNT}):</span>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -143,25 +146,33 @@ export const CreationsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Featured Project Spreads Stream */}
-        <div className="space-y-16 mb-20">
+        {/* ============================================================ */}
+        {/* UNIFORM 8-PROJECT CSS GRID — EQUAL TREATMENT FOR ALL WORKS   */}
+        {/* ============================================================ */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           <AnimatePresence mode="popLayout">
-            {filteredFeaturedProjects.map((project, idx) => {
+            {filteredProjects.map((project, idx) => {
               const isEven = idx % 2 === 0;
               return (
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.4 }}
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -100 : 100 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: idx * 0.1,
+                    ease: 'easeOut',
+                  }}
+                  className="flex flex-col h-full"
                 >
                   <MangaPanel
                     variant={isEven ? 'default' : 'wash'}
-                    tag={`SPREAD 0${idx + 1}`}
+                    tag={`WORK 0${idx + 1}`}
                     notch={isEven ? 'top-right' : 'bottom-right'}
-                    className="p-6 sm:p-8 relative overflow-hidden"
+                    className="p-6 sm:p-7 relative overflow-hidden transition-all duration-300 hover:border-[#D71936] hover:shadow-noir-lg flex flex-col justify-between h-full"
                   >
                     {/* Oversized Decorative Chapter Index Backdrop */}
                     <div
@@ -171,11 +182,11 @@ export const CreationsSection: React.FC = () => {
                       0{idx + 1}
                     </div>
 
-                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                      {/* Left Side: Artwork Schematics */}
-                      <div className={`lg:col-span-6 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                    <div className="relative z-10 space-y-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        {/* Artwork Schematics Preview */}
                         <div
-                          className="relative group cursor-pointer shadow-noir overflow-hidden border-2 border-[#090A0E]"
+                          className="relative group cursor-pointer shadow-noir overflow-hidden border-2 border-[#090A0E] mb-4 aspect-[16/9] w-full bg-[#090A0E]"
                           onClick={() => handleOpenModal(project)}
                         >
                           <ProjectEditorialArtwork projectId={project.id} />
@@ -183,18 +194,15 @@ export const CreationsSection: React.FC = () => {
                           <div className="absolute inset-0 bg-[#090A0E]/85 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4 text-center">
                             <span className="font-mono text-xs text-white font-bold tracking-widest uppercase border border-white px-3.5 py-2 flex items-center gap-2 bg-[#090A0E]">
                               <Eye className="w-4 h-4 text-[#D71936]" />
-                              <span>INSPECT ARCHITECTURE // SPEC</span>
+                              <span>INSPECT SPECIFICATION</span>
                             </span>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Right Side: Narrative Specifications */}
-                      <div className={`lg:col-span-6 space-y-4 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
                         {/* Project Index & Maturity */}
-                        <div className="flex items-center justify-between gap-2 border-b border-[#090A0E]/15 pb-2">
+                        <div className="flex items-center justify-between gap-2 border-b border-[#090A0E]/15 pb-2 mb-2">
                           <span className="font-mono text-xs font-bold text-[#D71936]">
-                            ACT 0{idx + 1} // {project.chapterIndex}
+                            INDEX 0{idx + 1}
                           </span>
                           <TechBadge
                             name={project.maturity}
@@ -205,17 +213,17 @@ export const CreationsSection: React.FC = () => {
 
                         {/* Title & Tagline */}
                         <div>
-                          <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl text-[#090A0E] uppercase tracking-wide leading-[0.9]">
+                          <h3 className="font-display text-3xl sm:text-4xl text-[#090A0E] uppercase tracking-wide leading-none">
                             {project.title}
                           </h3>
-                          <p className="font-mono text-xs sm:text-sm text-[#3A3F4A] mt-1 font-semibold">
+                          <p className="font-mono text-xs text-[#3A3F4A] mt-1 font-semibold">
                             {project.subtitle}
                           </p>
                         </div>
 
                         {/* Problem Context Callout if available */}
                         {project.problemStatement && (
-                          <div className="p-3 bg-white/90 border-l-4 border-[#D71936] text-xs font-sans text-[#3A3F4A] leading-relaxed shadow-sm">
+                          <div className="mt-3 p-2.5 bg-white/90 border-l-4 border-[#D71936] text-xs font-sans text-[#3A3F4A] leading-relaxed shadow-sm">
                             <span className="font-mono text-[9px] font-bold text-[#D71936] uppercase tracking-wider block mb-0.5">
                               CHALLENGE CONTEXT
                             </span>
@@ -224,13 +232,13 @@ export const CreationsSection: React.FC = () => {
                         )}
 
                         {/* Summary */}
-                        <p className="font-sans text-sm sm:text-base text-[#090A0E] leading-relaxed font-medium">
+                        <p className="font-sans text-xs sm:text-sm text-[#090A0E] leading-relaxed font-medium mt-3">
                           {project.summary}
                         </p>
 
-                        {/* Top 3 Documented Features */}
-                        <div className="space-y-1.5 py-1">
-                          {project.keyFeatures.slice(0, 3).map((feature, fIdx) => (
+                        {/* Top 2 Documented Features */}
+                        <div className="space-y-1 py-2">
+                          {project.keyFeatures.slice(0, 2).map((feature, fIdx) => (
                             <div key={fIdx} className="flex items-start gap-2 text-xs text-[#3A3F4A]">
                               <span className="text-[#D71936] font-bold">▶</span>
                               <span className="font-sans font-medium">{feature}</span>
@@ -240,7 +248,7 @@ export const CreationsSection: React.FC = () => {
 
                         {/* Tech Stack Pills */}
                         <div className="flex flex-wrap gap-1.5 pt-1">
-                          {project.techStack.map((tech) => (
+                          {project.techStack.slice(0, 6).map((tech) => (
                             <TechBadge
                               key={tech}
                               name={tech}
@@ -249,43 +257,48 @@ export const CreationsSection: React.FC = () => {
                               className="hover:border-[#D71936] transition-colors"
                             />
                           ))}
+                          {project.techStack.length > 6 && (
+                            <span className="px-1.5 py-0.5 font-mono text-[10px] text-[#747C8B] bg-white border border-[#23252C]">
+                              +{project.techStack.length - 6}
+                            </span>
+                          )}
                         </div>
+                      </div>
 
-                        {/* Action Buttons Row */}
-                        <div className="flex flex-wrap items-center gap-3 pt-3">
-                          {project.liveUrl && (
-                            <InkButton
-                              variant="primary"
-                              size="sm"
-                              href={project.liveUrl}
-                              target="_blank"
-                              icon={<ExternalLink className="w-3.5 h-3.5" />}
-                            >
-                              LIVE DEMO
-                            </InkButton>
-                          )}
-
-                          {project.githubUrl && (
-                            <InkButton
-                              variant="secondary"
-                              size="sm"
-                              href={project.githubUrl}
-                              target="_blank"
-                              icon={<Github className="w-3.5 h-3.5" />}
-                            >
-                              GITHUB
-                            </InkButton>
-                          )}
-
+                      {/* Action Buttons Row */}
+                      <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-[#090A0E]/15 mt-auto">
+                        {project.liveUrl && (
                           <InkButton
-                            variant="accent"
+                            variant="primary"
                             size="sm"
-                            onClick={() => handleOpenModal(project)}
-                            icon={<Eye className="w-3.5 h-3.5" />}
+                            href={project.liveUrl}
+                            target="_blank"
+                            icon={<ExternalLink className="w-3.5 h-3.5" />}
                           >
-                            DEEP DIVE
+                            LIVE DEMO
                           </InkButton>
-                        </div>
+                        )}
+
+                        {project.githubUrl && (
+                          <InkButton
+                            variant="secondary"
+                            size="sm"
+                            href={project.githubUrl}
+                            target="_blank"
+                            icon={<Github className="w-3.5 h-3.5" />}
+                          >
+                            GITHUB
+                          </InkButton>
+                        )}
+
+                        <InkButton
+                          variant="accent"
+                          size="sm"
+                          onClick={() => handleOpenModal(project)}
+                          icon={<Eye className="w-3.5 h-3.5" />}
+                        >
+                          DEEP DIVE
+                        </InkButton>
                       </div>
                     </div>
                   </MangaPanel>
@@ -293,81 +306,6 @@ export const CreationsSection: React.FC = () => {
               );
             })}
           </AnimatePresence>
-        </div>
-
-        {/* Compact Archived Projects Index */}
-        <div className="mt-16">
-          <MangaPanel variant="noir" tag="COMPACT ARCHIVE INDEX" notch="none">
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#23252C]">
-              <div className="flex items-center gap-2">
-                <Archive className="w-4 h-4 text-[#D71936]" />
-                <h4 className="font-display text-2xl text-[#F4F2ED] uppercase tracking-wide">
-                  SUPPLEMENTARY WORKS & EXPERIMENTS ({ARCHIVED_PROJECTS.length})
-                </h4>
-              </div>
-              <span className="font-mono text-xs text-[#9DA6B8] hidden sm:inline">
-                REPOSITORIES
-              </span>
-            </div>
-
-            {/* Responsive Table / Card Stream */}
-            <div className="divide-y divide-[#23252C]">
-              {ARCHIVED_PROJECTS.map((archiveProj) => (
-                <div
-                  key={archiveProj.id}
-                  className="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-display text-xl text-[#F4F2ED] uppercase">
-                        {archiveProj.title}
-                      </span>
-                      <TechBadge name={archiveProj.maturity} variant="noir" size="sm" />
-                    </div>
-                    <p className="text-xs text-[#9DA6B8] font-sans max-w-2xl">
-                      {archiveProj.summary}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {archiveProj.techStack.map((tech) => (
-                        <TechBadge key={tech} name={tech} variant="noir" size="sm" />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-3 shrink-0">
-                    {archiveProj.liveUrl && (
-                      <InkButton
-                        variant="primary"
-                        size="sm"
-                        href={archiveProj.liveUrl}
-                        target="_blank"
-                        icon={<ExternalLink className="w-3 h-3" />}
-                      >
-                        DEMO
-                      </InkButton>
-                    )}
-                    <InkButton
-                      variant="secondary"
-                      size="sm"
-                      href={archiveProj.githubUrl}
-                      target="_blank"
-                      icon={<Github className="w-3 h-3" />}
-                    >
-                      CODE
-                    </InkButton>
-                    <InkButton
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleOpenModal(archiveProj)}
-                    >
-                      INFO
-                    </InkButton>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </MangaPanel>
         </div>
       </div>
 

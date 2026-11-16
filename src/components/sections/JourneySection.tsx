@@ -40,7 +40,7 @@ export const JourneySection: React.FC = () => {
   return (
     <section
       id="journey"
-      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-transparent text-[#F4F2ED] overflow-hidden"
     >
       {/* Anchor for alternative hash */}
       <div id="the-journey" className="absolute -top-20" />
@@ -57,17 +57,17 @@ export const JourneySection: React.FC = () => {
           theme="dark"
         />
 
-        {/* ARC I — PROFESSIONAL EXPERIENCE */}
+        {/* PROFESSIONAL EXPERIENCE */}
         <div className="mb-20">
           <div className="flex items-center justify-between pb-3 mb-8 border-b-2 border-[#23252C]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 bg-[#D71936]" />
               <h3 className="font-display text-2xl sm:text-3xl text-[#F4F2ED] uppercase tracking-wide">
-                ARC I // PROFESSIONAL EXP & LEADERSHIP
+                PROFESSIONAL EXPERIENCE & LEADERSHIP
               </h3>
             </div>
             <span className="font-mono text-xs text-[#9DA6B8] hidden sm:inline uppercase">
-              CHRONOLOGY // 実務経験
+              CHRONOLOGY
             </span>
           </div>
 
@@ -181,17 +181,17 @@ export const JourneySection: React.FC = () => {
           </div>
         </div>
 
-        {/* ARC II — HACKATHONS & ACHIEVEMENTS */}
+        {/* HACKATHONS & ACHIEVEMENTS */}
         <div className="mb-20">
           <div className="flex items-center justify-between pb-3 mb-8 border-b-2 border-[#23252C]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 bg-[#D71936]" />
               <h3 className="font-display text-2xl sm:text-3xl text-[#F4F2ED] uppercase tracking-wide">
-                ARC II // HACKATHONS & COMPETITIVE STANDINGS
+                HACKATHONS & COMPETITIVE STANDINGS
               </h3>
             </div>
             <span className="font-mono text-xs text-[#9DA6B8] hidden sm:inline uppercase">
-              HONORS & PROTOTYPES // 競技記録
+              HONORS & PROTOTYPES
             </span>
           </div>
 
@@ -267,17 +267,17 @@ export const JourneySection: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* ARC III — CERTIFICATIONS */}
+        {/* VERIFIED TECHNICAL CERTIFICATIONS */}
         <div>
           <div className="flex items-center justify-between pb-3 mb-8 border-b-2 border-[#23252C]">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 bg-[#D71936]" />
               <h3 className="font-display text-2xl sm:text-3xl text-[#F4F2ED] uppercase tracking-wide">
-                ARC III // VERIFIED TECHNICAL CERTIFICATIONS
+                VERIFIED TECHNICAL CERTIFICATIONS
               </h3>
             </div>
             <span className="font-mono text-xs text-[#9DA6B8] hidden sm:inline uppercase">
-              CREDENTIALS // 認定証
+              CREDENTIALS
             </span>
           </div>
 

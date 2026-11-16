@@ -7,6 +7,7 @@ import {
   createSpineTexture,
   createBackCoverTexture,
   createInsidePageTexture,
+  createInsideCoverTexture,
   createPageEdgeTexture,
 } from './mangaTextures';
 
@@ -20,30 +21,18 @@ const BookMesh: React.FC<BookMeshProps> = ({ isOpen, onToggleOpen, reducedMotion
   const groupRef = useRef<THREE.Group>(null);
   const frontCoverHingeRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const springRef = useRef({ pos: isOpen ? -1.65 : 0, vel: 0 });
 
   const { pointer } = useThree();
 
-  // Track window scroll progress for natural scroll-driven page opening
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const progress = Math.min(Math.max(scrollY / 400, 0), 1);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Create memoized textures once
-  const { frontCoverTex, spineTex, backCoverTex, insidePageTex, pageEdgeTex } = useMemo(() => {
+  const { frontCoverTex, spineTex, backCoverTex, insidePageTex, insideCoverTex, pageEdgeTex } = useMemo(() => {
     return {
       frontCoverTex: createFrontCoverTexture(),
       spineTex: createSpineTexture(),
       backCoverTex: createBackCoverTexture(),
       insidePageTex: createInsidePageTexture(),
+      insideCoverTex: createInsideCoverTexture(),
       pageEdgeTex: createPageEdgeTexture(),
     };
   }, []);
@@ -91,34 +80,42 @@ const BookMesh: React.FC<BookMeshProps> = ({ isOpen, onToggleOpen, reducedMotion
       groupRef.current.rotation.x = 0.08;
     }
 
-    // 3. Smooth front cover opening hinge rotation:
-    // Opens progressively with scroll (up to -0.9 rad) or when clicked / hovered (up to -1.35 rad)
+    // 3. Physical Spring Simulation for front cover opening (Hooke's Law + viscous damping):
+    // Disconnected from scroll triggers; driven strictly by click-toggled isOpen state
     if (frontCoverHingeRef.current) {
-      let targetHingeAngle = 0;
-      if (isOpen) {
-        targetHingeAngle = -1.45; // ~83 degrees open
-      } else if (hovered) {
-        targetHingeAngle = -0.95; // ~54 degrees open
-      } else if (scrollProgress > 0.05) {
-        targetHingeAngle = -scrollProgress * 1.15; // Opens progressively on scroll
-      }
+      const targetHingeAngle = isOpen ? -1.65 : hovered ? -0.15 : 0;
+      const stiffness = 160;
+      const damping = 18;
+      const dt = Math.min(delta, 0.05);
 
-      frontCoverHingeRef.current.rotation.y = THREE.MathUtils.damp(
-        frontCoverHingeRef.current.rotation.y,
-        targetHingeAngle,
-        5.5,
-        delta
-      );
+      const displacement = springRef.current.pos - targetHingeAngle;
+      const springForce = -stiffness * displacement;
+      const dampingForce = -damping * springRef.current.vel;
+      const accel = springForce + dampingForce;
+
+      springRef.current.vel += accel * dt;
+      springRef.current.pos += springRef.current.vel * dt;
+
+      frontCoverHingeRef.current.rotation.y = springRef.current.pos;
     }
   });
 
   return (
     <group
       ref={groupRef}
-      onClick={onToggleOpen}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-      cursor-pointer="true"
+      scale={0.75}
+      onClick={(e) => {
+        e.stopPropagation();
+        onToggleOpen?.();
+      }}
+      onPointerOver={() => {
+        setHovered(true);
+        document.body.style.cursor = 'pointer';
+      }}
+      onPointerOut={() => {
+        setHovered(false);
+        document.body.style.cursor = 'auto';
+      }}
     >
       {/* 1. BACK COVER */}
       <mesh position={[0, 0, -bookDepth / 2]} receiveShadow castShadow>
@@ -141,11 +138,11 @@ const BookMesh: React.FC<BookMeshProps> = ({ isOpen, onToggleOpen, reducedMotion
       </mesh>
 
       {/* 3. FIRST MANGA SPREAD (Visible right underneath front cover when opened) */}
-      <mesh position={[0.015, 0, bookDepth / 2 - coverThickness - 0.002]}>
+      <mesh position={[0.015, 0, bookDepth / 2 - coverThickness + 0.003]}>
         <planeGeometry args={[bookWidth - 0.08, bookHeight - 0.1]} />
         <meshStandardMaterial
           map={insidePageTex}
-          roughness={0.55}
+          roughness={0.6}
           metalness={0.0}
         />
       </mesh>
@@ -179,6 +176,19 @@ const BookMesh: React.FC<BookMeshProps> = ({ isOpen, onToggleOpen, reducedMotion
             metalness={0.16}
           />
         </mesh>
+
+        {/* Inside face of front cover (Revealed on the left when cover swings open) */}
+        <mesh
+          position={[bookWidth / 2, 0, -coverThickness / 2 - 0.001]}
+          rotation={[0, Math.PI, 0]}
+        >
+          <planeGeometry args={[bookWidth - 0.04, bookHeight - 0.04]} />
+          <meshStandardMaterial
+            map={insideCoverTex}
+            roughness={0.6}
+            metalness={0.0}
+          />
+        </mesh>
       </group>
     </group>
   );
@@ -189,7 +199,8 @@ export interface MangaBook3DProps {
 }
 
 export const MangaBook3D: React.FC<MangaBook3DProps> = ({ className = '' }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const isBookOpenQuery = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('bookOpen') === '1';
+  const [isOpen, setIsOpen] = useState(isBookOpenQuery);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [webglSupported, setWebglSupported] = useState(true);
 
@@ -217,7 +228,7 @@ export const MangaBook3D: React.FC<MangaBook3DProps> = ({ className = '' }) => {
       <div className={`relative aspect-[3/4] max-w-[360px] w-full border-4 border-[#F4F2ED] bg-[#090A0E] shadow-noir-lg flex flex-col justify-between p-6 ${className}`}>
         <div className="font-mono text-xs text-[#D71936] font-bold">SEINEN MANGA ARCHIVE // VOL. 01</div>
         <div>
-          <h2 className="font-display text-6xl text-[#F4F2ED]">YOGESH.</h2>
+          <h2 className="font-display text-4xl sm:text-5xl text-[#F4F2ED]">YOGESHKUMAR S</h2>
           <p className="font-mono text-xs text-[#9DA6B8]">THE DEVELOPER'S STORY</p>
         </div>
         <div className="pt-4 border-t border-[#23252C] font-mono text-[10px] text-[#9DA6B8]">
@@ -228,12 +239,12 @@ export const MangaBook3D: React.FC<MangaBook3DProps> = ({ className = '' }) => {
   }
 
   return (
-    <div className={`relative w-full aspect-[4/5] max-w-[480px] lg:max-w-[520px] select-none ${className}`}>
+    <div className={`relative w-full h-full select-none ${className}`}>
       {/* 3D Canvas */}
       <Canvas
         shadows
         dpr={[1, 2]}
-        camera={{ position: [0, 0, 4.8], fov: 44 }}
+        camera={{ position: [0, 0, 4.3], fov: 42 }}
         className="w-full h-full cursor-grab active:cursor-grabbing"
       >
         {/* Soft Ambient Fill */}
@@ -274,18 +285,6 @@ export const MangaBook3D: React.FC<MangaBook3DProps> = ({ className = '' }) => {
           color="#000000"
         />
       </Canvas>
-
-      {/* Floating Interactive Badge / Control Tooltip */}
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 bg-[#14151B] border border-[#23252C] shadow-crimson pointer-events-auto">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#D71936] animate-pulse" />
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="font-mono text-[10px] text-[#F4F2ED] uppercase tracking-wider hover:text-[#D71936] transition-colors cursor-pointer"
-        >
-          {isOpen ? 'CLOSE VOLUME [-]' : 'CLICK OR SCROLL TO OPEN PAGES [+]'}
-        </button>
-      </div>
     </div>
   );
 };

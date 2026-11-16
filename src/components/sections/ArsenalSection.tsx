@@ -1,219 +1,166 @@
 import React from 'react';
-import { motion, type Variants } from 'motion/react';
-import { SKILL_CATEGORIES } from '../../data/skills';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { ChapterHeader } from '../common/ChapterHeader';
-import { MangaPanel } from '../common/MangaPanel';
-import { TechBadge } from '../common/TechBadge';
-import { Code2, Layout, Server, Database, Wrench, Sparkles, Terminal } from 'lucide-react';
+import { HankoStamp } from '../common/HankoStamp';
+import FolderFloat from '../react-bits/FolderFloat';
+import { Terminal, Cpu } from 'lucide-react';
+
+interface SkillFolderGroup {
+  id: string;
+  label: string;
+  sublabel: string;
+  items: string[];
+}
+
+const SKILL_FOLDERS: SkillFolderGroup[] = [
+  {
+    id: 'frontend',
+    label: 'Frontend',
+    sublabel: 'Technologies',
+    items: ['React.js', 'Next.js', 'Tailwind CSS', 'Vite', 'Motion', 'HTML5', 'CSS3'],
+  },
+  {
+    id: 'backend',
+    label: 'Backend',
+    sublabel: 'Architecture',
+    items: ['Node.js', 'Express.js', 'REST APIs', 'JWT Auth', 'Mongoose'],
+  },
+  {
+    id: 'databases',
+    label: 'Databases',
+    sublabel: 'Storage & Schema',
+    items: ['MongoDB', 'Firebase Firestore', 'PostgreSQL', 'Cloud DBs'],
+  },
+  {
+    id: 'languages',
+    label: 'Languages',
+    sublabel: 'Core Syntax',
+    items: ['JavaScript (ES6+)', 'Python', 'C', 'C++', 'TypeScript'],
+  },
+  {
+    id: 'tools',
+    label: 'Tools & Cloud',
+    sublabel: 'DevOps & Tooling',
+    items: ['Git', 'GitHub', 'Vercel', 'Render', 'Postman', 'Firebase Hosting'],
+  },
+];
 
 export const ArsenalSection: React.FC = () => {
-  const iconMap: Record<string, React.ReactNode> = {
-    languages: <Code2 className="w-4 h-4 text-[#D71936]" />,
-    frontend: <Layout className="w-4 h-4 text-[#D71936]" />,
-    backend: <Server className="w-4 h-4 text-[#D71936]" />,
-    databases: <Database className="w-4 h-4 text-[#D71936]" />,
-    tools: <Wrench className="w-4 h-4 text-[#D71936]" />,
-    additional: <Sparkles className="w-4 h-4 text-[#D71936]" />,
-  };
-
-  const categoryDescriptions: Record<string, string> = {
-    languages: 'Core computational logic and syntax for algorithms, systems programming, and modern web applications.',
-    frontend: 'Interactive single-page apps, responsive UI architecture, and fluid motion design systems.',
-    backend: 'RESTful endpoint design, server orchestration, and secure authenticated application backbones.',
-    databases: 'Document datastores, relational schemas, and persistent cloud-hosted database solutions.',
-    tools: 'Version control lifecycle, continuous deployment automation, and modern developer environments.',
-    additional: 'Advanced prompt engineering, numerical analysis, and spreadsheet data manipulation.',
-  };
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const panelVariants: Variants = {
-    hidden: { opacity: 1, y: 0 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
     <section
       id="arsenal"
-      className="relative py-16 sm:py-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+      className="relative min-h-screen py-16 sm:py-24 border-b-2 border-[#23252C] bg-transparent text-[#F4F2ED] overflow-hidden"
     >
       {/* Anchor for alternative hash */}
       <div id="my-arsenal" className="absolute -top-20" />
-      {/* Background Screentone Dot Matrix Texture */}
-      <div className="absolute inset-0 bg-screentone-dark opacity-50 pointer-events-none" />
+
+      {/* 1. Manga Screentone Texture Overlay */}
+      <div className="absolute inset-0 bg-screentone-dark opacity-30 pointer-events-none z-[1]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Chapter Header */}
+        {/* Chapter Header with Animated Shuffle Heading */}
         <ChapterHeader
           number="02"
           title="MY ARSENAL"
           kanji="技術"
-          subtitle="Grounded technical competencies organized across system layers — zero arbitrary percentages or exaggerated proficiency."
           theme="dark"
         />
 
-        {/* 6 Asymmetrical Manga Panels */}
+        {/* Technical Inventory Badge Strip */}
+        <div className="flex flex-wrap items-center justify-between border-b border-[#23252C] pb-3 mb-10 gap-3 font-mono text-xs text-[#747C8B]">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#D71936] animate-pulse" />
+            <span className="text-[#F4F2ED] font-bold uppercase tracking-wider">
+              VERIFIED PROFICIENCIES
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="px-2 py-0.5 bg-[#14151B] border border-[#23252C] text-[#D71936] font-bold text-[10px]">
+              5 CLASSIFIED FOLDERS
+            </span>
+            <HankoStamp label="技" size="sm" />
+          </div>
+        </div>
+
+        {/* ============================================================ */}
+        {/* FOLDERFLOAT RESPONSIVE GRID SHOWCASE                         */}
+        {/* ============================================================ */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-10% 0px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-stretch"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.7 }}
+          className="pt-20 pb-20 px-2"
         >
-          {SKILL_CATEGORIES.map((category, index) => {
-            // Asymmetrical grid column spans:
-            // Frontend: 7 cols, Backend: 5 cols
-            // Languages: 4 cols, Databases: 4 cols, Tools: 4 cols
-            // Additional: 12 cols full-width banner
-            let colSpan = 'lg:col-span-4';
-            let variant: 'default' | 'wash' | 'ink' = 'default';
-            let notch: 'none' | 'top-right' | 'bottom-right' = 'none';
-
-            if (category.id === 'frontend') {
-              colSpan = 'lg:col-span-7';
-              notch = 'top-right';
-            } else if (category.id === 'backend') {
-              colSpan = 'lg:col-span-5';
-              variant = 'wash';
-            } else if (category.id === 'languages') {
-              colSpan = 'lg:col-span-4';
-              variant = 'wash';
-            } else if (category.id === 'databases') {
-              colSpan = 'lg:col-span-4';
-            } else if (category.id === 'tools') {
-              colSpan = 'lg:col-span-4';
-              notch = 'bottom-right';
-            } else if (category.id === 'additional') {
-              colSpan = 'lg:col-span-12';
-              variant = 'ink';
-            }
-
-            const isInk = variant === 'ink';
-
-            return (
-              <motion.div
-                key={category.id}
-                variants={panelVariants}
-                className={`${colSpan} flex flex-col`}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-8 gap-y-36 max-w-6xl mx-auto">
+            {SKILL_FOLDERS.map((group) => (
+              <div
+                key={group.id}
+                className="flex flex-col items-center justify-center relative group select-none w-full"
               >
-                <MangaPanel
-                  variant={variant}
-                  notch={notch}
-                  hoverEffect
-                  tag={`SEC 0${index + 1}`}
-                  className="h-full flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Panel Top Meta */}
-                    <div
-                      className={`flex items-center justify-between pb-3 mb-3 border-b ${
-                        isInk ? 'border-[#23252C]' : 'border-[#090A0E]/15'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        {iconMap[category.id] || <Terminal className="w-4 h-4 text-[#D71936]" />}
-                        <span
-                          className={`font-mono text-[11px] font-bold uppercase tracking-wider ${
-                            isInk ? 'text-[#F4F2ED]' : 'text-[#090A0E]'
-                          }`}
-                        >
-                          {category.title}
-                        </span>
-                      </div>
-                      <span
-                        className={`font-mono text-xs tracking-widest font-bold ${
-                          isInk ? 'text-[#D71936]' : 'text-[#747C8B]'
-                        }`}
-                      >
-                        {category.editorialLabel}
-                      </span>
-                    </div>
+                {/* Physical Interactive FolderFloat Module */}
+                <div className="relative z-20 flex items-center justify-center">
+                  <FolderFloat
+                    items={group.items}
+                    label={group.label}
+                    sublabel={group.sublabel}
+                    folderColor="#090A0E"
+                    frontColor="#23252C"
+                    paperColor="#F4F2ED"
+                    itemColor="#F4F2ED"
+                    itemTextColor="#090A0E"
+                    labelColor="#F4F2ED"
+                    trigger="hover"
+                    lift={110}
+                    spread={150}
+                    width={290}
+                    height={165}
+                  />
+                </div>
 
-                    {/* Category Title Heading */}
-                    <h3
-                      className={`font-display text-2xl sm:text-3xl uppercase tracking-wide mb-2 ${
-                        isInk ? 'text-[#F4F2ED]' : 'text-[#090A0E]'
-                      }`}
-                    >
-                      {category.title}
-                    </h3>
-
-                    {/* Editorial Category Description */}
-                    <p
-                      className={`font-sans text-xs leading-relaxed mb-4 ${
-                        isInk ? 'text-[#9DA6B8]' : 'text-[#3A3F4A]'
-                      }`}
-                    >
-                      {categoryDescriptions[category.id]}
-                    </p>
-
-                    {/* Skill Badges Flow */}
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      {category.skills.map((skill) => (
-                        <div
-                          key={skill.name}
-                          className="group relative transition-transform hover:-translate-y-0.5 focus-within:-translate-y-0.5"
-                        >
-                          <TechBadge
-                            name={skill.name}
-                            variant={
-                              isInk
-                                ? 'noir'
-                                : category.id === 'frontend' || category.id === 'languages'
-                                ? 'default'
-                                : 'muted'
-                            }
-                            size="md"
-                            className={`${
-                              isInk
-                                ? 'hover:border-[#D71936]'
-                                : 'group-hover:border-[#D71936] group-hover:bg-white'
-                            } transition-colors cursor-default shadow-sm`}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                {/* Tactical Folder Index Label Beneath */}
+                <div className="mt-8 text-center font-mono">
+                  <div className="flex items-center justify-center gap-1.5 text-sm font-bold text-[#F4F2ED] uppercase tracking-wider font-heading">
+                    <Terminal className="w-3.5 h-3.5 text-[#D71936]" />
+                    <span>{group.label}</span>
                   </div>
-
-                  {/* Panel Footer Tag */}
-                  <div
-                    className={`mt-6 pt-3 border-t flex items-center justify-between font-mono text-[10px] ${
-                      isInk
-                        ? 'border-[#23252C] text-[#9DA6B8]'
-                        : 'border-[#090A0E]/10 text-[#747C8B]'
-                    }`}
-                  >
-                    <span>{category.skills.length} VERIFIED STACK ITEMS</span>
-                    <span className="text-[#D71936] font-bold">
-                      ● ACTIVE
-                    </span>
-                  </div>
-                </MangaPanel>
-              </motion.div>
-            );
-          })}
+                  <span className="text-[11px] text-[#747C8B] tracking-wider uppercase block mt-0.5">
+                    {group.items.length} proficiencies
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
-        {/* Section Bottom Manga Issue Footer Note */}
-        <div className="mt-8 pt-4 border-t border-[#23252C] flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] text-[#9DA6B8]">
+        {/* Interactive Luffy Background with Radial Mask Blend, Subtle Hover & Scroll Parallax */}
+        <motion.img
+          style={{
+            y,
+            WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 75%)',
+            maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 75%)',
+          }}
+          src="/art/luffy-smiling.png"
+          alt="Luffy Smiling - Arsenal Background"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = '/art/luffy-smiling.jpg';
+          }}
+          className="absolute bottom-0 right-0 w-[800px] max-w-full translate-x-32 lg:translate-x-52 opacity-[0.08] grayscale mix-blend-screen transition-all duration-700 hover:grayscale-[50%] hover:opacity-30 z-0 cursor-crosshair select-none"
+        />
+
+        {/* Bottom Technical Summary Strip */}
+        <div className="mt-14 pt-6 border-t-2 border-[#23252C] flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#747C8B]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#D71936]" />
-            <span>CHAPTER 02 COMPLETE // CHAPTER 03 (MY CREATIONS) NEXT</span>
+            <Cpu className="w-4 h-4 text-[#D71936]" />
+            <span className="text-[#F4F2ED] font-bold">TOTAL VERIFIED STACK:</span>
+            <span>23 Core Technologies & Tools</span>
           </div>
-          <span className="text-[#747C8B] font-semibold">6 CATEGORIES • ZERO EXAGGERATION</span>
         </div>
+
       </div>
     </section>
   );

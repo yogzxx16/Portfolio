@@ -29,6 +29,7 @@ const INQUIRY_OPTIONS = [
 interface FormState {
   name: string;
   email: string;
+  subject: string;
   inquiryType: string;
   message: string;
   hp_company: string; // Honeypot field
@@ -37,6 +38,7 @@ interface FormState {
 interface FormErrors {
   name?: string;
   email?: string;
+  subject?: string;
   inquiryType?: string;
   message?: string;
 }
@@ -45,6 +47,7 @@ export const NextChapterSection: React.FC = () => {
   const [formData, setFormData] = useState<FormState>({
     name: '',
     email: '',
+    subject: '',
     inquiryType: 'Project Collaboration',
     message: '',
     hp_company: '',
@@ -71,14 +74,20 @@ export const NextChapterSection: React.FC = () => {
       newErrors.email = 'Please provide a valid email address.';
     }
 
+    if (!formData.subject.trim() || formData.subject.trim().length < 2) {
+      newErrors.subject = 'Please provide a subject (min 2 characters).';
+    } else if (formData.subject.trim().length > 200) {
+      newErrors.subject = 'Subject must be under 200 characters.';
+    }
+
     if (!formData.inquiryType || !INQUIRY_OPTIONS.includes(formData.inquiryType)) {
       newErrors.inquiryType = 'Please select a valid inquiry type.';
     }
 
     if (!formData.message.trim() || formData.message.trim().length < 10) {
       newErrors.message = 'Please provide a message with at least 10 characters.';
-    } else if (formData.message.trim().length > 3000) {
-      newErrors.message = 'Message must be under 3,000 characters.';
+    } else if (formData.message.trim().length > 5000) {
+      newErrors.message = 'Message must be under 5,000 characters.';
     }
 
     setErrors(newErrors);
@@ -124,6 +133,7 @@ export const NextChapterSection: React.FC = () => {
         setFormData({
           name: '',
           email: '',
+          subject: '',
           inquiryType: 'Project Collaboration',
           message: '',
           hp_company: '',
@@ -156,7 +166,7 @@ export const NextChapterSection: React.FC = () => {
   };
 
   const fallbackMailtoHref = `mailto:${PROFILE_DATA.email}?subject=${encodeURIComponent(
-    `[Portfolio Inquiry] ${formData.inquiryType || 'Collaboration'} from ${formData.name || 'Visitor'}`
+    `[Portfolio Inquiry] ${formData.subject || formData.inquiryType || 'Collaboration'} from ${formData.name || 'Visitor'}`
   )}&body=${encodeURIComponent(formData.message || 'Hello Yogesh,\n\n')}`;
 
   const scrollToTop = () => {
@@ -166,7 +176,7 @@ export const NextChapterSection: React.FC = () => {
   return (
     <section
       id="next-chapter"
-      className="relative pt-16 sm:pt-24 border-b-2 border-[#23252C] bg-[#090A0E] text-[#F4F2ED] overflow-hidden"
+      className="relative pt-16 sm:pt-24 border-b-2 border-[#23252C] bg-transparent text-[#F4F2ED] overflow-hidden"
     >
       {/* Background Screentone Dot Matrix Texture */}
       <div className="absolute inset-0 bg-screentone-dark opacity-50 pointer-events-none" />
@@ -181,8 +191,14 @@ export const NextChapterSection: React.FC = () => {
           theme="dark"
         />
 
-        {/* 12-Column Asymmetrical Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        {/* 12-Column Asymmetrical Grid with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.8, ease: 'backOut' }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+        >
           {/* LEFT COLUMN: Editorial Narrative & Direct Channels (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <MangaPanel variant="noir" tag="COMMUNICATION HUB" notch="none" className="p-6 sm:p-8">
@@ -462,32 +478,65 @@ export const NextChapterSection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Inquiry Type Field */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="inquiryType"
-                      className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
-                    >
-                      INQUIRY SCOPE <span className="text-[#D71936]">*</span>
-                    </label>
-                    <select
-                      id="inquiryType"
-                      name="inquiryType"
-                      required
-                      disabled={isSubmitting}
-                      value={formData.inquiryType}
-                      onChange={handleInputChange}
-                      className="w-full px-3.5 py-2.5 bg-[#090A0E] border-2 border-[#23252C] font-sans text-sm text-[#F4F2ED] focus:outline-none focus:border-[#D71936] transition-all cursor-pointer"
-                    >
-                      {INQUIRY_OPTIONS.map((option) => (
-                        <option key={option} value={option} className="bg-[#14151B] text-[#F4F2ED]">
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.inquiryType && (
-                      <p className="font-mono text-[11px] text-[#D71936]">{errors.inquiryType}</p>
-                    )}
+                  {/* Subject & Inquiry Scope Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {/* Subject Field */}
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="subject"
+                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
+                      >
+                        SUBJECT <span className="text-[#D71936]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        required
+                        disabled={isSubmitting}
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        placeholder="e.g. Project Proposal / Tech Role"
+                        className={`w-full px-3.5 py-2.5 bg-[#090A0E] border-2 ${
+                          errors.subject ? 'border-[#D71936]' : 'border-[#23252C]'
+                        } font-sans text-sm text-[#F4F2ED] placeholder:text-[#747C8B] focus:outline-none focus:border-[#D71936] transition-all`}
+                        aria-invalid={Boolean(errors.subject)}
+                        aria-describedby={errors.subject ? 'subject-error' : undefined}
+                      />
+                      {errors.subject && (
+                        <p id="subject-error" className="font-mono text-[11px] text-[#D71936]">
+                          {errors.subject}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Inquiry Scope Field */}
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="inquiryType"
+                        className="block font-mono text-xs font-bold uppercase tracking-wider text-[#9DA6B8]"
+                      >
+                        INQUIRY SCOPE <span className="text-[#D71936]">*</span>
+                      </label>
+                      <select
+                        id="inquiryType"
+                        name="inquiryType"
+                        required
+                        disabled={isSubmitting}
+                        value={formData.inquiryType}
+                        onChange={handleInputChange}
+                        className="w-full px-3.5 py-2.5 bg-[#090A0E] border-2 border-[#23252C] font-sans text-sm text-[#F4F2ED] focus:outline-none focus:border-[#D71936] transition-all cursor-pointer"
+                      >
+                        {INQUIRY_OPTIONS.map((option) => (
+                          <option key={option} value={option} className="bg-[#14151B] text-[#F4F2ED]">
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.inquiryType && (
+                        <p className="font-mono text-[11px] text-[#D71936]">{errors.inquiryType}</p>
+                      )}
+                    </div>
                   </div>
 
                   {/* Message Field */}
@@ -500,7 +549,7 @@ export const NextChapterSection: React.FC = () => {
                         MESSAGE PAYLOAD <span className="text-[#D71936]">*</span>
                       </label>
                       <span className="font-mono text-[10px] text-[#747C8B]">
-                        {formData.message.length} / 3000
+                        {formData.message.length} / 5000
                       </span>
                     </div>
                     <textarea
@@ -555,11 +604,11 @@ export const NextChapterSection: React.FC = () => {
               )}
             </MangaPanel>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* COLOPHON & FOOTER */}
-      <footer className="bg-[#090A0E] text-[#F4F2ED] border-t-2 border-[#23252C] relative overflow-hidden">
+      <footer className="bg-transparent text-[#F4F2ED] border-t-2 border-[#23252C] relative overflow-hidden">
         {/* Subtle halftone background in footer */}
         <div className="absolute inset-0 bg-screentone-dark opacity-30 pointer-events-none" />
 
@@ -572,7 +621,7 @@ export const NextChapterSection: React.FC = () => {
                   Y
                 </div>
                 <span className="font-display text-3xl tracking-wider text-[#F4F2ED]">
-                  YOGESH<span className="text-[#D71936]">.</span>
+                  YOGESHKUMAR S
                 </span>
                 <span className="text-[#23252C]">|</span>
                 <span className="font-mono text-xs text-[#9DA6B8]">THE DEVELOPER'S STORY</span>
@@ -618,10 +667,6 @@ export const NextChapterSection: React.FC = () => {
             <div>
               <span>Art Directed & Engineered by </span>
               <strong className="text-[#F4F2ED]">Yogeshkumar S.</strong>
-            </div>
-
-            <div>
-              <span>Built with React 19, TypeScript, Vite, Tailwind CSS v4, Motion & R3F.</span>
             </div>
 
             <div>

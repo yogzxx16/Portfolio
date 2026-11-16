@@ -192,7 +192,7 @@ export const HeroMangaIllustration: React.FC<HeroMangaIllustrationProps> = ({
                   CUMULATIVE GPA
                 </text>
                 <text x="10" y="80" fill="#FFFFFF" fontFamily="'Bebas Neue', sans-serif" fontSize="26" letterSpacing="1">
-                  8.68<tspan fill="#E53935" fontSize="16">/10</tspan>
+                  9.2<tspan fill="#E53935" fontSize="16">/10</tspan>
                 </text>
               </g>
             </g>

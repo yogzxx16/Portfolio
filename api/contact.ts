@@ -7,6 +7,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 interface ContactPayload {
   name?: string;
   email?: string;
+  subject?: string;
   inquiryType?: string;
   message?: string;
   // Honeypot field - must be left empty by legitimate human visitors
@@ -138,6 +139,7 @@ async function processContactRequest(
   // 5. Server-side field validation
   const name = typeof body.name === 'string' ? body.name.trim() : '';
   const email = typeof body.email === 'string' ? body.email.trim() : '';
+  const subject = typeof body.subject === 'string' ? body.subject.trim() : '';
   const inquiryType = typeof body.inquiryType === 'string' ? body.inquiryType.trim() : '';
   const message = typeof body.message === 'string' ? body.message.trim() : '';
 
@@ -165,7 +167,18 @@ async function processContactRequest(
     };
   }
 
-  if (!inquiryType || !ALLOWED_INQUIRY_TYPES.includes(inquiryType)) {
+  if (subject && subject.length > 200) {
+    return {
+      status: 422,
+      body: {
+        success: false,
+        error: 'INVALID_SUBJECT',
+        message: 'Subject must be under 200 characters.',
+      },
+    };
+  }
+
+  if (inquiryType && !ALLOWED_INQUIRY_TYPES.includes(inquiryType)) {
     return {
       status: 422,
       body: {
@@ -176,13 +189,13 @@ async function processContactRequest(
     };
   }
 
-  if (!message || message.length < 10 || message.length > 3000) {
+  if (!message || message.length < 10 || message.length > 5000) {
     return {
       status: 422,
       body: {
         success: false,
         error: 'INVALID_MESSAGE',
-        message: 'Message is required and must be between 10 and 3,000 characters.',
+        message: 'Message is required and must be between 10 and 5,000 characters.',
       },
     };
   }
@@ -212,10 +225,11 @@ async function processContactRequest(
 
     const safeName = sanitizeText(name);
     const safeEmail = sanitizeText(email);
-    const safeInquiry = sanitizeText(inquiryType);
+    const safeSubject = sanitizeText(subject || inquiryType || 'New Message');
+    const safeInquiry = sanitizeText(inquiryType || 'General Inquiry');
     const safeMessage = sanitizeText(message).replace(/\n/g, '<br/>');
 
-    const emailSubject = `[Portfolio Contact] ${inquiryType} from ${name}`;
+    const emailSubject = `[Portfolio Contact] — ${subject || (inquiryType ? `${inquiryType} from ${name}` : `New Message from ${name}`)}`;
 
     const htmlContent = `
       <!DOCTYPE html>
@@ -247,6 +261,9 @@ async function processContactRequest(
             <div class="field-label">Contact Email</div>
             <div class="field-value"><a href="mailto:${safeEmail}" style="color: #E53935; text-decoration: none;">${safeEmail}</a></div>
 
+            <div class="field-label">Subject</div>
+            <div class="field-value">${safeSubject}</div>
+
             <div class="field-label">Inquiry Scope</div>
             <div class="field-value">${safeInquiry}</div>
 
@@ -266,7 +283,7 @@ async function processContactRequest(
       to: toEmail,
       replyTo: email,
       subject: emailSubject,
-      text: `New Portfolio Inquiry from ${name} (${email})\nInquiry: ${inquiryType}\n\n${message}`,
+      text: `New Portfolio Inquiry from ${name} (${email})\nSubject: ${subject || 'N/A'}\nInquiry: ${inquiryType || 'General'}\n\n${message}`,
       html: htmlContent,
     });
 
@@ -359,16 +376,37 @@ export default async function handler(req: any, res?: any) {
   // Node.js HTTP Serverless runtime (Standard Vercel Node Serverless Function)
   const nodeReq = req as IncomingMessage & { body?: any };
   const nodeRes = res as ServerResponse & {
-    status: (code: number) => any;
-    json: (data: any) => void;
+    status?: (code: number) => any;
+    json?: (data: any) => void;
     setHeader: (name: string, value: string) => void;
+  };
+
+  // Provide status() and json() polyfill for standard Node http.ServerResponse (e.g. Vite dev middleware)
+  const setStatus = (code: number) => {
+    if (typeof nodeRes.status === 'function') {
+      return nodeRes.status(code);
+    }
+    nodeRes.statusCode = code;
+    return {
+      json: sendJson,
+    };
+  };
+
+  const sendJson = (data: any) => {
+    if (typeof nodeRes.json === 'function') {
+      return nodeRes.json(data);
+    }
+    if (!nodeRes.headersSent) {
+      nodeRes.setHeader('Content-Type', 'application/json');
+    }
+    nodeRes.end(JSON.stringify(data));
   };
 
   const method = nodeReq.method || 'GET';
 
   // 1. Method check before reading body
   if (method !== 'POST') {
-    return nodeRes.status(405).json({
+    return setStatus(405).json({
       success: false,
       error: 'METHOD_NOT_ALLOWED',
       message: 'Only HTTP POST requests are supported.',
@@ -392,7 +430,7 @@ export default async function handler(req: any, res?: any) {
       const rawText = Buffer.concat(buffers).toString('utf8');
       body = rawText ? JSON.parse(rawText) : {};
     } catch {
-      return nodeRes.status(400).json({
+      return setStatus(400).json({
         success: false,
         error: 'INVALID_JSON',
         message: 'Request body must be valid JSON.',
@@ -407,7 +445,7 @@ export default async function handler(req: any, res?: any) {
     body
   );
 
-  return nodeRes.status(result.status).json(result.body);
+  return setStatus(result.status).json(result.body);
 }
 
 // Named export for Web Fetch API runtime compatibility

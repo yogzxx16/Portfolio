@@ -1,4 +1,5 @@
 import React from 'react';
+import Shuffle from '../react-bits/Shuffle';
 
 export interface ChapterHeaderProps {
   number: string;
@@ -40,13 +41,21 @@ export const ChapterHeader: React.FC<ChapterHeaderProps> = ({
 
       {/* Main Title & Stamp */}
       <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h2
-          className={`font-display text-4xl sm:text-5xl md:text-6xl tracking-wide uppercase ${
+        <div
+          className={`font-heading text-4xl sm:text-5xl md:text-6xl tracking-wide uppercase ${
             isDark ? 'text-[#F4F2ED]' : 'text-[#090A0E]'
           }`}
         >
-          {title}
-        </h2>
+          <Shuffle
+            accentColor="#D71936"
+            color={isDark ? '#F4F2ED' : '#090A0E'}
+            duration={0.4}
+            effect="slide"
+            shuffleDirection="right"
+            text={title}
+            triggerOnHover={true}
+          />
+        </div>
         <div className="px-2.5 py-1 border border-[#D71936] text-[#D71936] font-mono text-xs tracking-wider uppercase bg-[#D71936]/10 flex items-center gap-1.5">
           <span className="text-[10px] leading-none">●</span>
           <span>ARC {number}</span>

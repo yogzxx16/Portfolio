@@ -46,48 +46,68 @@ export function createFrontCoverTexture(): THREE.CanvasTexture {
   ctx.letterSpacing = '4px';
   ctx.fillText('SEINEN MANGA ARCHIVE // VOL. 01', 80, 104);
 
-  // Japanese Sub-header
-  ctx.fillStyle = '#747C8B';
+  // Black Sub-header Banner with Title: YOGESH // PORTFOLIO LOG
+  ctx.fillStyle = '#14151B';
+  ctx.fillRect(52, 140, canvas.width - 104, 60);
+  ctx.strokeStyle = '#D71936';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(52, 140, canvas.width - 104, 60);
+
+  ctx.fillStyle = '#F4F2ED';
   ctx.font = 'bold 24px "Space Mono", monospace';
-  ctx.fillText('週刊少年・開発者物語 // 2026 EDITION', 80, 180);
+  ctx.letterSpacing = '3px';
+  ctx.fillText('YOGESHKUMAR S // PORTFOLIO LOG', 80, 178);
 
   // Center Geometric Speedlines Frame
   ctx.strokeStyle = '#23252C';
   ctx.lineWidth = 2;
-  for (let i = 0; i < 16; i++) {
-    const y = 220 + i * 28;
+  for (let i = 0; i < 14; i++) {
+    const y = 230 + i * 28;
     ctx.beginPath();
     ctx.moveTo(80, y);
     ctx.lineTo(canvas.width - 80, y);
     ctx.stroke();
   }
 
-  // Large Dramatic Title: "YOGESH."
+  // Large Dramatic Title: "YOGESHKUMAR S"
   ctx.fillStyle = '#090A0E';
-  ctx.fillRect(80, 460, canvas.width - 160, 260);
+  ctx.fillRect(80, 460, canvas.width - 160, 290);
 
   // Hard Crimson Shadow Behind Title
   ctx.fillStyle = '#D71936';
-  ctx.font = '900 210px "Bebas Neue", sans-serif';
-  ctx.letterSpacing = '8px';
-  ctx.fillText('YOGESH.', 95, 665);
+  ctx.font = '900 115px "Space Grotesk", sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('YOGESHKUMAR S', 95, 620);
 
   // Foreground Crisp White Title
   ctx.fillStyle = '#F4F2ED';
-  ctx.fillText('YOGESH.', 88, 658);
+  ctx.fillText('YOGESHKUMAR S', 88, 614);
 
-  // Red accent dot on the period
+  // Sub-badge: PORTFOLIO LOG
   ctx.fillStyle = '#D71936';
-  ctx.fillRect(80, 740, canvas.width - 160, 8);
+  ctx.fillRect(80, 660, canvas.width - 160, 52);
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 28px "Space Mono", monospace';
+  ctx.letterSpacing = '4px';
+  ctx.fillText('PORTFOLIO LOG // 開発者録', 100, 696);
+
+  // Author Full Name & Positioning
+  ctx.fillStyle = '#F4F2ED';
+  ctx.font = 'bold 36px "Space Mono", monospace';
+  ctx.fillText('YOGESHKUMAR S', 84, 765);
+
+  ctx.fillStyle = '#D71936';
+  ctx.fillRect(80, 785, canvas.width - 160, 4);
 
   // Tagline & Positioning
   ctx.fillStyle = '#F4F2ED';
-  ctx.font = 'bold 36px "Space Mono", monospace';
-  ctx.fillText('THE DEVELOPER\'S STORY', 84, 810);
+  ctx.font = 'bold 30px "Space Mono", monospace';
+  ctx.fillText('THE DEVELOPER\'S STORY', 84, 835);
 
   ctx.fillStyle = '#747C8B';
-  ctx.font = '24px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('B.Tech IT Student  •  Full-Stack MERN  •  AI-Powered Web Apps', 84, 860);
+  ctx.font = '22px "Plus Jakarta Sans", sans-serif';
+  ctx.fillText('B.Tech IT Student  •  Full-Stack MERN  •  AI-Powered Web Apps', 84, 875);
 
   // Japanese Character Seal: 開発 (Development)
   ctx.strokeStyle = '#D71936';
@@ -151,9 +171,9 @@ export function createSpineTexture(): THREE.CanvasTexture {
   ctx.rotate(Math.PI / 2);
 
   ctx.fillStyle = '#F4F2ED';
-  ctx.font = '900 72px "Bebas Neue", sans-serif';
-  ctx.letterSpacing = '6px';
-  ctx.fillText('YOGESH.  //  THE DEVELOPER\'S STORY', 0, 24);
+  ctx.font = '900 52px "Space Grotesk", sans-serif';
+  ctx.letterSpacing = '4px';
+  ctx.fillText('YOGESHKUMAR S // PORTFOLIO LOG', 0, 20);
 
   ctx.restore();
 
@@ -226,8 +246,8 @@ export function createBackCoverTexture(): THREE.CanvasTexture {
 
   // Bottom Logo
   ctx.fillStyle = '#F4F2ED';
-  ctx.font = '900 64px "Bebas Neue", sans-serif';
-  ctx.fillText('YOGESH. 2026', 110, 1300);
+  ctx.font = '900 52px "Space Grotesk", sans-serif';
+  ctx.fillText('YOGESHKUMAR S 2026', 110, 1300);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -235,108 +255,24 @@ export function createBackCoverTexture(): THREE.CanvasTexture {
 }
 
 // 4. INNER MANGA PAGE SPREAD TEXTURE (Revealed when cover opens)
-export function createInsidePageTexture(): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas');
-  canvas.width = 1024;
-  canvas.height = 1448;
-  const ctx = canvas.getContext('2d')!;
-
-  // Pure high-contrast manga paper tone
-  ctx.fillStyle = '#F4F2ED';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Manga Panel Comic Border
-  ctx.strokeStyle = '#090A0E';
-  ctx.lineWidth = 8;
-  ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
-
-  // Chapter 00 Header
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(40, 40, canvas.width - 80, 90);
-
-  ctx.fillStyle = '#F4F2ED';
-  ctx.font = '900 52px "Bebas Neue", sans-serif';
-  ctx.fillText('CHAPTER 00 // PROLOGUE — THE FIRST DISPATCH', 65, 105);
-
-  // Top Comic Panel: Code Terminal
-  ctx.strokeStyle = '#090A0E';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(60, 160, canvas.width - 120, 420);
-
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(60, 160, canvas.width - 120, 50);
-
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 22px "Space Mono", monospace';
-  ctx.fillText('TERMINAL // SRC/CORE/INITIALIZE.TS', 80, 195);
-
-  // Code lines inside panel
-  ctx.fillStyle = '#090A0E';
-  ctx.font = '24px "Space Mono", monospace';
-  const codeLines = [
-    'import { Developer } from "@/core/story";',
-    '',
-    'export const engineer: Developer = {',
-    '  name: "YOGESHKUMAR S",',
-    '  institution: "SRM IST Ramapuram",',
-    '  focus: ["MERN Full-Stack", "AI Applications"],',
-    '  mangaVolume: "Volume 01 (2026)",',
-    '  status: "BUILDING_FUTURE"',
-    '};',
-  ];
-  codeLines.forEach((line, idx) => {
-    ctx.fillText(line, 85, 260 + idx * 36);
-  });
-
-  // Middle Dramatic Japanese Sound Effect: ドォォン! (DON!)
-  ctx.save();
-  ctx.translate(canvas.width / 2, 700);
-  ctx.rotate(-0.08);
-  ctx.fillStyle = '#D71936';
-  ctx.font = '900 120px "Bebas Neue", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('始 動 // INITIATE!', 0, 0);
-  ctx.restore();
-
-  // Bottom Panel: Character Intro Frame
-  ctx.strokeStyle = '#090A0E';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(60, 780, canvas.width - 120, 580);
-
-  ctx.fillStyle = '#090A0E';
-  ctx.fillRect(80, 800, 360, 60);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 28px "Space Mono", monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText('PROTAGONIST DOSSIER', 95, 840);
-
-  ctx.fillStyle = '#090A0E';
-  ctx.font = '900 72px "Bebas Neue", sans-serif';
-  ctx.fillText('YOGESH.', 85, 940);
-
-  ctx.fillStyle = '#747C8B';
-  ctx.font = 'bold 24px "Space Mono", monospace';
-  ctx.fillText('GRADE: 8.68 GPA  •  LOCATION: CHENNAI, IN', 85, 985);
-
-  // Screentone pattern inside bottom panel
-  ctx.fillStyle = '#090A0E';
-  for (let x = 85; x < canvas.width - 85; x += 16) {
-    for (let y = 1030; y < 1320; y += 16) {
-      if ((x + y) % 32 === 0) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-  }
-
-  // Quote
-  ctx.fillStyle = '#090A0E';
-  ctx.font = 'italic bold 32px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText('"Turning ideas into interactive experiences."', 85, 1260);
-
-  const texture = new THREE.CanvasTexture(canvas);
+export function createInsidePageTexture(): THREE.Texture {
+  const loader = new THREE.TextureLoader();
+  const texture = loader.load('/art/panel-focus.jpg');
   texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true;
+  return texture;
+}
+
+// 5. INNER FRONT COVER SPREAD TEXTURE (Revealed on the inside face of the swinging cover)
+export function createInsideCoverTexture(): THREE.Texture {
+  const loader = new THREE.TextureLoader();
+  const texture = loader.load('/art/skillswap-manga.jpg');
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true;
   return texture;
 }
 
