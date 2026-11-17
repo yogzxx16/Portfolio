@@ -145,16 +145,16 @@ export const MangaSplashHero: React.FC<MangaSplashHeroProps> = ({
                 Every great creation begins with an idea. Mine begins with curiosity... and a lot of code.
               </p>
               <p>
-                Yo! I'm YOGESHKUMAR S. — an IT student, a builder, and an explorer in the ever-expanding world of technology.
+               Yo! I'm YOGESH — an IT student who loves building things, exploring new ideas, and figuring out how stuff works.
               </p>
               <p>
-                I don't like staying in one lane. From crafting web experiences and experimenting with AI to exploring new technologies, creative ideas, and everything in between — I'm always curious about what's possible.
-              </p>
-              <p>
-                I'm a little bit of everything: a coder, an experimenter, a problem-solver, and a lifelong learner. I enjoy stepping into unfamiliar territories, picking up new skills, connecting different interests, and turning random ideas into something real.
+                I'm not really someone who sticks to just one thing. I enjoy web development, experimenting with AI, trying out new technologies, and occasionally going down random rabbit holes just because something caught my attention.
               </p>
               <p className="font-bold text-[#090A0E] pt-0.5 tracking-wide">
-                I am more of a person who is JACK OF MANY TRADES. MASTER OF MORE THAN ONE.
+                JACK OF MANY TRADES. MASTER OF MORE THAN ONE.
+              </p>
+              <p>
+                Too many interests. Too many ideas. Never enough side quests.
               </p>
             </div>
 

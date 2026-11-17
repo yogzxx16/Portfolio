@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { PROFILE_DATA } from '../../data/profile';
 import { HankoStamp } from '../common/HankoStamp';
+import Shuffle from '../react-bits/Shuffle';
 import { GraduationCap, ArrowRight } from 'lucide-react';
 
 export const MangaStorySequence: React.FC = () => {
@@ -32,7 +33,16 @@ export const MangaStorySequence: React.FC = () => {
               第壱話
             </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-[#F4F2ED] uppercase tracking-wide">
-              THE PERSON
+              <Shuffle
+                accentColor="#D71936"
+                color="#F4F2ED"
+                duration={0.4}
+                effect="slide"
+                shuffleDirection="right"
+                text="THE PERSON"
+                tag="span"
+                triggerOnHover={true}
+              />
             </h2>
           </div>
           <div className="font-mono text-xs text-[#747C8B]">
