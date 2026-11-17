@@ -141,11 +141,14 @@ export const ArsenalSection: React.FC = () => {
         <motion.img
           style={{
             y,
+            willChange: 'transform',
             WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 75%)',
             maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 75%)',
           }}
           src="/art/luffy-smiling.png"
           alt="Luffy Smiling - Arsenal Background"
+          loading="lazy"
+          decoding="async"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src = '/art/luffy-smiling.jpg';
           }}

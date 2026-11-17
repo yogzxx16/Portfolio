@@ -8,13 +8,26 @@ export const ReadingProgress: React.FC<ReadingProgressProps> = ({ className = ''
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let ticking = false;
+    let lastProgress = -1;
+
     const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollTop;
-      const windowHeight =
-        document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      if (windowHeight === 0) return;
-      const currentProgress = (totalScroll / windowHeight) * 100;
-      setProgress(Math.min(100, Math.max(0, currentProgress)));
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const totalScroll = window.scrollY || document.documentElement.scrollTop;
+          const windowHeight =
+            document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          if (windowHeight > 0) {
+            const currentProgress = Math.round((totalScroll / windowHeight) * 100);
+            if (currentProgress !== lastProgress) {
+              lastProgress = currentProgress;
+              setProgress(Math.min(100, Math.max(0, currentProgress)));
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });

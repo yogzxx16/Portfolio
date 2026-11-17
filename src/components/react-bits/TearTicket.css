@@ -62,6 +62,9 @@
 .tear-ticket__piece--stub {
   outline: none;
   will-change: transform;
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tear-ticket__edge {

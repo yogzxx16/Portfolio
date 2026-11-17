@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { PROFILE_DATA } from '../../data/profile';
 import { HankoStamp } from '../common/HankoStamp';
@@ -6,6 +6,7 @@ import { GraduationCap, ArrowRight } from 'lucide-react';
 
 export const MangaStorySequence: React.FC = () => {
   const isHoverQuery = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('hover') === '1';
+  const [portraitHeld, setPortraitHeld] = useState(false);
 
   const handleProceedToArsenal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,10 +49,10 @@ export const MangaStorySequence: React.FC = () => {
           {/* PANEL 1: PROTAGONIST PORTRAIT (MANGA / REAL HOVER TOGGLE)     */}
           {/* ============================================================ */}
           <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease: 'circOut' }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
             className="lg:col-span-5 bg-[#F4F2ED] text-[#090A0E] border-4 border-[#090A0E] p-4 sm:p-5 shadow-noir relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-noir-lg"
           >
             {/* Header bar of panel */}
@@ -60,21 +61,38 @@ export const MangaStorySequence: React.FC = () => {
               <span className="text-[#747C8B] font-bold">DOSSIER</span>
             </div>
 
-            {/* Interactive Portrait Toggle: Manga by default (z-10), fades to opacity-0 on hover revealing real photo */}
-            <div className="relative aspect-[4/5] w-full bg-[#090A0E] border-2 border-[#090A0E] overflow-hidden mb-3 group/portrait cursor-pointer select-none">
-              {/* Real Photograph (Underneath, revealed on hover) */}
+            {/* Interactive Portrait Toggle: Manga by default (z-10), fades to opacity-0 on hover/touch revealing real photo */}
+            <div
+              onPointerDown={(e) => {
+                if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+                  setPortraitHeld(true);
+                }
+              }}
+              onPointerUp={() => setPortraitHeld(false)}
+              onPointerCancel={() => setPortraitHeld(false)}
+              onContextMenu={(e) => {
+                if ('pointerType' in e && (e as any).pointerType === 'touch') e.preventDefault();
+              }}
+              className="relative aspect-[4/5] w-full bg-[#090A0E] border-2 border-[#090A0E] overflow-hidden mb-3 group/portrait cursor-pointer select-none touch-pan-y"
+              style={{ touchAction: 'pan-y' }}
+            >
+              {/* Real Photograph (Underneath, revealed on hover or touch) */}
               <img
                 src="/art/real-portrait.jpg"
                 alt="Yogeshkumar S. — Real Photograph"
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover object-center filter contrast-105 transition-transform duration-500 group-hover/portrait:scale-105"
               />
 
-              {/* Manga Noir Artwork (Default visible on top, fades out on hover) */}
+              {/* Manga Noir Artwork (Default visible on top, fades out on hover or touch) */}
               <img
                 src="/art/manga-portrait.jpg"
                 alt="Yogeshkumar S. — Manga Noir Portrait"
+                loading="lazy"
+                decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover object-center z-10 transition-opacity duration-500 ease-in-out group-hover/portrait:opacity-0 ${
-                  isHoverQuery ? 'opacity-0' : ''
+                  isHoverQuery || portraitHeld ? 'opacity-0' : ''
                 }`}
               />
 
@@ -122,10 +140,10 @@ export const MangaStorySequence: React.FC = () => {
           {/* RIGHT STACK: SPEECH BUBBLE + ACADEMIC DOSSIER (7 COLS)        */}
           {/* ============================================================ */}
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'circOut' }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
             className="lg:col-span-7 space-y-6"
           >
             

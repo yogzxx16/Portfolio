@@ -157,13 +157,13 @@ export const CreationsSection: React.FC = () => {
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -100 : 100 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
                   whileHover={{ y: -4, scale: 1.01 }}
                   transition={{
-                    duration: 0.6,
-                    delay: idx * 0.1,
+                    duration: 0.5,
+                    delay: Math.min(idx * 0.05, 0.2),
                     ease: 'easeOut',
                   }}
                   className="flex flex-col h-full"

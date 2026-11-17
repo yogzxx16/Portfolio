@@ -111,6 +111,7 @@ export default function App(): React.JSX.Element {
           hoverFillColor="#D71936"
           fillOpacity={0.25}
           glow={1}
+          dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : undefined}
           className="w-full h-full"
         />
       </div>
@@ -124,7 +125,7 @@ export default function App(): React.JSX.Element {
             ticketTorn ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
-          <div className="relative w-full max-w-[800px] flex justify-center">
+          <div className="relative w-[86vw] max-w-[340px] sm:w-full sm:max-w-[800px] flex justify-center">
             <TearTicket
               image="/art/luffy-waving.gif"
               imageAlt="Luffy Waving - Manga Portfolio Entrance"
@@ -165,7 +166,8 @@ export default function App(): React.JSX.Element {
           {/* Quick Click-to-Tear Button */}
           <button
             onClick={handleTear}
-            className="mt-6 px-6 py-2.5 border border-[#23252C] bg-[#14151B] hover:border-[#D71936] text-[#747C8B] hover:text-[#F4F2ED] font-mono text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-noir font-heading tracking-wider"
+            className="mt-6 px-6 py-3 sm:py-2.5 min-h-[44px] border border-[#23252C] bg-[#14151B] hover:border-[#D71936] active:bg-[#D71936]/20 text-[#747C8B] hover:text-[#F4F2ED] active:text-white font-mono text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-noir font-heading tracking-wider touch-manipulation select-none"
+            aria-label="Tear ticket and enter portfolio"
           >
             <span>[TEAR TICKET & ENTER PORTFOLIO ⮞]</span>
           </button>
@@ -214,6 +216,7 @@ export default function App(): React.JSX.Element {
             startWidth={38}
             startHeight={58}
             startRadius={20}
+            smoothing={typeof window !== 'undefined' && window.innerWidth < 768 ? 0.02 : 0.1}
             enabled={true}
             className="w-full bg-transparent"
           >

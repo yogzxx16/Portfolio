@@ -298,6 +298,8 @@ const TearTicket: React.FC<TearTicketProps> = ({
 
   const tiltX = useSpring(0, TILT_SPRING);
   const tiltY = useSpring(0, TILT_SPRING);
+  const touchStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const touchStartTime = useRef<number>(0);
   const plane = useMotionTemplate`perspective(${perspective}px) rotate(${rotate}deg) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
   const depth = tiltMax > 0 ? parallax / tiltMax : 0;
   const artX = useTransform(tiltY, v => -v * depth);
@@ -549,7 +551,10 @@ const TearTicket: React.FC<TearTicketProps> = ({
   };
   const onStubDown = (e: PointerEvent<HTMLDivElement>) => {
     const s = sim.current;
-    if (disabled || used || e.button !== 0 || s.id !== null || s.phase === 'drop') return;
+    const isTouch = e.pointerType === 'touch' || e.pointerType === 'pen';
+    if (disabled || used || (!isTouch && e.button !== 0) || s.id !== null || s.phase === 'drop') return;
+    touchStartTime.current = performance.now();
+    touchStartPos.current = { x: e.clientX, y: e.clientY };
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
     } catch {}
@@ -595,6 +600,16 @@ const TearTicket: React.FC<TearTicketProps> = ({
       s.id = null;
       setGrabbing(false);
       tearNow();
+      return;
+    }
+    const isTouch = e.pointerType === 'touch' || e.pointerType === 'pen';
+    if (isTouch) {
+      const moved = Math.hypot(e.clientX - touchStartPos.current.x, e.clientY - touchStartPos.current.y);
+      if (moved > 32) {
+        s.id = null;
+        setGrabbing(false);
+        tearNow();
+      }
     }
   };
   const onStubUp = (e: PointerEvent<HTMLDivElement>) => {
@@ -605,6 +620,10 @@ const TearTicket: React.FC<TearTicketProps> = ({
       if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {}
     setGrabbing(false);
+    const isTouch = e.pointerType === 'touch' || e.pointerType === 'pen';
+    const elapsed = performance.now() - touchStartTime.current;
+    const moved = Math.hypot(e.clientX - touchStartPos.current.x, e.clientY - touchStartPos.current.y);
+
     if (s.phase === 'free') {
       const still = performance.now() - s.pt > 80;
       s.vx = still ? 0 : clamp(s.pvx, -1600, 1600);
@@ -613,6 +632,11 @@ const TearTicket: React.FC<TearTicketProps> = ({
       s.age = 0;
       s.phase = 'drop';
     } else if (s.phase === 'held') {
+      // Tap or quick swipe with one finger on mobile cleanly tears the stub
+      if (isTouch && (elapsed < 350 || moved > 15 || s.snapped.some(Boolean))) {
+        tearNow();
+        return;
+      }
       s.phase = 'return';
     }
     run();
@@ -714,6 +738,7 @@ const TearTicket: React.FC<TearTicketProps> = ({
           <div
             ref={stubRef}
             className="tear-ticket__piece tear-ticket__piece--stub"
+            style={{ touchAction: 'none', pointerEvents: 'auto' }}
             role="button"
             tabIndex={disabled || used ? -1 : 0}
             aria-label={ariaLabel}

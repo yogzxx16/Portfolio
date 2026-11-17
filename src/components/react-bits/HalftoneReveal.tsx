@@ -804,6 +804,8 @@ const HalftoneReveal = ({
     };
     image.src = src;
 
+    let activeTouchId: number | null = null;
+
     const locatePointer = event => {
       const rect = container.getBoundingClientRect();
       pointer.x = event.clientX - rect.left;
@@ -813,12 +815,16 @@ const HalftoneReveal = ({
 
     const onPointerDown = event => {
       const isTouch = event.pointerType === 'touch' || event.pointerType === 'pen';
+      if (isTouch) {
+        if (activeTouchId !== null && event.pointerId !== activeTouchId) return;
+        activeTouchId = event.pointerId;
+      }
       pointer.isDown = true;
       locatePointer(event);
       pointer.inside = true;
       pointer.fresh = true;
 
-      // On mobile touch tap: immediately reveal color around touch point
+      // On mobile touch tap-and-hold: immediately reveal color around touch point
       if (isTouch) {
         state.presence = 1.0;
         brush.x = brush.px = pointer.x;
@@ -836,8 +842,8 @@ const HalftoneReveal = ({
 
     const onPointerMove = event => {
       const isTouch = event.pointerType === 'touch' || event.pointerType === 'pen';
-      // If touch is not actively held down, ignore stray hover moves
-      if (isTouch && !pointer.isDown) return;
+      // If touch is not actively held down or from different pointer, ignore
+      if (isTouch && (!pointer.isDown || (activeTouchId !== null && event.pointerId !== activeTouchId))) return;
 
       locatePointer(event);
       if (!pointer.inside) {
@@ -849,16 +855,19 @@ const HalftoneReveal = ({
 
     const onPointerUp = event => {
       const isTouch = event.pointerType === 'touch' || event.pointerType === 'pen';
-      pointer.isDown = false;
-      // On mobile touch release, clear engaged state so halftone dot print restores smoothly
       if (isTouch) {
+        if (activeTouchId !== null && event.pointerId !== activeTouchId) return;
+        activeTouchId = null;
         pointer.inside = false;
       }
+      pointer.isDown = false;
       wake();
     };
 
-    const onPointerCancel = () => {
+    const onPointerCancel = (event?: globalThis.PointerEvent) => {
       // Touch interaction interrupted (e.g., native vertical page scroll took over)
+      if (event && activeTouchId !== null && event.pointerId !== activeTouchId) return;
+      activeTouchId = null;
       pointer.isDown = false;
       pointer.inside = false;
       wake();
@@ -881,7 +890,9 @@ const HalftoneReveal = ({
 
     const onWindowPointerUp = event => {
       const isTouch = event.pointerType === 'touch' || event.pointerType === 'pen';
+      if (isTouch && activeTouchId !== null && event.pointerId !== activeTouchId) return;
       if (pointer.isDown || (isTouch && pointer.inside)) {
+        activeTouchId = null;
         pointer.isDown = false;
         if (isTouch) {
           pointer.inside = false;
@@ -890,12 +901,20 @@ const HalftoneReveal = ({
       }
     };
 
-    const onWindowPointerCancel = () => {
+    const onWindowPointerCancel = event => {
+      const isTouch = event.pointerType === 'touch' || event.pointerType === 'pen';
+      if (isTouch && activeTouchId !== null && event.pointerId !== activeTouchId) return;
       if (pointer.isDown || pointer.inside) {
+        activeTouchId = null;
         pointer.isDown = false;
         pointer.inside = false;
         wake();
       }
+    };
+
+    const onContextMenu = (event: MouseEvent) => {
+      // Prevent long-press context menu from disrupting touch-and-hold color reveal
+      event.preventDefault();
     };
 
     const onVisibility = () => {
@@ -909,6 +928,7 @@ const HalftoneReveal = ({
     container.addEventListener('pointerleave', onPointerLeave, { passive: true });
     container.addEventListener('pointercancel', onPointerCancel, { passive: true });
     container.addEventListener('pointerup', onPointerUp, { passive: true });
+    container.addEventListener('contextmenu', onContextMenu);
 
     window.addEventListener('pointerup', onWindowPointerUp, { passive: true });
     window.addEventListener('pointercancel', onWindowPointerCancel, { passive: true });
@@ -946,6 +966,7 @@ const HalftoneReveal = ({
       container.removeEventListener('pointerleave', onPointerLeave);
       container.removeEventListener('pointercancel', onPointerCancel);
       container.removeEventListener('pointerup', onPointerUp);
+      container.removeEventListener('contextmenu', onContextMenu);
 
       window.removeEventListener('pointerup', onWindowPointerUp);
       window.removeEventListener('pointercancel', onWindowPointerCancel);

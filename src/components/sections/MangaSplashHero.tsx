@@ -74,6 +74,7 @@ export const MangaSplashHero: React.FC<MangaSplashHeroProps> = ({
           <img
             src="/art/one-piece-bg.jpg"
             alt="One Piece Straw Hat Crew Scene"
+            decoding="async"
             className="w-full h-full object-cover object-center grayscale contrast-125 brightness-90 filter"
           />
           {/* Edge Feathering Gradients */}
